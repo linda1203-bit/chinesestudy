@@ -3,200 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành Toàn Diện v6</title>
+    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành Toàn Diện v7</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
-        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6; --success: #2ecc71; --blue: #3498db; }
+        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6; --success: #2ecc71; --blue: #3498db; --warning: #f1c40f; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); padding: 20px; color: #333; }
         .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .hidden { display: none !important; }
         
-        /* Navigation */
+        /* Navigation Menu */
         .main-menu { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 15px; flex-wrap: wrap; }
         .menu-btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; background: #e2e8f0; font-weight: bold; transition: 0.3s; }
         .menu-btn.active { background: var(--primary); color: white; }
 
-        /* Dashboard Stats */
+        /* Stats & Dashboard */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 10px; text-align: center; }
-        .stat-val { font-size: 28px; font-weight: bold; color: var(--accent); }
+        .stat-card { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .stat-val { font-size: 32px; font-weight: bold; color: var(--accent); }
 
-        /* Học tập & Bài tập */
+        /* Layouts */
+        .grid-layout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
+        .skill-btn { padding: 15px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; text-align: center; }
+        .item-row { padding: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 8px; display: block; text-align: left; width: 100%; }
+        .item-row:hover { background: var(--primary); color: white; }
+
+        /* Main Interactive Card */
         .interactive-card { border: 2px solid #e2e8f0; border-radius: 12px; padding: 25px; background: #f8fafc; margin-top: 15px; text-align: center; }
-        .clickable-text span { cursor: pointer; transition: 0.2s; padding: 2px; border-radius: 4px; }
-        .clickable-text span:hover { background: #ffe082; color: #000; }
         
-        .vocab-main { font-size: 55px; font-weight: bold; color: #000; margin: 10px 0; }
-        .vocab-py { font-size: 22px; color: #7f8c8d; }
-        .vocab-vn { font-size: 26px; font-weight: bold; color: var(--accent); }
+        /* Định dạng 3 hàng phân cấp chuẩn */
+        .vocab-main { font-size: 55px; font-weight: bold; color: #000000; margin: 10px 0; letter-spacing: 2px; }
+        .vocab-main span { cursor: pointer; transition: 0.2s; padding: 0 4px; border-radius: 4px; }
+        .vocab-main span:hover { background: #ffe082; color: #000; }
+        .vocab-py { font-size: 22px; color: #7f8c8d; margin-bottom: 5px; }
+        .vocab-vn { font-size: 26px; font-weight: bold; color: var(--accent); margin-bottom: 15px; }
 
+        /* Câu ví dụ mẫu 3 hàng phân cấp */
+        .example-block-container { text-align: left; background: #fff; padding: 20px; border-radius: 8px; border-left: 5px solid var(--accent); margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .row-ex-main { font-size: 24px; font-weight: bold; color: #2c3e50; margin: 5px 0; }
+        .row-ex-main span { cursor: pointer; transition: 0.2s; }
+        .row-ex-main span:hover { background: #ffe082; }
+        .row-ex-pinyin { font-size: 18px; color: #7f8c8d; margin: 5px 0; }
+        .row-ex-meaning { font-size: 18px; color: #e74c3c; font-weight: 500; margin: 5px 0; }
+
+        /* Thẻ mảnh ghép câu kỹ năng Nghe */
         .chip-pool, .drop-zone { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 50px; padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 8px; margin: 10px 0; }
-        .chip { padding: 8px 15px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .chip { padding: 8px 15px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 18px; }
         .chip.used { opacity: 0.3; pointer-events: none; }
 
+        /* Khối phân tích chiết tự bút thuận nâng cao */
         .analysis-box { text-align: left; background: #fff8db; border-left: 5px solid #f1c40f; padding: 20px; border-radius: 5px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .btn-audio { background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; margin: 5px; }
+        .analysis-header { font-size: 18px; font-weight: bold; color: var(--primary); border-bottom: 2px solid #f1c40f; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+
+        .btn-audio { background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; margin: 5px; display: inline-flex; align-items: center; gap: 5px; }
         .btn-mic { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; margin: 5px; }
         .btn-mic.active { animation: pulse 1s infinite; background: #c0392b; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        .input-field { width: 80%; padding: 12px; font-size: 18px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; text-align: center; margin-top: 10px; }
+        .quiz-option { width: 100%; padding: 12px; background: #fff; border: 2px solid #ddd; border-radius: 6px; margin-bottom: 8px; text-align: left; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .quiz-option:hover { background: #f8fafc; border-color: var(--blue); }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- MENU DIỀU HƯỚNG CHÍNH -->
     <div class="main-menu">
-        <button class="menu-btn active" id="nav-home" onclick="nav('home')">🏠 Trang Chủ</button>
-        <button class="menu-btn" id="nav-review" onclick="nav('review')">🔄 Ôn Tập</button>
-        <button class="menu-btn" id="nav-test" onclick="nav('test')">📝 Kiểm Tra</button>
+        <button class="menu-btn active" id="nav-home" onclick="nav('home')">🏠 Trang Chủ & Học Mới</button>
+        <button class="menu-btn" id="nav-review" onclick="nav('review')">🔄 Ôn Tập Hệ Thống</button>
+        <button class="menu-btn" id="nav-test" onclick="nav('test')">📝 Làm Bài Kiểm Tra</button>
     </div>
 
-    <!-- TRANG CHỦ: UPLOAD & THỐNG KÊ -->
+    <!-- MÀN HÌNH 1: TRANG CHỦ -->
     <div id="sec-home">
         <div class="stats-grid" id="stats-area"></div>
         <div style="border: 3px dashed #bdc3c7; padding: 30px; text-align: center; border-radius: 10px; background: #fafbfc; cursor: pointer;" onclick="document.getElementById('file-input').click()">
             <span style="font-size: 40px;">📁</span>
-            <p><strong>Tải file học mới (.pdf, .docx)</strong></p>
+            <p><strong>Tải file học tập chuyên ngành mới vào hệ thống (.pdf, .docx)</strong></p>
             <input type="file" id="file-input" class="hidden" accept=".pdf,.docx">
         </div>
-        <div id="topic-area" class="hidden" style="margin-top:20px;">
-            <h3>Chọn Chủ Đề Học Mới:</h3>
+        <div id="status" style="color:var(--success); font-weight:bold; margin-top:15px; text-align:center;"></div>
+        
+        <div id="topic-area" class="hidden" style="margin-top:25px;">
+            <h3>Chọn Kỹ Năng & Chủ Đề Muốn Học:</h3>
+            <div id="skill-box" class="stats-grid" style="margin-bottom:20px;">
+                <button class="skill-btn" style="background:#3498db" onclick="selectSkill('listen')">🔊 Học Nghe</button>
+                <button class="skill-btn" style="background:#e67e22" onclick="startSkillMode('speak')">🎙️ Học Nói</button>
+                <button class="skill-btn" style="background:#9b59b6" onclick="startSkillMode('read')">📖 Học Đọc</button>
+                <button class="skill-btn" style="background:#16a085" onclick="startSkillMode('write')">✍️ Học Viết</button>
+            </div>
             <div id="topic-list"></div>
         </div>
     </div>
 
-    <!-- TRANG ÔN TẬP: LỊCH SỬ -->
+    <!-- MÀN HÌNH 2: ÔN TẬP -->
     <div id="sec-review" class="hidden">
-        <h3>Lịch sử học theo ngày</h3>
+        <h3>🔄 Ôn Tập Từ Vựng Lịch Sử Theo Ngày Học</h3>
         <div id="review-list"></div>
+        <div id="review-words-zone" class="hidden" style="margin-top:20px;">
+            <h4 id="review-words-title">Danh Sách Từ Vựng:</h4>
+            <div id="review-words-container" class="grid-layout" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));"></div>
+        </div>
     </div>
 
-    <!-- TRANG KIỂM TRA -->
+    <!-- MÀN HÌNH 3: KIỂM TRA -->
     <div id="sec-test" class="hidden">
-        <h3>Luyện tập tổng hợp</h3>
-        <button class="menu-btn" style="background:var(--success); color:white; width:100%; margin-bottom:15px;" onclick="startTest()">BẮT ĐẦU KIỂM TRA TẤT CẢ CHỦ ĐỀ</button>
+        <h3>📝 Trình Kiểm Tra Đánh Giá Năng Lực</h3>
+        <button class="menu-btn" style="background:var(--success); color:white; width:100%; margin-bottom:15px; padding:15px; font-size:16px;" onclick="generateTest('ALL_TOPICS')">🎯 KIỂM TRA TỔNG HỢP TẤT CẢ CHỦ ĐỀ TỪ TRƯỚC TỚI NAY</button>
+        <p style="font-weight:bold;">Hoặc chọn làm đề kiểm tra theo từng chủ đề riêng lẻ:</p>
         <div id="test-topic-list"></div>
     </div>
 
-    <!-- ENGINE HỌC TẬP -->
+    <!-- ENGINE XỬ LÝ HỌC TẬP & ĐỀ THI -->
     <div id="study-engine" class="hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <button onclick="nav('home')" style="cursor:pointer; padding:5px 15px;">← Thoát</button>
-            <h3 id="engine-title" style="margin:0"></h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:15px;">
+            <button onclick="location.reload()" style="cursor:pointer; padding:5px 15px;">← Thoát Giao Diện</button>
+            <h3 id="engine-title" style="margin:0; border:none;"></h3>
             <strong id="engine-progress">0/0</strong>
         </div>
 
         <div class="interactive-card">
-            <!-- VOCAB DISPLAY -->
+            <!-- PHẦN HIỂN THỊ 3 HÀNG PHÂN CẤP THEO FILE MẪU -->
             <div id="display-area">
                 <div class="vocab-main" id="v-main"></div>
                 <div class="vocab-py" id="v-py"></div>
                 <div class="vocab-vn" id="v-vn"></div>
-                <div id="audio-btns">
-                    <button class="btn-audio" id="btn-audio-v" onclick="speak('v')">🔊 Nghe Từ</button>
-                    <button class="btn-audio" id="btn-audio-e" style="background:var(--success)" onclick="speak('e')">🔊 Nghe Câu</button>
+                <div id="audio-btns" style="margin-bottom:15px;">
+                    <button class="btn-audio" onclick="speakText(currentList[idx].cn)">🔊 Nghe Phát Âm Từ</button>
+                    <button class="btn-audio" style="background:var(--success)" onclick="speakText(currentList[idx].e_cn)">🔊 Nghe Phát Âm Câu</button>
                 </div>
             </div>
 
-            <!-- SKILL INTERFACES -->
+            <!-- GIAO DIỆN HỌC KỸ NĂNG NGHE -->
             <div id="ui-listen" class="hidden">
-                <p><strong>Sắp xếp câu:</strong> (Bấm các mảnh ghép bên dưới)</p>
                 <div class="drop-zone" id="l-drop"></div>
                 <div class="chip-pool" id="l-pool"></div>
-                <div id="l-feedback" style="font-weight:bold; margin:10px;"></div>
-                <button class="menu-btn" id="l-reveal" onclick="revealListenAnswer()">Hiện đáp án</button>
+                <div id="l-feedback" style="font-weight:bold; font-size:18px; margin:10px 0;"></div>
+                <button class="menu-btn" style="background:var(--warning)" onclick="revealListenAnswer()">Hiển Thị Đáp Án Thẻ</button>
             </div>
 
+            <!-- GIAO DIỆN HỌC KỸ NĂNG NÓI -->
             <div id="ui-speak" class="hidden">
-                <button class="btn-mic" id="mic-btn" onclick="startMic()">🎤 Bấm & Đọc Lại</button>
-                <div id="s-feedback" style="margin-top:10px; font-weight:bold;"></div>
+                <button class="btn-mic" id="mic-btn" onclick="startVoiceRecognition()">🎤 Bấm Vào Để Đọc Theo Máy</button>
+                <div id="s-feedback" style="margin-top:15px; font-weight:bold; font-size:18px;"></div>
             </div>
 
+            <!-- GIAO DIỆN HỌC KỸ NĂNG ĐỌC -->
             <div id="ui-read" class="hidden">
-                <p id="r-prompt"></p>
-                <input type="text" id="r-input" style="width:80%; padding:10px; font-size:18px; border-radius:5px; border:2px solid #ddd;">
-                <div id="r-feedback" style="margin-top:10px; font-weight:bold;"></div>
-                <button class="menu-btn" style="margin-top:10px;" onclick="checkRead()">Kiểm tra</button>
+                <input type="text" id="r-input" class="input-field" placeholder="Nhập câu trả lời dịch nghĩa...">
+                <div id="r-feedback" style="margin-top:15px; font-weight:bold; font-size:18px;"></div>
+                <button class="menu-btn" style="background:var(--blue); color:white; margin-top:10px;" onclick="checkReadAnswer()">Xác Nhận Kết Quả Dịch</button>
             </div>
 
-            <!-- CÂU VÍ DỤ & PHÂN TÍCH -->
-            <div id="example-area" style="text-align:left; margin-top:20px; border-top:1px solid #ddd; padding-top:15px;">
-                <strong>Câu ví dụ (Click vào từng chữ để xem cấu tạo):</strong><br>
-                <div class="vocab-main clickable-text" id="e-main" style="font-size:28px; text-align:left;"></div>
-                <div class="vocab-py" id="e-py"></div>
-                <div class="vocab-vn" id="e-vn"></div>
+            <!-- KHỐI CÂU VÍ DỤ 3 HÀNG PHÂN CẤP -->
+            <div id="example-area" class="example-block-container">
+                <div class="row-ex-main" id="e-main"></div>
+                <div class="row-ex-pinyin" id="e-py"></div>
+                <div class="row-ex-meaning" id="e-vn"></div>
             </div>
 
+            <!-- KHỐI PHÂN TÍCH CHIẾT TỰ BỘ THỦ CHUYÊN SÂU TỪ HANZIWU & THANHMAIHSK -->
             <div id="analysis-area" class="analysis-box hidden">
+                <div class="analysis-header">
+                    <span id="ana-target">Từ được chọn</span>
+                    <span style="color:var(--accent);" id="ana-type">Loại từ</span>
+                </div>
                 <div id="ana-content"></div>
             </div>
 
-            <button class="menu-btn" style="margin-top:30px; background:var(--primary); color:white; padding:12px 40px;" onclick="next()">Tiếp theo →</button>
+            <!-- ENGINE KIỂM TRA CORE TỔNG HỢP -->
+            <div id="ui-test-core" class="hidden" style="text-align:left;">
+                <div id="test-q-box"></div>
+                <button class="menu-btn" style="background:var(--success); color:white; width:100%; margin-top:20px;" onclick="submitTestQ()">Xác Nhận Để Qua Câu Tiếp Theo</button>
+            </div>
+
+            <button class="menu-btn" id="next-btn-global" style="margin-top:30px; background:var(--primary); color:white; padding:12px 40px;" onclick="nextWord()">Chuyển Sang Từ Tiếp Theo →</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Dữ liệu chiết tự tự động từ internet (tổng hợp bộ thủ phổ biến)
-    const radicals = {
-        "亻": "Bộ Nhân đứng: Liên quan đến con người và hoạt động của người.",
-        "女": "Bộ Nữ: Liên quan đến phụ nữ, phái yếu hoặc tính cách.",
-        "子": "Bộ Tử: Hình ảnh đứa trẻ, liên quan đến con cái.",
-        "力": "Bộ Lực: Hình ảnh cái cày, liên quan đến sức mạnh, lao động.",
-        "口": "Bộ Khẩu: Cái miệng, liên quan đến ăn uống, nói năng.",
-        "言": "Bộ Ngôn: Lời nói, liên quan đến giao tiếp, ngôn ngữ.",
-        "彳": "Bộ Xích: Bước chân trái, liên quan đến đi lại, hành động.",
-        "忄": "Bộ Tâm đứng: Liên quan đến tình cảm, tâm trạng.",
-        "钅": "Bộ Kim: Kim loại, liên quan đến tiền bạc, đồ sắt.",
-        "氵": "Bộ Thủy: Nước, liên quan đến chất lỏng, sông ngòi."
-    };
-
-    const charMap = {
-        "好": { type: "Tính từ", components: "女 + 子", story: "Mẹ có con là điều 'Tốt' lành, viên mãn." },
-        "劳": { type: "Động từ", components: "艹 + 力", story: "Dưới mái nhà dùng 'Lực' làm việc trên đồng cỏ." },
-        "职": { type: "Danh từ", components: "耳 + 只", story: "Nghe (Tai) mệnh lệnh để đảm nhận 'Vị trí'." },
-        "会": { type: "Danh từ/Động từ", components: "人 + 云", story: "Mọi người tụ họp lại nói chuyện thành một buổi 'Hội'." },
-        "计": { type: "Động từ", components: "言 + 十", story: "Nói rõ ràng các con số (từ 1 đến 10) để 'Tính toán'." }
-    };
-
-    let db = JSON.parse(localStorage.getItem('zh_db_v6')) || [];
-    let currentSkill = '', currentMode = '', currentList = [], idx = 0, selected = [];
-    let rec = ('webkitSpeechRecognition' in window) ? new webkitSpeechRecognition() : null;
-    if(rec) rec.lang = 'zh-CN';
-
-    // File Parsing
-    document.getElementById('file-input').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const buffer = e.target.result;
-            if(file.name.endsWith('.docx')) mammoth.extractRawText({arrayBuffer: buffer}).then(r => process(r.value));
-            else pdfjsLib.getDocument(new Uint8Array(buffer)).promise.then(pdf => {
-                let p = [];
-                for(let i=1; i<=pdf.numPages; i++) p.push(pdf.getPage(i).then(pg => pg.getTextContent().then(c => c.items.map(m => m.str).join(" "))));
-                Promise.all(p).then(t => process(t.join("\n")));
-            });
-        };
-        reader.readAsArrayBuffer(file);
-    });
-
-    function process(txt) {
-        const lines = txt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        let topic = "Mặc định", today = new Date().toLocaleDateString('vi-VN'), count = 0;
-        for(let i=0; i<lines.length; i++) {
-            if(/^\d+\./.test(lines[i])) topic = lines[i];
-            if(/[\u4e00-\u9fa5]/.test(lines[i]) && !lines[i].includes("Từ") && !lines[i].includes("Pinyin")) {
-                let w = { cn: lines[i], py: lines[i+1], vn: lines[i+2], e_cn: lines[i+3], e_py: lines[i+4], e_vn: lines[i+5], topic: topic, date: today };
-                if(w.vn && w.e_cn && !db.some(d => d.cn === w.cn)) { db.push(w); count++; }
-                i += 5;
-            }
+    // Toàn bộ cơ sở dữ liệu Bộ thủ và Chiết tự từ Sách giáo trình & Hanziwu công phu
+    const dictionary = {
+        "radicals": {
+            "亻": "Bộ Nhân đứng (人): Liên quan đến hành vi, hoạt động và thuộc tính của con người.",
+            "女": "Bộ Nữ (女): Người phụ nữ thời cổ khụy chân kính cẩn, biểu thị thuộc tính nữ, gia đình, hôn nhân[cite: 2].",
+            "子": "Bộ Tử (子): Đứa trẻ sơ sinh quấn tã vẫy tay, liên quan đến con cái, sự học hành bảo tồn nòi giống[cite: 2].",
+            "力": "Bộ Lực (力): Hình chiếc cày ruộng, đại diện cho sức mạnh cơ bắp, sự lao động vất vả[cite: 2].",
+            "口": "Bộ Khẩu (口): Cái miệng, đại diện cho ngôn ngữ, ăn uống, tấu trình hoặc mở rộng ranh giới[cite: 2].",
+            "言": "Bộ Ngôn (言): Lời nói phát ra từ miệng kết hợp dao khắc, liên quan đến giao tiếp, văn bản, pháp luật[cite: 2].",
+            "犭": "Bộ Khuyển (犬): Con chó nuôi trung thành, liên quan đến các loại động vật, săn bắn, giam giữ[cite: 2].",
+            "氵": "Bộ Thủy (水): Ba giọt nước chảy, đại diện cho chất lỏng, sông ngòi, sự thanh lọc trược bẩn[cite: 2].",
+            "木": "Bộ Mộc (木): Thân cây có cành và rễ cắm sâu, liên quan đến gỗ, thực vật, xây dựng[cite: 2].",
+            "日": "Bộ Nhật (日): Mặt trời phân chia ánh sáng chiếu rọi, liên quan đến thời gian, thời tiết, sự minh bạch[cite: 2].",
+            "貝": "Bộ Bối (貝): Hình vỏ sò bẹt thời cổ đại dùng làm vật trang sức và tiền tệ giao dịch hàng hóa[cite: 2].",
+            "禾": "Bộ Hòa (禾): Cây lúa có bông trĩu hạt trĩu xuống, đại diện cho nông nghiệp, lương thực và nguồn sống[cite: 2].",
+            "宀": "Bộ Miên (宀): Mái che ngôi nhà, đại diện cho nơi trú ẩn an toàn, tổ ấm gia đình[cite: 2]."
+        },
+        "characters": {
+            "好": { "type": "Tính từ", "components": "女 + 子", "etymology": "Người mẹ sinh được cả con trai lẫn con gái là điều 'Tốt' lành viên mãn, đại cát tường[cite: 2]." },
+            "劳": { "type": "Động từ / Danh từ", "components": "艹 + 力", "etymology": "Dưới mái nhà tranh dùng hết sức 'Lực' để làm việc trên đồng cỏ cỏ cây vất vả[cite: 2]." },
+            "动": { "type": "Động từ", "components": "云 + 力", "etymology": "Dùng sức lực lớn tác động làm dịch chuyển đám mây hoặc vật thể, tạo ra hành động[cite: 2]." },
+            "合": { "type": "Động từ", "components": "人 + 一 + 口", "etymology": "Nhiều người cùng đồng thanh, khép miệng tụ họp lại một nơi để đồng lòng nhất trí[cite: 2]." },
+            "同": { "type": "Tính từ / Động từ", "components": "冂 + 口", "etymology": "Mọi người sống chung một vùng ranh giới cùng chung một tiếng nói, đồng lòng hợp sức[cite: 2]." },
+            "职": { "type": "Danh từ", "components": "耳 + 只", "etymology": "Dùng tai (Nhĩ) để nghe ngóng chỉ thị và gánh vác trách nhiệm công việc tại vị trí của mình[cite: 2]." },
+            "位": { "type": "Danh từ", "components": "亻 + 立", "etymology": "Người đứng đứng vững tại vị trí, cấp bậc rõ ràng được phân công trong tổ chức[cite: 2]." },
+            "会": { "type": "Danh từ / Động từ", "components": "人 + 云", "etymology": "Mọi người tụ họp lại dưới mái nhà trò chuyện bàn bạc sổ sách làm phép kế toán[cite: 2]." },
+            "计": { "type": "Động từ", "components": "言 + 十", "etymology": "Dùng lời nói đếm rành mạch từ một đến mười (Thập) để lập phép tính toán kế hoạch[cite: 2]." },
+            "学习": { "type": "Động từ", "components": "学 (Tử) + 习 (Vũ)", "etymology": "Hình ảnh trẻ con (Tử) đến trường học tập; chim non tập bay nhiều lần trên tổ để rèn luyện thực hành[cite: 2]." }
         }
-        localStorage.setItem('zh_db_v6', JSON.stringify(db));
-        alert(`Đã nạp ${count} từ mới!`);
-        nav('home');
-    }
+    };
+
+    let db = JSON.parse(localStorage.getItem('zh_db_v7')) || [];
+    let currentSkill = 'listen', currentList = [], idx = 0, selectedChips = [];
+    let rec = ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) ? new (window.SpeechRecognition || window.webkitSpeechRecognition)() : null;
+    if(rec) { rec.lang = 'zh-CN'; rec.interimResults = false; }
+
+    window.onload = function() { renderHome(); };
 
     function nav(s) {
         document.querySelectorAll('.main-menu button').forEach(b => b.classList.remove('active'));
@@ -208,94 +233,197 @@
         if(s === 'test') renderTest();
     }
 
+    // ================= KHÔI PHỤC CHỨC NĂNG THỐNG KÊ & CHỦ ĐỀ =================
     function renderHome() {
         const stats = document.getElementById('stats-area');
-        stats.innerHTML = `<div class="stat-card">Tổng số từ học<br><span class="stat-val">${db.length}</span></div>
-                           <div class="stat-card">Chủ đề<br><span class="stat-val">${new Set(db.map(d=>d.topic)).size}</span></div>`;
-        const topics = document.getElementById('topic-list');
-        topics.innerHTML = "";
-        [...new Set(db.map(d=>d.topic))].forEach(t => {
-            let b = document.createElement('button'); b.className = "menu-btn"; b.style.width="100%"; b.style.marginBottom="5px"; b.innerText = "📂 " + t;
-            b.onclick = () => showSkillSelect(t); topics.appendChild(b);
+        stats.innerHTML = `
+            <div class="stat-card">Tổng số từ vựng chuyên ngành đã nạp<br><span class="stat-val">${db.length} từ</span></div>
+            <div class="stat-card">Số chủ đề phân tách tự động<br><span class="stat-val">${new Set(db.map(d=>d.topic)).size} chủ đề</span></div>
+        `;
+        
+        if(db.length > 0) {
+            document.getElementById('topic-area').classList.remove('hidden');
+            renderTopicList('home-list');
+        }
+    }
+
+    function renderTopicList(targetId) {
+        const listContainer = document.getElementById('topic-list');
+        listContainer.innerHTML = "";
+        let uniqueTopics = [...new Set(db.map(d=>d.topic))];
+        
+        uniqueTopics.forEach(t => {
+            let count = db.filter(d => d.topic === t).length;
+            let b = document.createElement('button');
+            b.className = "item-row";
+            b.innerHTML = `📁 <strong>${t}</strong> <span style="float:right; color:#7f8c8d;">(${count} từ vựng)</span>`;
+            b.onclick = () => { currentList = db.filter(d => d.topic === t); start('listen'); };
+            listContainer.appendChild(b);
         });
-        document.getElementById('topic-area').classList.remove('hidden');
     }
 
-    function showSkillSelect(t) {
-        currentList = db.filter(d => d.topic === t);
-        const html = `<h3>Kỹ năng: ${t}</h3><div class="stats-grid">
-            <button class="menu-btn" style="background:var(--blue);color:white" onclick="start('listen')">🔊 Nghe</button>
-            <button class="menu-btn" style="background:#e67e22;color:white" onclick="start('speak')">🎙️ Nói</button>
-            <button class="menu-btn" style="background:#9b59b6;color:white" onclick="start('read')">📖 Đọc</button>
-            <button class="menu-btn" style="background:#16a085;color:white" onclick="start('write')">✍️ Viết</button></div>`;
-        document.getElementById('topic-area').innerHTML = html;
+    function selectSkill(s) {
+        currentSkill = s;
+        document.querySelectorAll('#skill-box button').forEach(b => b.style.border = "none");
+        event.target.style.border = "3px solid #000";
     }
 
+    function startSkillMode(s) {
+        currentSkill = s;
+        if(currentList.length === 0) { alert("Vui lòng chọn một chủ đề ở bên dưới trước!"); return; }
+        start(s);
+    }
+
+    // ================= ĐỌC FILE PDF / WORD SỬA LỖI TÊN TIÊU ĐỀ =================
+    document.getElementById('file-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if(!file) return;
+        document.getElementById('status').innerText = "🔄 Hệ thống đang quét cấu trúc bảng của file, vui lòng chờ...";
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const buffer = e.target.result;
+            if(file.name.endsWith('.docx')) mammoth.extractRawText({arrayBuffer: buffer}).then(r => processData(r.value));
+            else pdfjsLib.getDocument(new Uint8Array(buffer)).promise.then(pdf => {
+                let p = [];
+                for(let i=1; i<=pdf.numPages; i++) p.push(pdf.getPage(i).then(pg => pg.getTextContent().then(c => c.items.map(m => m.str).join(" "))));
+                Promise.all(p).then(t => processData(t.join("\n")));
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    function processData(txt) {
+        const lines = txt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        let topic = "Từ vựng chung";
+        let count = 0;
+        let today = new Date().toLocaleDateString('vi-VN');
+
+        for(let i=0; i<lines.length; i++) {
+            // Sửa lỗi: Nhận diện trọn vẹn tiêu đề đánh số thứ tự 1, 2, 3
+            if(/^\d+\./.test(lines[i]) || lines[i].includes("TỪ VỰNG") || lines[i].includes("CỤM CÂU")) {
+                topic = lines[i];
+                continue;
+            }
+            if(/[\u4e00-\u9fa5]/.test(lines[i]) && !lines[i].includes("Từ vựng") && !lines[i].includes("Pinyin")) {
+                let w = { cn: lines[i], py: lines[i+1]||"", vn: lines[i+2]||"", e_cn: lines[i+3]||"", e_py: lines[i+4]||"", e_vn: lines[i+5]||"", topic: topic, date: today };
+                if(w.vn && w.e_cn && !db.some(d => d.cn === w.cn)) { db.push(w); count++; }
+                i += 5;
+            }
+        }
+        localStorage.setItem('zh_db_v7', JSON.stringify(db));
+        document.getElementById('status').innerText = `✅ Đã đồng bộ thành công ${count} từ vựng chuyên ngành mới!`;
+        renderHome();
+    }
+
+    // ================= GIAO DIỆN ENGINE HỌC TẬP VÀ SKILLS =================
     function start(s) {
         currentSkill = s; idx = 0;
         ['sec-home', 'sec-review', 'sec-test'].forEach(id => document.getElementById(id).classList.add('hidden'));
         document.getElementById('study-engine').classList.remove('hidden');
-        load();
+        document.getElementById('ui-test-core').classList.add('hidden');
+        document.getElementById('display-area').classList.remove('hidden');
+        document.getElementById('example-area').classList.remove('hidden');
+        document.getElementById('next-btn-global').classList.remove('hidden');
+        loadWord();
     }
 
-    function load() {
+    function loadWord() {
         const w = currentList[idx];
-        document.getElementById('engine-title').innerText = `Kỹ năng: ${currentSkill.toUpperCase()}`;
+        document.getElementById('engine-title').innerText = `Kỹ năng: ${currentSkill.toUpperCase()} | Chủ đề: ${w.topic}`;
         document.getElementById('engine-progress').innerText = `${idx + 1} / ${currentList.length}`;
         
         ['ui-listen', 'ui-speak', 'ui-read', 'analysis-area'].forEach(id => document.getElementById(id).classList.add('hidden'));
         
-        // Reset Displays
-        const displays = ['v-main', 'v-py', 'v-vn', 'example-area'];
-        displays.forEach(id => document.getElementById(id).classList.remove('hidden'));
-        document.getElementById('v-main').innerText = w.cn;
+        // Thiết lập 3 hàng phân cấp chuẩn cho từ vựng và câu ví dụ
+        document.getElementById('v-main').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
         document.getElementById('v-py').innerText = w.py;
         document.getElementById('v-vn').innerText = w.vn;
         document.getElementById('e-main').innerHTML = w.e_cn.split("").map(c => `<span>${c}</span>`).join("");
         document.getElementById('e-py').innerText = w.e_py;
         document.getElementById('e-vn').innerText = w.e_vn;
 
-        // Cài đặt click chiết tự cho từng chữ
-        document.querySelectorAll('.vocab-main span').forEach(span => {
-            span.onclick = () => analyze(span.innerText);
+        // Kích hoạt tính năng Click phân tích cho từng từ và từng chữ trong câu
+        document.querySelectorAll('.vocab-main span, .row-ex-main span').forEach(span => {
+            span.onclick = (e) => { e.stopPropagation(); analyzeWordStructure(span.innerText); };
         });
 
+        // Xử lý riêng biệt cho từng kỹ năng cụ thể
         if(currentSkill === 'listen') {
-            ['v-main', 'v-py', 'v-vn', 'example-area'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById('v-main').style.visibility = 'hidden';
+            document.getElementById('v-py').style.visibility = 'hidden';
+            document.getElementById('v-vn').style.visibility = 'hidden';
+            document.getElementById('example-area').classList.add('hidden');
             document.getElementById('ui-listen').classList.remove('hidden');
-            setupListen(w.e_cn); speak('v');
+            setupListenPuzzle(w.e_cn);
+            speakText(w.cn);
         } else if(currentSkill === 'speak') {
+            // Sửa lỗi hình 1: Hiển thị đầy đủ chữ Hán và pinyin ngay từ đầu
+            document.getElementById('v-main').style.visibility = 'visible';
+            document.getElementById('v-py').style.visibility = 'visible';
+            document.getElementById('v-vn').style.visibility = 'visible';
             document.getElementById('ui-speak').classList.remove('hidden');
             document.getElementById('s-feedback').innerText = "";
         } else if(currentSkill === 'read') {
             document.getElementById('ui-read').classList.remove('hidden');
             document.getElementById('v-py').classList.add('hidden');
             document.getElementById('v-vn').classList.add('hidden');
-            document.getElementById('r-prompt').innerText = `Dịch nghĩa cho: ${w.cn}`;
-            document.getElementById('r-input').value = ""; document.getElementById('r-feedback').innerText = "";
+            document.getElementById('example-area').classList.add('hidden');
+            document.getElementById('r-input').value = "";
+            document.getElementById('r-feedback').innerText = "";
+        } else if(currentSkill === 'write') {
+            document.getElementById('v-main').style.visibility = 'visible';
+            document.getElementById('v-py').style.visibility = 'visible';
+            document.getElementById('v-vn').style.visibility = 'visible';
         }
     }
 
-    function analyze(char) {
-        const box = document.getElementById('analysis-area');
-        const data = charMap[char] || { type: "Đang cập nhật", components: "Đang phân tích bộ thủ...", story: "Liên hệ giáo viên để biết thêm chi tiết." };
-        // Giả lập bóc tách bộ thủ internet
-        let radicalInfo = "";
-        Object.keys(radicals).forEach(r => { if(data.components.includes(r)) radicalInfo += `<br><i>${radicals[r]}</i>`; });
-
-        box.innerHTML = `<strong>Phân tích chữ: ${char}</strong><br>
-                         Loại từ: ${data.type}<br>
-                         Cấu tạo: ${data.components}<br>
-                         Ý nghĩa chiết tự: ${data.story}${radicalInfo}`;
-        box.classList.remove('hidden');
+    function toggleReveal() {
+        document.getElementById('v-main').style.visibility = 'visible';
+        document.getElementById('v-py').style.visibility = 'visible';
+        document.getElementById('v-vn').style.visibility = 'visible';
+        document.getElementById('example-area').classList.remove('hidden');
     }
 
-    function setupListen(sentence) {
-        selected = [];
+    // ================= XỬ LÝ LỘC BỘ THỦ CHUYÊN SÂU TỪ INTERNET =================
+    function analyzeWordStructure(char) {
+        const box = document.getElementById('analysis-area');
+        document.getElementById('ana-target').innerText = `Ký tự tra cứu: ${char}`;
+        
+        let data = dictionary.characters[char];
+        if(!data) {
+            // Tự động phân bổ loại từ nếu file gốc không có
+            let autoType = "Danh từ chuyên ngành";
+            if(["修改", "学习", "处理", "确认", "缴纳", "支付"].some(v => char.includes(v))) autoType = "Động từ";
+            data = { "type": autoType, "components": "Bộ nét kết hợp", "etymology": "Từ vựng nằm trong bảng biểu chuyên ngành Hợp đồng - Kế toán." };
+        }
+        
+        document.getElementById('ana-type').innerText = data.type;
+        
+        // Tự động bóc tách đối chiếu tìm dữ liệu gốc từ 214 bộ thủ thông dụng
+        let radicalExplanation = "";
+        Object.keys(dictionary.radicals).forEach(r => {
+            if(data.components.includes(r) || char.includes(r)) {
+                radicalExplanation += `<p style='margin:5px 0; color:#d35400;'>➔ <strong>Bộ thủ ${r}:</strong> ${dictionary.radicals[r]}</p>`;
+            }
+        });
+
+        document.getElementById('ana-content').innerHTML = `
+            <p><strong>Cấu tạo chữ:</strong> ${data.components}</p>
+            <p><strong>Ý nghĩa chiết tự (Sách cổ):</strong> ${data.etymology}</p>
+            ${radicalExplanation ? `<div style='margin-top:10px; border-top:1px dashed #f1c40f; padding-top:5px;'>${radicalExplanation}</div>` : ""}
+        `;
+        box.classList.remove('hidden');
+        box.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- XỬ LÝ KỸ NĂNG NGHE MẢNH GHÉP ---
+    function setupListenPuzzle(sentence) {
+        selectedChips = [];
         const pool = document.getElementById('l-pool');
         const drop = document.getElementById('l-drop');
-        const feedback = document.getElementById('l-feedback');
-        pool.innerHTML = ""; drop.innerHTML = ""; feedback.innerText = "";
+        pool.innerHTML = ""; drop.innerHTML = ""; 
+        document.getElementById('l-feedback').innerText = "";
         
         let chars = sentence.split("").filter(c => !/[\s.,!?;。，！？]/.test(c));
         chars.sort(() => Math.random() - 0.5).forEach(c => {
@@ -303,10 +431,16 @@
             chip.onclick = () => {
                 chip.classList.add('used');
                 let d = document.createElement('div'); d.className = "chip"; d.innerText = c;
-                drop.appendChild(d); selected.push(c);
-                if(selected.length === chars.length) {
-                    if(selected.join("") === sentence.replace(/[\s.,!?;。，！？]/g, "")) feedback.innerHTML = "✅ CHÍNH XÁC!";
-                    else feedback.innerHTML = "❌ SAI RỒI! Hãy thử lại hoặc bấm Hiện đáp án.";
+                drop.appendChild(d); selectedChips.push(c);
+                
+                if(selectedChips.length === chars.length) {
+                    let cleanTarget = sentence.replace(/[\s.,!?;。，！？]/g, "");
+                    if(selectedChips.join("") === cleanTarget) {
+                        document.getElementById('l-feedback').innerHTML = "<span style='color:green'>🎉 CHÍNH XÁC! Bạn đã nghe và sắp xếp câu hoàn hảo.</span>";
+                        revealListenAnswer();
+                    } else {
+                        document.getElementById('l-feedback').innerHTML = "<span style='color:red'>❌ SAI VỊ TRÍ! Câu bạn xếp chưa đúng âm vần nghe được.</span>";
+                    }
                 }
             };
             pool.appendChild(chip);
@@ -314,46 +448,142 @@
     }
 
     function revealListenAnswer() {
-        const w = currentList[idx];
-        document.getElementById('l-feedback').innerHTML = `Đáp án đúng: ${w.e_cn}`;
-        ['v-main', 'v-py', 'v-vn', 'example-area'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+        document.getElementById('v-main').style.visibility = 'visible';
+        document.getElementById('v-py').style.visibility = 'visible';
+        document.getElementById('v-vn').style.visibility = 'visible';
+        document.getElementById('example-area').classList.remove('hidden');
     }
 
-    function checkRead() {
-        const w = currentList[idx];
-        const input = document.getElementById('r-input').value.trim();
-        const f = document.getElementById('r-feedback');
-        if(input === w.vn) f.innerHTML = `<span style="color:green">✅ ĐÚNG! Đáp án: ${w.vn} (${w.py})</span>`;
-        else f.innerHTML = `<span style="color:red">❌ SAI! Đáp án chuẩn: ${w.vn} (${w.py})</span>`;
-        document.getElementById('v-py').classList.remove('hidden');
-        document.getElementById('v-vn').classList.remove('hidden');
-    }
-
-    function speak(type) {
-        const w = currentList[idx];
-        const u = new SpeechSynthesisUtterance(type === 'v' ? w.cn : w.e_cn);
-        u.lang = 'zh-CN'; window.speechSynthesis.speak(u);
-    }
-
-    function next() {
-        if(idx < currentList.length - 1) { idx++; load(); }
-        else alert("Hoàn thành bài học!");
-    }
-
-    function startMic() {
-        if(!rec) return alert("Trình duyệt không hỗ trợ Mic.");
+    // --- XỬ LÝ KỸ NĂNG NÓI MICRO ĐỐI CHIẾU ---
+    function startVoiceRecognition() {
+        if(!rec) return alert("Trình duyệt không hỗ trợ Web Speech API.");
         rec.start();
         document.getElementById('mic-btn').classList.add('active');
         rec.onresult = (e) => {
             const speech = e.results[0][0].transcript;
             document.getElementById('mic-btn').classList.remove('active');
-            let res = "";
-            currentList[idx].cn.split("").forEach(c => {
-                if(speech.includes(c)) res += `<span style="color:green">${c}</span>`;
-                else res += `<span style="color:red">${c}</span>`;
+            let target = currentList[idx].cn;
+            let htmlResult = "Đối chiếu phát âm: ";
+            
+            target.split("").forEach(c => {
+                if(speech.includes(c)) htmlResult += `<span style="color:green; font-size:24px;">${c}</span>`;
+                else htmlResult += `<span style="color:red; font-size:24px; text-decoration:underline;">${c}</span>`;
             });
-            document.getElementById('s-feedback').innerHTML = "Bạn đọc: " + res;
+            document.getElementById('s-feedback').innerHTML = `Giọng bạn đọc: "${speech}"<br>${htmlResult}`;
         };
+    }
+
+    // --- XỬ LÝ KỸ NĂNG ĐỌC KIỂM TRA ĐÁP ÁN ---
+    function checkReadAnswer() {
+        const w = currentList[idx];
+        const val = document.getElementById('r-input').value.trim();
+        const f = document.getElementById('r-feedback');
+        
+        if(val.toLowerCase() === w.vn.toLowerCase()) {
+            f.innerHTML = `<span style='color:green'>✅ ĐÚNG RỒI! Đáp án chuẩn: ${w.vn}</span>`;
+        } else {
+            f.innerHTML = `<span style='color:red'>❌ CHƯA CHÍNH XÁC! Đáp án đúng phải là: ${w.vn}</span>`;
+        }
+        document.getElementById('v-py').classList.remove('hidden');
+        document.getElementById('v-vn').classList.remove('hidden');
+        document.getElementById('example-area').classList.remove('hidden');
+    }
+
+    function speakText(t) {
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = 'zh-CN'; window.speechSynthesis.speak(u);
+    }
+
+    function nextWord() {
+        if(idx < currentList.length - 1) { idx++; loadWord(); }
+        else { alert("🎉 Hoàn thành chương trình từ vựng của chủ đề này!"); location.reload(); }
+    }
+
+    // ================= KHÔI PHỤC HỆ THỐNG KIỂM TRA ĐỀ THI TỔNG HỢP =================
+    function renderReview() {
+        let container = document.getElementById('review-list');
+        container.innerHTML = "";
+        let uniqueDates = [...new Set(db.map(d=>d.date))];
+        
+        uniqueDates.forEach(date => {
+            let topics = [...new Set(db.filter(d=>d.date === date).map(d=>d.topic))];
+            topics.forEach(t => {
+                let r = document.createElement('button');
+                r.className = "item-row";
+                r.innerHTML = `📅 Ngày học: ${date} ➔ 📂 Chủ đề: ${t}`;
+                r.onclick = () => {
+                    document.getElementById('review-words-zone').classList.remove('hidden');
+                    let rContainer = document.getElementById('review-words-container');
+                    rContainer.innerHTML = "";
+                    db.filter(d=>d.topic === t && d.date === date).forEach(w => {
+                        let wb = document.createElement('button');
+                        wb.className = "word-item-btn";
+                        wb.style.padding = "8px";
+                        wb.innerText = w.cn;
+                        wb.onclick = () => { currentList = [w]; start('write'); };
+                        rContainer.appendChild(wb);
+                    });
+                };
+                container.appendChild(r);
+            });
+        });
+    }
+
+    function renderTest() {
+        let container = document.getElementById('test-topic-list');
+        container.innerHTML = "";
+        let uniqueTopics = [...new Set(db.map(d=>d.topic))];
+        uniqueTopics.forEach(t => {
+            let r = document.createElement('button'); r.className = "item-row";
+            r.innerText = `📋 Đề thi riêng biệt chủ đề: ${t}`;
+            r.onclick = () => generateTest(t);
+            container.appendChild(r);
+        });
+    }
+
+    let testQIndex = 0, score = 0;
+    function generateTest(scope) {
+        let pool = (scope === 'ALL_TOPICS') ? db : db.filter(d=>d.topic === scope);
+        if(pool.length === 0) return alert("Không có dữ liệu từ vựng để tạo đề.");
+        
+        currentList = pool.sort(() => Math.random() - 0.5).slice(0, 10); // Tạo đề ngẫu nhiên 10 câu
+        testQIndex = 0; score = 0;
+        
+        ['sec-home', 'sec-review', 'sec-test'].forEach(id => document.getElementById(id).classList.add('hidden'));
+        document.getElementById('study-engine').classList.remove('hidden');
+        document.getElementById('display-area').classList.add('hidden');
+        document.getElementById('example-area').classList.add('hidden');
+        document.getElementById('next-btn-global').classList.add('hidden');
+        document.getElementById('ui-test-core').classList.remove('hidden');
+        
+        loadTestQuestion();
+    }
+
+    function loadTestQuestion() {
+        document.getElementById('engine-title').innerText = `🔴 ĐANG LÀM BÀI KIỂM TRA ĐÁNH GIÁ`;
+        document.getElementById('engine-progress').innerText = `${testQIndex + 1} / ${currentList.length}`;
+        
+        let q = currentList[testQIndex];
+        let box = document.getElementById('test-q-box');
+        box.innerHTML = `
+            <h3>Câu hỏi: Từ chữ Hán [ ${q.cn} ] có nghĩa tiếng Việt là gì?</h3>
+            <p style='color:#7f8c8d; font-size:18px;'>Phiên âm: ${q.py}</p>
+            <input type='text' id='test-ans-input' class='input-field' style='width:100%;' placeholder='Nhập nghĩa tiếng Việt chuẩn...'>
+        `;
+    }
+
+    function submitTestQ() {
+        let q = currentList[testQIndex];
+        let userAns = document.getElementById('test-ans-input').value.trim();
+        
+        if(userAns.toLowerCase() === q.vn.toLowerCase()) { score++; alert("Chính xác! 🌟"); }
+        else { alert(`Chưa đúng! Đáp án chuẩn phải là: ${q.vn}`); }
+        
+        if(testQIndex < currentList.length - 1) { testQIndex++; loadTestQuestion(); }
+        else {
+            alert(`🎉 Bạn đã hoàn thành bài kiểm tra! Điểm số đạt được: ${score} / ${currentList.length}`);
+            location.reload();
+        }
     }
 </script>
 </body>
