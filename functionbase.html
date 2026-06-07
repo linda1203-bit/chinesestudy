@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: var(--primary); text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+        
+        /* Màn hình nhập liệu */
+        #input-screen textarea { width: 100%; height: 300px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 20px; box-sizing: border-box; }
+        .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; color: white; }
+        .btn-primary { background: var(--primary); }
+        .btn-accent { background: var(--accent); }
+        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* Màn hình học tập */
+        .hidden { display: none; }
+        .skill-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .flashcard { border: 2px solid var(--primary); border-radius: 15px; padding: 40px; text-align: center; min-height: 250px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; background: #fff; transition: 0.5s; }
+        .chinese-text { font-size: 48px; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        .pinyin-text { font-size: 20px; color: #7f8c8d; }
+        .meaning-text { font-size: 24px; color: var(--accent); margin-top: 20px; }
+        .example-box { margin-top: 30px; padding: 20px; background: #fdf2f2; border-left: 5px solid var(--accent); border-radius: 4px; text-align: left; }
+        
+        /* Giao diện Nghe/Nói */
+        .audio-btn { font-size: 40px; margin-bottom: 20px; background: none; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- MÀN HÌNH 1: NHẬP LIỆU -->
+    <div id="input-screen">
+        <h2>Dán nội dung từ vựng vào đây</h2>
+        <p style="font-size: 0.9em; color: #666;">Hướng dẫn: Copy bảng từ PDF/Word (gồm Từ, Pinyin, Nghĩa, Ví dụ...) rồi dán vào ô dưới.</p>
+        <textarea id="raw-data" placeholder="Ví dụ:
+劳动合同 | láodòng hétóng | Hợp đồng lao động | 我正在修改劳动合同 | Tôi đang chỉnh sửa..."></textarea>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="startApp('read')">Học Đọc & Viết</button>
+            <button class="btn btn-accent" onclick="startApp('listen')">Luyện Nghe & Nói</button>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH 2: GIAO DIỆN HỌC -->
+    <div id="study-screen" class="hidden">
+        <div class="skill-header">
+            <button onclick="location.reload()" style="background:none; border:1px solid #ccc; cursor:pointer; border-radius:5px;">← Quay lại</button>
+            <h3 id="mode-title">Kỹ năng</h3>
+            <div id="progress">1/10</div>
+        </div>
+
+        <div id="flashcard-area" class="flashcard" onclick="toggleCard()">
+            <div id="card-front">
+                <div id="audio-icon" class="hidden"><button class="audio-btn">🔊</button></div>
+                <div class="chinese-text" id="display-cn">Từ vựng</div>
+                <div class="pinyin-text" id="display-py">Pinyin</div>
+            </div>
+            <div id="card-back" class="hidden">
+                <div class="meaning-text" id="display-vn">Nghĩa tiếng Việt</div>
+                <div class="example-box">
+                    <strong>Ví dụ:</strong> <span id="ex-cn"></span><br>
+                    <small id="ex-py" style="color:#666"></small><br>
+                    <em id="ex-vn" style="color:var(--accent)"></em>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group" style="margin-top: 30px;">
+            <button class="btn btn-primary" onclick="prevWord()">Trước đó</button>
+            <button class="btn btn-primary" onclick="nextWord()">Tiếp theo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let words = [];
+    let currentIndex = 0;
+    let currentMode = '';
+
+    function parseData(text) {
+        // Tự động phân tách dữ liệu dựa trên ký tự | hoặc Tab
+        return text.split('\n').filter(line => line.trim() !== '').map(line => {
+            const parts = line.split(/[|\t]/).map(p => p.trim());
+            return {
+                cn: parts[0] || "",
+                py: parts[1] || "",
+                vn: parts[2] || "",
+                ex_cn: parts[3] || "",
+                ex_py: parts[4] || "",
+                ex_vn: parts[5] || ""
+            };
+        }).filter(w => w.cn !== "");
+    }
+
+    function startApp(mode) {
+        const raw = document.getElementById('raw-data').value;
+        words = parseData(raw);
+        if (words.length === 0) return alert("Vui lòng dán dữ liệu vào ô!");
+
+        currentMode = mode;
+        document.getElementById('input-screen').classList.add('hidden');
+        document.getElementById('study-screen').classList.remove('hidden');
+        
+        if (mode === 'listen') {
+            document.getElementById('mode-title').innerText = "Luyện Nghe & Nói";
+            document.getElementById('audio-icon').classList.remove('hidden');
+        } else {
+            document.getElementById('mode-title').innerText = "Học Đọc & Viết";
+            document.getElementById('audio-icon').classList.add('hidden');
+        }
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        const w = words[currentIndex];
+        document.getElementById('progress').innerText = `${currentIndex + 1} / ${words.length}`;
+        
+        // Reset card
+        document.getElementById('card-back').classList.add('hidden');
+        document.getElementById('card-front').classList.remove('hidden');
+
+        // Điền dữ liệu
+        document.getElementById('display-cn').innerText = w.cn;
+        document.getElementById('display-py').innerText = w.py;
+        document.getElementById('display-vn').innerText = w.vn;
+        document.getElementById('ex-cn').innerText = w.ex_cn;
+        document.getElementById('ex-py').innerText = w.ex_py;
+        document.getElementById('ex-vn').innerText = w.ex_vn;
+
+        // Nếu là chế độ nghe, ẩn chữ Hán ban đầu (muốn xem thì lật thẻ)
+        if (currentMode === 'listen') {
+            document.getElementById('display-cn').style.visibility = 'hidden';
+            document.getElementById('display-py').style.visibility = 'hidden';
+            speak(w.cn); // Tự động phát âm khi qua từ mới
+        } else {
+            document.getElementById('display-cn').style.visibility = 'visible';
+            document.getElementById('display-py').style.visibility = 'visible';
+        }
+    }
+
+    function toggleCard() {
+        const back = document.getElementById('card-back');
+        back.classList.toggle('hidden');
+        if (currentMode === 'listen') {
+            document.getElementById('display-cn').style.visibility = 'visible';
+            document.getElementById('display-py').style.visibility = 'visible';
+        }
+    }
+
+    function nextWord() {
+        if (currentIndex < words.length - 1) {
+            currentIndex++;
+            updateDisplay();
+        }
+    }
+
+    function prevWord() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateDisplay();
+        }
+    }
+
+    function speak(text) {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = text;
+        msg.lang = 'zh-CN';
+        window.speechSynthesis.speak(msg);
+    }
+
+    // Gán sự kiện cho nút loa
+    document.querySelector('.audio-btn').onclick = (e) => {
+        e.stopPropagation();
+        speak(words[currentIndex].cn);
+    };
+</script>
+</body>
+</html>
