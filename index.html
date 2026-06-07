@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành Toàn Diện v22</title>
+    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành Toàn Diện v23</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <style>
@@ -72,19 +72,19 @@
         </div>
         <div id="status" style="color:var(--success); font-weight:bold; margin-top:15px; text-align:center;"></div>
         
-        <div id="workflow-topic-zone" class="hidden" style="margin-top:25px;">
-            <h3>Danh Sách Chủ Đề Học Tập (Bấm vào chủ đề để xem trước nội dung từ vựng):</h3>
-            <div id="workflow-topic-list"></div>
+        <div id="workflow-skill-zone" class="hidden" style="margin-top:25px;">
+            <h3 id="skill-zone-title">Bước 2: Chọn Kỹ Năng Học Phù Hợp:</h3>
+            <div class="stats-grid">
+                <button class="menu-btn skill-selector-tab" id="sk-btn-write" style="background:#16a085; color:white;" onclick="selectWorkflowSkill('write')">✍️ 1. Học Viết (Chiết tự)</button>
+                <button class="menu-btn skill-selector-tab" id="sk-btn-read" style="background:#9b59b6; color:white;" onclick="selectWorkflowSkill('read')">📖 2. Học Đọc (Nhận diện chữ)</button>
+                <button class="menu-btn skill-selector-tab" id="sk-btn-listen" style="background:#3498db; color:white;" onclick="selectWorkflowSkill('listen')">🔊 3. Học Nghe (Mảnh ghép câu)</button>
+                <button class="menu-btn skill-selector-tab" id="sk-btn-speak" style="background:#e67e22; color:white;" onclick="selectWorkflowSkill('speak')">🎙️ 4. Học Nói (Phát âm đối chiếu)</button>
+            </div>
         </div>
 
-        <div id="workflow-skill-zone" class="hidden" style="margin-top:25px;">
-            <h3 id="skill-zone-title">Chọn Kỹ Năng Học Cho Chủ Đề:</h3>
-            <div class="stats-grid">
-                <button class="menu-btn" style="background:#16a085; color:white;" onclick="selectWorkflowSkill('write')">✍️ 1. Học Viết (Chiết tự)</button>
-                <button class="menu-btn" style="background:#9b59b6; color:white;" onclick="selectWorkflowSkill('read')">📖 2. Học Đọc (Nhận diện mặt chữ)</button>
-                <button class="menu-btn" style="background:#3498db; color:white;" onclick="selectWorkflowSkill('listen')">🔊 3. Học Nghe (Mảnh ghép câu)</button>
-                <button class="menu-btn" style="background:#e67e22; color:white;" onclick="selectWorkflowSkill('speak')">🎙️ 4. Học Nói (Phát âm đối chiếu)</button>
-            </div>
+        <div id="workflow-topic-zone" class="hidden" style="margin-top:25px;">
+            <h3>Bước 3: Chọn Chủ Đề Học Tập (Bấm để xem khái quát hoặc vào học):</h3>
+            <div id="workflow-topic-list"></div>
         </div>
     </div>
 
@@ -186,18 +186,17 @@
 
 <script>
     let db = JSON.parse(localStorage.getItem('zh_master_db')) || [];
-    let currentSkill = 'write', currentList = [], idx = 0, selectedChips = [];
+    let currentSkill = '', currentList = [], idx = 0, selectedChips = [];
     let activeSentenceTarget = "", selectedTopicName = "";
     let rec = ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) ? new (window.SpeechRecognition || window.webkitSpeechRecognition)() : null;
     if(rec) { rec.lang = 'zh-CN'; rec.interimResults = false; }
 
     window.onload = function() { renderHome(); };
 
-    // HÀM MỚI: XỬ LÝ SỰ KIỆN KHI NHẤN PHÍM ENTER TRÊN BÀN PHÍM
     function handleEnterKey(event, actionFunction) {
         if (event.key === "Enter") {
-            event.preventDefault(); // Ngăn trình duyệt reload hoặc nhảy dòng trái phép
-            actionFunction(); // Kích hoạt hàm nộp đáp án tương ứng
+            event.preventDefault();
+            actionFunction();
         }
     }
 
@@ -221,6 +220,8 @@
         const stats = document.getElementById('stats-area');
         stats.innerHTML = `<div class="stat-card">Từ vựng đã nạp<br><span class="stat-val">${db.length} từ</span></div><div class="stat-card">Số chủ đề<br><span class="stat-val">${new Set(db.map(d=>d.topic)).size} chủ đề</span></div>`;
         if(db.length > 0) {
+            // Hiển thị cả thanh kỹ năng và vùng chủ đề song song ngay từ đầu
+            document.getElementById('workflow-skill-zone').classList.remove('hidden');
             document.getElementById('workflow-topic-zone').classList.remove('hidden');
             renderTopicSelectionList();
         }
@@ -236,15 +237,26 @@
             let b = document.createElement('button');
             b.className = "item-row";
             b.innerHTML = `📂 <strong>${t}</strong> <span style="float:right; color:#7f8c8d;">(${count} từ vựng)</span>`;
-            b.onclick = () => { showTopicPreviewTable(t); };
+            b.onclick = () => { handleTopicClick(t); };
             container.appendChild(b);
         });
     }
 
-    function showTopicPreviewTable(topicName) {
+    // XỬ LÝ CLICK CHỦ ĐỀ THÔNG MINH
+    function handleTopicClick(topicName) {
         selectedTopicName = topicName;
         currentList = db.filter(d => d.topic === topicName);
         
+        if (currentSkill !== '') {
+            // Trường hợp 1: Nếu đã chọn kỹ năng trước đó ➔ Vào thẳng Engine học tương tác
+            startStudyEngine();
+        } else {
+            // Trường hợp 2: Nếu chưa chọn kỹ năng ➔ Mở bảng khái quát từ vựng Preview
+            showTopicPreviewTable(topicName);
+        }
+    }
+
+    function showTopicPreviewTable(topicName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
         document.getElementById('sec-preview').classList.remove('hidden');
         document.getElementById('preview-title').innerText = `Tra cứu khái quát: ${topicName}`;
@@ -270,16 +282,36 @@
         });
     }
 
+    // SỬA ĐỔI THEO HÌNH 2: Bấm nút xanh sẽ cuộn lên đầu trang trỏ thẳng vào khối kỹ năng
     function startLearningFromPreview() {
         document.getElementById('sec-preview').classList.add('hidden');
         document.getElementById('sec-home').classList.remove('hidden');
-        document.getElementById('skill-zone-title').innerText = `Chọn Kỹ Năng Luyện Tập Cho: ${selectedTopicName}`;
+        
+        // Đổi màu viền cảnh báo để người dùng chú ý chọn kỹ năng ở đầu trang trước
+        document.getElementById('workflow-skill-zone').style.border = "2px dashed var(--accent)";
+        document.getElementById('workflow-skill-zone').style.padding = "10px";
+        document.getElementById('workflow-skill-zone').style.borderRadius = "10px";
+        
         document.getElementById('workflow-skill-zone').scrollIntoView({ behavior: 'smooth' });
-        document.getElementById('workflow-skill-zone').classList.remove('hidden');
     }
 
     function selectWorkflowSkill(skill) {
         currentSkill = skill;
+        document.querySelectorAll('.skill-selector-tab').forEach(b => b.style.outline = "none");
+        document.getElementById(`sk-btn-${skill}`).style.outline = "3px solid var(--primary)";
+        
+        // Reset border cảnh báo nếu có
+        document.getElementById('workflow-skill-zone').style.border = "none";
+        document.getElementById('workflow-skill-zone').style.padding = "0";
+
+        if (selectedTopicName !== '') {
+            startStudyEngine();
+        } else {
+            alert("Đã chọn kỹ năng thành công! Mời bạn click vào 1 Chủ đề ở Bước 3 phía dưới để bắt đầu học.");
+        }
+    }
+
+    function startStudyEngine() {
         idx = 0;
         document.querySelectorAll('.tab-content').forEach(id => id.classList.add('hidden'));
         document.getElementById('study-engine').classList.remove('hidden');
@@ -295,7 +327,7 @@
             if(file.name.endsWith('.docx')) mammoth.extractRawText({arrayBuffer: buffer}).then(r => processData(r.value));
             else pdfjsLib.getDocument(new Uint8Array(buffer)).promise.then(pdf => {
                 let p = [];
-                for(let i=1; i<=pdf.numPages; i++) p.push(pdf.getPage(i).then(pg => pg.getTextContent().then(c => c.items.map(m => str).join(" "))));
+                for(let i=1; i<=pdf.numPages; i++) p.push(pdf.getPage(i).then(pg => pg.getTextContent().then(c => c.items.map(m => m.str).join(" "))));
                 Promise.all(p).then(t => processData(t.join("\n")));
             });
         };
@@ -402,10 +434,11 @@
         loadTestQ();
     }
 
+    function handleTestEnter(event) { handleEnterKey(event, submitTestQ); }
+
     function loadTestQ() {
         let q = currentList[tIdx];
-        // Thêm sự kiện onkeydown cho bài kiểm tra
-        document.getElementById('test-q-box').innerHTML = `<h3>Câu ${tIdx+1}: Nghĩa của [ ${q.cn} ] là gì?</h3><input type='text' id='t-ans' class='input-field' onkeydown='handleEnterKey(event, submitTestQ)'>`;
+        document.getElementById('test-q-box').innerHTML = `<h3>Câu ${tIdx+1}: Nghĩa của [ ${q.cn} ] là gì?</h3><input type='text' id='t-ans' class='input-field' onkeydown='handleTestEnter(event)'>`;
         setTimeout(()=>document.getElementById('t-ans').focus(), 100);
     }
 
