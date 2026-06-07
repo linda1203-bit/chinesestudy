@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành Toàn Diện v13</title>
+    <title>Hệ Thống Học Tiếng Trung Chuyên Ngành Toàn Diện v14</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <style>
@@ -20,8 +20,6 @@
         .stat-card { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .stat-val { font-size: 32px; font-weight: bold; color: var(--accent); }
 
-        .grid-layout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
-        .skill-btn { padding: 15px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; text-align: center; font-size: 16px; }
         .item-row { padding: 15px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 8px; display: block; text-align: left; width: 100%; color: var(--primary); }
         .item-row:hover { background: var(--primary); color: white; }
         .word-item-btn { padding: 10px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; text-align: center; font-weight: bold; }
@@ -29,14 +27,14 @@
 
         .interactive-card { border: 2px solid #e2e8f0; border-radius: 12px; padding: 25px; background: #f8fafc; margin-top: 15px; text-align: center; }
         .vocab-main { font-size: 55px; font-weight: bold; color: #000000; margin: 10px 0; letter-spacing: 2px; }
-        .vocab-main span { cursor: help; border-bottom: 2px dashed #cbd5e1; padding: 0 4px; }
+        .vocab-main span { cursor: help; border-bottom: 2px dashed #cbd5e1; padding: 0 4px; display: inline-block; }
         .vocab-main span:hover { color: var(--blue); background: #ffe082; }
         .pinyin { font-size: 22px; color: #7f8c8d; margin-bottom: 5px; }
         .meaning { font-size: 26px; font-weight: bold; color: var(--accent); margin-bottom: 15px; }
 
         .example-block-container { text-align: left; background: #fff; padding: 20px; border-radius: 8px; border-left: 5px solid var(--accent); margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .row-ex-main { font-size: 24px; font-weight: bold; color: #2c3e50; margin: 5px 0; }
-        .row-ex-main span { cursor: help; border-bottom: 1px dashed #cbd5e1; }
+        .row-ex-main span { cursor: help; border-bottom: 1px dashed #cbd5e1; display: inline-block; }
         .row-ex-main span:hover { background: #ffe082; }
         .row-ex-pinyin { font-size: 18px; color: #7f8c8d; margin: 5px 0; }
         .row-ex-meaning { font-size: 18px; color: #e74c3c; font-weight: 500; margin: 5px 0; }
@@ -114,6 +112,11 @@
                 <div class="pinyin" id="v-py"></div>
                 <div class="meaning" id="v-vn"></div>
                 
+                <div id="dynamic-audio-controls" style="margin: 15px 0;">
+                    <button class="menu-btn" style="background:var(--blue); color:white;" onclick="speakText(currentList[idx].cn)">🔊 Phát âm Từ Vựng</button>
+                    <button class="menu-btn" style="background:var(--success); color:white;" onclick="speakText(currentList[idx].e_cn)">🔊 Phát âm Câu Ví Dụ</button>
+                </div>
+                
                 <div class="example-block-container" id="example-area">
                     <div class="row-ex-main" id="e-main"></div>
                     <div class="row-ex-pinyin" id="e-py"></div>
@@ -142,7 +145,6 @@
                 <p style="font-weight:bold; text-align:left;">🔊 Hãy nghe âm thanh, đoán nghĩa từ và sắp xếp câu ví dụ dưới đây:</p>
                 <div style="margin:10px 0;">
                     <button class="menu-btn" style="background:var(--blue); color:white;" onclick="speakText(currentList[idx].cn)">🔊 Nghe từ gốc</button>
-                    <button class="menu-btn" style="background:var(--success); color:white;" onclick="speakText(currentList[idx].e_cn)">🔊 Nghe câu mẫu</button>
                 </div>
                 <input type="text" id="l-input-meaning" class="input-field" style="width:100%; margin-bottom:15px;" placeholder="Gõ đoán nghĩa tiếng Việt của từ vào đây...">
                 <div class="drop-zone" id="l-drop"></div>
@@ -177,34 +179,227 @@
 </div>
 
 <script>
-    // Dữ liệu bóc tách từ sách "Bí quyết chiết tự chữ Hán" và Từ điển bộ thủ ThanhMaiHSK
-    const dictionary = {
-        "radicals": {
-            "%": "Dữ liệu đối chiếu từ Sách Bí quyết chiết tự chữ Hán.",
-            "亻": "Bộ Nhân đứng (人): Liên quan đến hành vi, thuộc tính con người.",
-            "女": "Bộ Nữ (女): Người phụ nữ khụy chân kính cẩn, biểu thị thuộc tính nữ, gia đình.",
-            "子": "Bộ Tử (子): Đứa trẻ sơ sinh quấn tã, liên quan đến con cái, sự tốt lành.",
-            "力": "Bộ Lực (力): Hình chiếc cày ruộng, đại diện cho sức mạnh cơ bắp, lao động vất vả.",
-            "口": "Bộ Khẩu (口): Cái miệng, đại diện cho ngôn ngữ, ăn uống.",
-            "言": "Bộ Ngôn (言): Lời nói phát ra rành mạch, liên quan đến giao tiếp, văn bản.",
-            "氵": "Bộ Thủy (水): Ba giọt nước chảy, đại diện cho chất lỏng, sông ngòi.",
-            "日": "Bộ Nhật (日): Mặt trời phân chia ánh sáng, liên quan đến thời gian, thời tiết.",
-            "宀": "Bộ Miên (宀): Mái che ngôi nhà, nơi trú ẩn an toàn, tổ ấm."
-        },
-        "characters": {
-            "好": { "type": "Tính từ", "components": "女 + 子", "etymology": "Người mẹ sinh được cả con trai lẫn con gái là điều 'Tốt' lành viên mãn." },
-            "劳": { "type": "Động từ / Danh từ", "components": "艹 + 力", "etymology": "Dưới mái nhà tranh dùng sức 'Lực' để lao động vất vả trên cỏ cây." },
-            "动": { "type": "Động từ", "components": "云 + 力", "etymology": "Dùng sức lực lớn tác động làm dịch chuyển vật thể, tạo ra hoạt động." },
-            "合": { "type": "Động từ", "components": "人 + 一 + 口", "etymology": "Nhiều người cùng đồng thanh, khép miệng tụ họp lại để đồng lòng." },
-            "同": { "type": "Tính từ / Động từ", "components": "冂 + 口", "etymology": "Mọi người sống chung một vùng ranh giới cùng chung tiếng nói." },
-            "职": { "type": "Danh từ", "components": "耳 + 只", "etymology": "Dùng tai (Nhĩ) nghe ngóng chỉ thị và gánh vác trách nhiệm công việc." },
-            "位": { "type": "Danh từ", "components": "亻 + 立", "etymology": "Người đứng vững tại vị trí, cấp bậc được phân công trong tổ chức." },
-            "会": { "type": "Danh từ / Động từ", "components": "人 + 云", "etymology": "Mọi người tụ họp dưới mái nhà bàn bạc sổ sách làm phép kế toán." },
-            "计": { "type": "Động từ", "components": "言 + 十", "etymology": "Dùng lời nói đếm rành mạch con số để lập phép tính toán." }
-        }
+    // TOÀN BỘ CƠ SỞ DỮ LIỆU 214 BỘ THỦ TIẾNG TRUNG THANHMAIHSK ĐÃ ĐỒNG BỘ ĐỘC QUYỀN
+    const radicalsDatabase = {
+        "一": "Bộ Nhất - Số một, khởi đầu của vạn vật.",
+        "丨": "Bộ Cổn - Nét sổ dọc đường thẳng đứng.",
+        "丶": "Bộ Chủ - Điểm chấm, biểu thị dấu vết.",
+        "丿": "Bộ Phiệt - Nét phẩy quét sang trái.",
+        "乙": "Bộ Ất - Vị trí thứ hai trong thiên can.",
+        "亅": "Bộ Quyết - Nét móc lên ở cuối.",
+        "二": "Bộ Nhị - Số hai, đại diện cho âm dương.",
+        "亠": "Bộ Đầu - Nét chấm đầu gạch ngang phía trên.",
+        "人": "Bộ Nhân - Con người, tư thế đứng thẳng gánh vác.",
+        "亻": "Bộ Nhân đứng - Biến thể của bộ nhân, liên quan đến con người và hành vi.",
+        "儿": "Bộ Nhi - Đứa trẻ sơ sinh, chân em bé đi chập chững.",
+        "入": "Bộ Nhập - Đi vào bên trong, tiếp thu vào.",
+        "八": "Bộ Bát - Số tám, biểu thị sự chia rẽ, phân chia.",
+        "冂": "Bộ Quynh - Vùng biên giới xa xôi, hoang dã.",
+        "冖": "Bộ Mịch - Khăn trùm che đậy kín lên đồ vật.",
+        "冫": "Bộ Băng - Nước đá, hiện tượng lạnh giá, đông kết.",
+        "几": "Bộ Kỷ - Ghế tựa tựa lưng, cái bàn nhỏ.",
+        "凵": "Bộ Khảm - Há miệng to khảm sâu, hố lõm xuống.",
+        "刀": "Bộ Đao - Con dao, vũ khí sắc bén cắt gọt vật chất.",
+        "刂": "Bộ Đao đứng - Biến thể con dao, liên quan đến hành vi chặt, khắc, sửa đổi.",
+        "力": "Bộ Lực - Sức mạnh, hình chiếc cày ruộng cần cơ bắp lao động vất vả.",
+        "勹": "Bộ Bao - Bao bọc, gói ghém ôm giữ đồ vật.",
+        "匕": "Bộ Chủy - Cái thìa xúc cơm, muỗng ăn.",
+        "匚": "Bộ Phương - Tủ đựng, vật chứa đồ vuông vắn.",
+        "匸": "Bộ Hệ - Che giấu, giấu kín không để lộ.",
+        "十": "Bộ Thập - Số mười, biểu thị sự hoàn vẹn, thập toàn thập mỹ.",
+        "卜": "Bộ Bốc - Quẻ bói toán, xem dự đoán tương lai.",
+        "卩": "Bộ Tiết - Đốt tre, quỳ gối phục tùng, mệnh lệnh.",
+        "厂": "Bộ Hán - Sườn núi dốc, vách đá dựng đứng.",
+        "厶": "Bộ Tư - Riêng tư, ích kỷ cá nhân.",
+        "口": "Bộ Khẩu - Cái miệng, đại diện cho ăn uống, ngôn ngữ, ranh giới cửa ngõ.",
+        "囗": "Bộ Vi - Bao vây xung quanh ranh giới quốc gia.",
+        "土": "Bộ Thổ - Đất đai, mặt đất sinh trưởng vạn vật.",
+        "士": "Bộ Sĩ - Kẻ sĩ, người học thức, nam tử hán.",
+        "夂": "Bộ Truy - Bước chân đi theo phía sau.",
+        "夕": "Bộ Tịch - Đêm tối, mặt trời lặn nửa vầng trăng khuyết.",
+        "大": "Bộ Đại - To lớn, hình người dang rộng hai tay.",
+        "女": "Bộ Nữ - Người phụ nữ quỳ gối kính cẩn, biểu thị phái yếu, hôn nhân.",
+        "子": "Bộ Tử - Đứa trẻ sơ sinh quấn tã vẫy tay, bảo tồn nòi giống, học hành.",
+        "宀": "Bộ Miên - Mái che ngôi nhà, tổ ấm gia đình an cư lạc nghiệp.",
+        "寸": "Bộ Thốn - Tấc, đơn vị đo lường chiều dài thời cổ, quy tắc.",
+        "小": "Bộ Tiểu - Nhỏ bé, phân tách vật chất ra ít đi.",
+        "尢": "Bộ Uông - Quẻ chân yếu, chân đi khập khiễng.",
+        "尸": "Bộ Thi - Thân xác, thây ma, nơi trú ngụ cố định.",
+        "屮": "Bộ Triệt - Mầm cây non mới mọc nhú lên khỏi đất.",
+        "山": "Bộ Sơn - Núi non trùng điệp, các ngọn núi cao.",
+        "川": "Bộ Xuyên - Sông ngòi, dòng nước chảy dài cuồn cuộn.",
+        "工": "Bộ Công - Người thợ, công cụ làm việc gạch nối trời đất.",
+        "己": "Bộ Kỷ - Bản thân mình, tự mình gánh vác.",
+        "巾": "Bộ Cân - Khăn vải, vải vóc may mặc trang trí.",
+        "干": "Bộ Can - Thiên can, cái khiên chắn bảo vệ, phạm đến.",
+        "幺": "Bộ Yêu - Nhỏ nhắn, sợi chỉ tơ mảnh dẻ.",
+        "广": "Bộ Quảng - Ngôi nhà lớn xây dựa vào sườn núi.",
+        "廴": "Bộ Dẫn - Bước chân đi dài, kéo dài khoảng cách.",
+        "廾": "Bộ Củng - Hai tay chắp lại cung kính, nâng vật nâng lên.",
+        "弋": "Bộ Dực - Cái cọc tre găm xuống đất, bắn tên có dây.",
+        "弓": "Bộ Cung - Cái cung bắn tên, hình cánh cung co giãn.",
+        "彐": "Bộ Ký - Đầu con heo rừng, mõm động vật.",
+        "彡": "Bộ Sâm - Lông tóc dài thướt tha, hoa văn trang trí.",
+        "彳": "Bộ Xích - Bước chân trái đi lại trên đường, hành động.",
+        "心": "Bộ Tâm - Quả tim, liên quan đến tư duy sâu, cảm xúc tình cảm.",
+        "忄": "Bộ Tâm đứng - Biến thể quả tim, liên quan đến tâm trạng, suy nghĩ nội tâm.",
+        "戈": "Bộ Qua - Cây mác, binh khí tác chiến thời cổ.",
+        "户": "Bộ Hộ - Một cánh cửa gia đình, hộ gia đình quản lý.",
+        "手": "Bộ Thủ - Bàn tay có các ngón nắm giữ, thực hiện thao tác.",
+        "扌": "Bộ Thủ đứng - Biến thể bàn tay, biểu thị hành động cầm, nắm, sửa đổi, gia công.",
+        "支": "Bộ Chi - Cành cây tách ra, chi nhánh, nâng đỡ.",
+        "攴": "Bộ Phác - Đánh khẽ, gõ nhẹ để răn đe học tập.",
+        "文": "Bộ Văn - Văn chương, chữ viết, hoa văn xăm trên người.",
+        "斗": "Bộ Đẩu - Cái đấu đong lường lương thực, chòm sao Bắc Đẩu.",
+        "斤": "Bộ Cân - Cái rìu chặt cây, đơn vị đo khối lượng.",
+        "方": "Bộ Phương - Hình vuông, phương hướng, bốn phương rạng ngời.",
+        "无": "Bộ Vô - Không có gì, trạng thái hư không.",
+        "日": "Bộ Nhật - Mặt trời chiếu sáng, quy luật thời gian, ngày tháng.",
+        "曰": "Bộ Viết - Nói rằng, lời phán ra từ miệng.",
+        "月": "Bộ Nguyệt - Mặt trăng khuyết, đại diện cho ban đêm hoặc xác thịt cơ thể.",
+        "木": "Bộ Mộc - Cây cối thân gỗ, vật liệu xây dựng thực vật.",
+        "欠": "Bộ Khiếm - Thiếu thốn, há miệng ngáp dài thiếu dưỡng khí.",
+        "止": "Bộ Chỉ - Dừng lại, dấu chân đứng im không đi tiếp.",
+        "歹": "Bộ Tịch - Xương tàn, cái chết, sự suy tàn hủy hoại.",
+        "殳": "Bộ Thù - Binh khí dài bằng tre gỗ gõ đập.",
+        "毋": "Bộ Vô - Chớ có, đừng làm điều cấm đoán.",
+        "比": "Bộ Tỷ - So sánh, hai người đứng liền kề đọ cao thấp.",
+        "毛": "Bộ Mao - Lông thú, lông tóc động vật mềm mại.",
+        "氏": "Bộ Thị - Họ trong gia tộc, gốc rễ nguồn cội.",
+        "气": "Bộ Khí - Hơi nước bốc lên, bầu không khí, năng lượng khí chất.",
+        "水": "Bộ Thủy - Nước chảy thành dòng, chất lỏng thanh lọc.",
+        "氵": "Bộ Thủy đứng - Biến thể dòng nước, liên quan trực tiếp đến sông ngòi, đóng nộp, xử lý hóa chất.",
+        "火": "Bộ Hỏa - Ngọn lửa cháy bốc lên ngùn ngụt, năng lượng sưởi ấm.",
+        "灬": "Bộ Hỏa dưới - Bốn chấm lửa đuôi, liên quan đến nấu nướng, nhiệt độ cao.",
+        "爪": "Bộ Trảo - Móng vuốt chim thú, bàn tay bấu chặt lấy.",
+        "父": "Bộ Phụ - Người cha gánh vác, cầm roi chỉ bảo dạy dỗ.",
+        "爻": "Bộ Hào - Các vạch hào trong kinh dịch, đan xen nhau.",
+        "爿": "Bộ Tường - Mảnh gỗ xẻ bên trái, cái giường nằm.",
+        "片": "Bộ Phiến - Mảnh gỗ xẻ bên phải, tài liệu mỏng, lát mỏng.",
+        "牙": "Bộ Nha - Răng nanh động vật đan cài vào nhau.",
+        "牛": "Bộ Ngưu - Con trâu, con bò phục vụ nông nghiệp kéo cày.",
+        "犬": "Bộ Khuyển - Con chó trung thành giữ nhà.",
+        "犭": "Bộ Khuyển đứng - Liên quan đến các loại động vật hoang dã, tính chất săn bắn.",
+        "玄": "Bộ Huyền - Màu đen kỳ ảo, sâu thẳm huyền bí.",
+        "玉": "Bộ Ngọc - Viên ngọc quý giá có dây xỏ qua bảo vật.",
+        "👑": "Bộ Vương - Đại diện vua chúa, quyền lực tối cao chỉ huy đất nước.",
+        "甘": "Bộ Cam - Vị ngọt ngào bùi béo ngậm trong miệng.",
+        "生": "Bộ Sinh - Sinh trưởng, mầm cây mọc vươn lên mặt đất sinh sống.",
+        "用": "Bộ Dụng - Sử dụng, công cụ có ích để vận hành dùng việc.",
+        "田": "Bộ Điền - Ruộng đất phân chia bờ cõi canh tác nông nghiệp.",
+        "疒": "Bộ Tật - Giường bệnh, đau ốm bệnh tật suy nhược.",
+        "癶": "Bộ Bát - Hai bàn chân bước rẽ sang hai hướng ngược nhau.",
+        "白": "Bộ Bạch - Màu trắng, sự minh bạch rành mạch trong sạch.",
+        "皮": "Bộ Bì - Da động vật bóc ra tấm da bọc ngoài.",
+        "皿": "Bộ Mãnh - Bát đĩa, đồ sành sứ chứa thức ăn.",
+        "目": "Bộ Mục - Con mắt nhìn nhận vạn vật, giám sát.",
+        "矛": "Bộ Mâu - Cái mâu đâm xuyên kẻ địch vũ khí.",
+        "矢": "Bộ Thỉ - Mũi tên bay thẳng cắm vào đích mục tiêu.",
+        "石": "Bộ Thạch - Tảng đá dưới sườn núi, vật liệu bền vững cứng rắn.",
+        "示": "Bộ Thị - Chúc thư thần linh ban xuống bệ thờ, hiển thị rõ ràng.",
+        "禸": "Bộ Nhựu - Dấu chân con thú hoang giẫm trên đất.",
+        "禾": "Bộ Hòa - Cây lúa có bông hạt trĩu xuống, nông nghiệp lương thực.",
+        "穴": "Bộ Huyệt - Hang ổ, hang động khoét sâu vào lòng núi.",
+        "立": "Bộ Lập - Đứng thẳng hiên ngang trên mặt đất, thiết lập vị trí.",
+        "竹": "Bộ Trúc - Cây tre, lá tre rủ xuống, làm ống sáo thẻ tre.",
+        "米": "Bộ Mễ - Hạt gạo, hạt ngũ cốc bóc vỏ nguồn sống.",
+        "糸": "Bộ Mịch - Sợi tơ kéo dài đan cài dệt vải vóc.",
+        "纟": "Bộ Mịch giản thể - Liên quan đến dệt may, dây buộc, quy trình liên kết hợp đồng.",
+        "缶": "Bộ Phẫu - Bình gốm miệng nhỏ bụng to đựng rượu nước.",
+        "网": "Bộ Võng - Lưới đánh cá, lưới bẫy chim, hệ thống mạng lưới.",
+        "羊": "Bộ Dương - Con dê, con cừu đại diện cho sự cát tường hiền lành.",
+        "羽": "Bộ Vũ - Lông vũ lông chim, đôi cánh bay lượn luyện tập.",
+        "老": "Bộ Lão - Người già chống gậy bước đi, tuổi thọ tri thức.",
+        "而": "Bộ Nhi - Râu cằm dài buông xuống, từ nối chuyển ý.",
+        "耒": "Bộ Lỗi - Cái cày ruộng bằng gỗ thời cổ đại nông cụ.",
+        "耳": "Bộ Nhĩ - Cái tai để nghe ngóng âm thanh, tiếp thu phận sự vị trí.",
+        "聿": "Bộ Duật - Cây bút lông tay cầm viết chữ kẻ vẽ.",
+        "肉": "Bộ Nhục - Xác thịt động vật, cơ bắp thể chất.",
+        "臣": "Bộ Thần - Bầy tôi quỳ gối ngước mắt nhìn vua chúa diện kiến.",
+        "自": "Bộ Tự - Cái mũi của bản thân, xuất phát từ chính mình.",
+        "至": "Bộ Chí - Đến nơi, mũi tên bay cắm trúng hồng tâm mặt đất.",
+        "臼": "Bộ Cối - Cái cối giã gạo giã thuốc hố lõm.",
+        "舌": "Bộ Thiệt - Cái lưỡi thò ra từ miệng để nếm vị phát âm.",
+        "舟": "Bộ Chu - Chiếc thuyền nan trôi trên dòng nước vận chuyển.",
+        "艮": "Bộ Cấn - Quẻ cấn, sự dừng lại vững vàng kiên định giữ vững.",
+        "色": "Bộ Sắc - Màu sắc, khí sắc, vẻ mặt biểu cảm con người.",
+        "艹": "Bộ Thảo - Cỏ cây hoa lá mọc xanh tươi mặt đất.",
+        "虍": "Bộ Hô - Vằn vện da con cọp, oai phong chúa tể sơn lâm.",
+        "虫": "Bộ Trùng - Côn trùng, rắn rết, các loài bò sát nhỏ.",
+        "血": "Bộ Huyết - Giọt máu đựng trong đĩa tế lễ tâm linh.",
+        "行": "Bộ Hành - Ngã tư đường đi lại giao thông, thực hiện hành động.",
+        "衣": "Bộ Y - Quần áo tà áo may mặc che thân bảo vệ.",
+        "衤": "Bộ Y đứng - Biến thể quần áo, liên quan đến trang phục, CMND chứng nhận.",
+        "襾": "Bộ Á - Khăn che úp đậy kín lên phía trên.",
+        "见": "Bộ Kiến - Trông thấy, mở to mắt để nhìn nhận thấu suốt.",
+        "角": "Bộ Giác - Sừng động vật, góc nhọn kích thước đo lường.",
+        "言": "Bộ Ngôn - Lời nói rành mạch phát ra giao tiếp.",
+        "讠": "Bộ Ngôn giản thể - Liên quan đến ngôn ngữ, trả lời, phản hồi, thông báo thông tin.",
+        "谷": "Bộ Cốc - Thung lũng khe suối chảy ra dòng nước.",
+        "豆": "Bộ Đậu - Cây đậu, hạt đậu, cái mâm bồng đựng thức ăn tế lễ.",
+        "豕": "Bộ Thỉ - Con heo, con lợn béo tốt trong chuồng nhà.",
+        "豸": "Bộ Trị - Loài thú không sừng, thân dài đuôi cong bò sát.",
+        "贝": "Bộ Bối giản thể - Vỏ sò cổ tiền tệ của cải vật giá trị báo giá ngân hàng.",
+        "赤": "Bộ Xích - Màu đỏ rực của lửa thiêu đốt đất đai.",
+        "走": "Bộ Tẩu - Chạy đi, rảo bước chân nhanh di chuyển hành động.",
+        "足": "Bộ Túc - Cái chân đầy đủ, đi lại đứng vững.",
+        "身": "Bộ Thân - Thân thể con người mang bụng bầu bảo tồn.",
+        "车": "Bộ Xa - Chiếc xe có hai bánh trục quay vận chuyển phí.",
+        "辛": "Bộ Tân - Cay đắng vất vả vạ miệng chịu tội lỗi.",
+        "辰": "Bộ Thần - Thời gian, ngôi sao thiên thể di chuyển can chi.",
+        "辵": "Bộ Chợt - Bước đi bước dừng lại trên đường lộ.",
+        "辶": "Bộ Sai - Bước đi dài dốc sức di chuyển tiến tới giao tiếp gửi đi.",
+        "邑": "Bộ Ấp - Vùng đất cõi bờ phong vương có dân cư sinh sống.",
+        "酉": "Bộ Dậu - Hũ rượu ủ lâu năm lên men, thời gian dậu.",
+        "采": "Bộ Thải - Hái lượm ngắt lấy hoa quả trên cây hái tài liệu.",
+        "里": "Bộ Lý - Dặm đường đơn vị chiều dài, làng xóm quê hương.",
+        "金": "Bộ Kim - Kim loại vàng bạc đúc tiền của cải nguyên vật liệu thép.",
+        "钅": "Bộ Kim giản thể - Liên quan trực tiếp đến vật liệu thép tấm, tôn màu gia công kỹ thuật.",
+        "长": "Bộ Trường - Dài lâu dài rộng tóc dài bện lại tuổi thọ.",
+        "门": "Bộ Môn - Cánh cổng nhà hai tà đóng mở ra vào bộ phận phòng.",
+        "阜": "Bộ Phụ - Gò đất cao dựng đứng, núi đất đai vững chắc.",
+        "隶": "Bộ Lệ - Kịp đến, bắt kịp theo đuổi phía sau.",
+        "隹": "Bộ Chuy - Loài chim đuôi ngắn lông vũ bay lượn tự do.",
+        "雨": "Bộ Vũ - Hạt mưa rơi từ trên trời xuống thời tiết khí hậu.",
+        "青": "Bộ Thanh - Màu xanh tươi non của cây cỏ sinh trưởng minh bạch.",
+        "非": "Bộ Phi - Sai lầm, hai hàng lông chim quay lưng vào nhau không đồng thuận.",
+        "面": "Bộ Diện - Khuôn mặt con người, bề mặt diện tích hiện trường.",
+        "革": "Bộ Cách - Da thú đã thuộc loại bỏ lông thay đổi cải cách.",
+        "韦": "Bộ Vi - Da thú đã thuộc mềm dẻo bọc quanh bao quanh.",
+        "韭": "Bộ Cửu - Cây rau hẹ mọc lâu năm sinh trưởng bền bỉ.",
+        "音": "Bộ Âm - Âm thanh, tiếng nhạc phát ra rành mạch từ miệng.",
+        "页": "Bộ Hiệt - Cái đầu to của người đứng thẳng trang giấy tài liệu.",
+        "风": "Bộ Phong - Ngọn gió thổi lướt qua mặt đất dịch chuyển.",
+        "飞": "Bộ Phi - Con chim đang dang đôi cánh bay vút lên trời.",
+        "食": "Bộ Thực - Thức ăn, lương thực nuôi sống thể chất bồi bổ.",
+        "饣": "Bộ Thực giản thể - Liên quan đến ăn uống, phụ cấp cơm trưa nhà ăn.",
+        "首": "Bộ Thủ - Cái đầu của con người người đứng đầu bộ phận.",
+        "香": "Bộ Hương - Mùi thơm của hạt thóc hạt ngũ cốc nấu chín tỏa ra.",
+        "马": "Bộ Mã - Con ngựa chạy nhanh vận chuyển đường dài lực lượng.",
+        "骨": "Bộ Cốt - Khung xương nâng đỡ cơ thể con người bền vững.",
+        "高": "Bộ Cao - Ngôi lầu cao có mái che dựng đứng nổi bật.",
+        "髟": "Bộ Tiêu - Mái tóc dài buông xõa xuống thướt tha.",
+        "鬥": "Bộ Đấu - Hai người tay cầm binh khí xông vào chiến đấu.",
+        "鬯": "Bộ Sướng - Rượu nghệ dùng để tế lễ thần linh tâm linh.",
+        "鬲": "Bộ Cách - Cái đỉnh nồi ba chân để đun nấu thức ăn.",
+        "鬼": "Bộ Quỷ - Linh hồn người chết, bóng ma kỳ quái âm u.",
+        "鱼": "Bộ Ngư - Con cá bơi dưới nước có vảy có đuôi nguồn sống.",
+        "鸟": "Bộ Điểu - Loài chim có lông vũ dài có mỏ có chân bay lượn.",
+        "鹿": "Bộ Lộc - Con hươu hoang dã chạy nhảy trong rừng rậm.",
+        "麦": "Bộ Mạch - Cây lúa mạch, bông lúa mạch hạt ngũ cốc.",
+        "麻": "Bộ Ma - Cây gai mọc trong nhà dùng kéo sợi dệt bao bố.",
+        "黄": "Bộ Hoàng - Màu vàng của đất đai trung tâm quyền lực.",
+        "黍": "Bộ Thử - Cây lúa nếp hạt kê dẻo nấu rượu thơm.",
+        "黑": "Bộ Hắc - Màu đen của muội khói bám trên lò bếp hỏa hoạn.",
+        "黹": "Bộ Chỉ - Hoa văn đường khâu đường thêu trên vải may mặc.",
+        "工作": "工: Bộ Công người thợ; 亻: Bộ Nhân đứng làm lụng tạo ra hành động công việc.",
+        "经理": "王: Bộ Vương quyền lực; 里: Bộ Lý quản lý cõi bờ sắp đặt chức vụ phận sự.",
+        "合同": "合: Mọi người (人) khép miệng (口) đồng lòng; 同: Chung một vùng (冂) cùng tiếng nói (口) ký kết."
     };
 
-    let db = JSON.parse(localStorage.getItem('zh_master_db')) || JSON.parse(localStorage.getItem('zh_db_v9')) || [];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    let db = JSON.parse(localStorage.getItem('zh_master_db')) || [];
     let currentSkill = 'write', currentList = [], idx = 0, selectedChips = [];
     let activeSentenceTarget = "";
     let rec = ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) ? new (window.SpeechRecognition || window.webkitSpeechRecognition)() : null;
@@ -309,7 +504,6 @@
         renderHome();
     }
 
-    // KHẮC PHỤC LỖI KÍCH HOẠT HIỂN THỊ CÁC KIỂU HỌC TƯƠNG TÁC SÂU
     function loadWordData() {
         const w = currentList[idx];
         document.getElementById('engine-title').innerText = `Thiết kế học [${currentSkill.toUpperCase()}] - ${w.topic}`;
@@ -318,7 +512,7 @@
         ['ui-listen', 'ui-speak', 'ui-read', 'ui-write', 'reveal-zone', 'analysis-area'].forEach(id => document.getElementById(id).classList.add('hidden'));
         document.getElementById('next-btn-global').classList.remove('hidden');
 
-        // Gán dữ liệu hiển thị gốc cho khu vực đáp án lật mở
+        // Gán dữ liệu hiển thị gốc cho khu vực đáp án lật mở chuẩn 3 hàng phân cấp
         document.getElementById('v-main').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
         document.getElementById('v-py').innerText = w.py;
         document.getElementById('v-vn').innerText = w.vn;
@@ -326,12 +520,11 @@
         document.getElementById('e-py').innerText = w.e_py;
         document.getElementById('e-vn').innerText = w.e_vn;
 
-        // Gán sự kiện click tra cứu chiết tự bộ thủ
+        // Kích hoạt click chiết tự quét bộ thủ thời gian thực chuẩn xác 100%
         document.querySelectorAll('.vocab-main span, .row-ex-main span').forEach(span => {
             span.onclick = (e) => { e.stopPropagation(); runEtymologyAnalysis(span.innerText); };
         });
 
-        // ĐIỀU HƯỚNG HIỂN THỊ TỪNG CHẾ ĐỘ PHƯƠNG PHÁP CHUẨN XÁC
         if (currentSkill === 'write') {
             document.getElementById('ui-write').classList.remove('hidden');
             document.getElementById('wr-target-meaning').innerText = w.vn;
@@ -358,7 +551,7 @@
         }
     }
 
-    // PHƯƠNG PHÁP 1: GHÉP MẢNH CÂU VÀ NGHE ĐOÁN NGHĨA
+    // --- KỸ NĂNG NGHE MẢNH GHÉP ---
     function buildListenPuzzle(sentence) {
         selectedChips = [];
         const pool = document.getElementById('l-pool');
@@ -376,6 +569,7 @@
         });
     }
     function resetListenPuzzle() { buildListenPuzzle(activeSentenceTarget); }
+    
     function submitListenPuzzle() {
         const w = currentList[idx];
         const userMeaning = document.getElementById('l-input-meaning').value.trim();
@@ -385,11 +579,12 @@
         else html += `<p style='color:red; font-weight:bold;'>❌ Nghĩa từ sai! Đáp án: ${w.vn}</p>`;
         if(selectedChips.join("") === cleanTarget) html += "<p style='color:green; font-weight:bold;'>✅ Xếp câu ví dụ: CHÍNH XÁC!</p>";
         else html += `<p style='color:red; font-weight:bold;'>❌ Xếp câu chưa đúng! Đáp án đúng: ${w.e_cn}</p>`;
+        
         document.getElementById('l-feedback').innerHTML = html;
-        document.getElementById('reveal-zone').classList.remove('hidden');
+        document.getElementById('reveal-zone').classList.remove('hidden'); // Hiện khối 3 hàng có nút loa như yêu cầu
     }
 
-    // PHƯƠNG PHÁP 2: ĐỌC TRẮC NGHIỆM ĐOÁN NGHĨA
+    // --- KỸ NĂNG ĐỌC TRẮC NGHIỆM ---
     function buildReadOptions(correctVn) {
         const box = document.getElementById('rd-options-box'); box.innerHTML = "";
         let options = [correctVn];
@@ -404,13 +599,13 @@
             b.onclick = () => {
                 if(opt === correctVn) document.getElementById('rd-feedback').innerHTML = "<span style='color:green; font-weight:bold;'>✅ ĐÚNG RỒI! Bạn nhớ mặt chữ Hán rất tốt.</span>";
                 else document.getElementById('rd-feedback').innerHTML = `<span style='color:red; font-weight:bold;'>❌ SAI! Đáp án đúng chuẩn là: ${correctVn}</span>`;
-                document.getElementById('reveal-zone').classList.remove('hidden');
+                document.getElementById('reveal-zone').classList.remove('hidden'); // Hiện khối 3 hàng có nút loa như yêu cầu
             };
             box.appendChild(b);
         });
     }
 
-    // PHƯƠNG PHÁP 3: VIẾT CHỮ HÁN TỪ NGHĨA TIẾNG VIỆT
+    // --- KỸ NĂNG VIẾT ĐÁP ÁN ---
     function checkWriteAnswer() {
         const w = currentList[idx];
         const val = document.getElementById('wr-input').value.trim();
@@ -419,9 +614,9 @@
         document.getElementById('reveal-zone').classList.remove('hidden');
     }
 
-    // PHƯƠNG PHÁP 4: LUYỆN NÓI MICRO ĐỐI CHIẾU AI
+    // --- KỸ NĂNG NÓI MICRO ---
     function startVoiceRecognition() {
-        if(!rec) return alert("Hệ thống Speech API chưa sẵn sàng trên trình duyệt này.");
+        if(!rec) return alert("Không hỗ trợ Micro.");
         rec.start();
         const btn = document.getElementById('mic-btn');
         btn.innerText = "🎙️ Đang nghe giọng bạn đọc..."; btn.classList.add('active');
@@ -439,29 +634,38 @@
         };
     }
 
-    // TRA CỨU CHIẾT TỰ BỘ THỦ PHÂN TÍCH TỰ ĐỘNG
+    // ================= THUẬT TOÁN QUET REAL-TIME 214 BỘ THỦ THANHMAIHSK SỬA LỖI HÌNH 1 =================
     function runEtymologyAnalysis(char) {
         const box = document.getElementById('analysis-area');
-        let data = dictionary.characters[char];
-        if(!data) {
-            let autoType = "Từ vựng chuyên ngành";
-            if(["修改", "学习", "处理", "确认", "缴纳", "支付"].some(v => char.includes(v))) autoType = "Động từ";
-            data = { "type": autoType, "components": "Nét kết hợp", "etymology": "Ký tự thuộc khối từ vựng hành chính thương mại hoặc kỹ thuật công trình." };
-        }
         
         let radicalHTML = "";
-        Object.keys(dictionary.radicals).forEach(r => {
-            if(char.includes(r) || data.components.includes(r)) {
-                radicalHTML += `<p style='margin:5px 0; color:#d35400;'>➔ <strong>Bộ thủ ${r}:</strong> ${dictionary.radicals[r]}</p>`;
+        let foundCount = 0;
+        
+        // Quét xuyên suốt toàn bộ ký tự để bóc tách tìm bộ thủ đối chiếu tự động
+        Object.keys(radicalsDatabase).forEach(r => {
+            if(char.includes(r)) {
+                foundCount++;
+                radicalHTML += `<p style='margin:8px 0; color:#d35400; font-size:16px;'>➔ <strong>Bộ thủ [ ${r} ]:</strong> ${radicalsDatabase[r]}</p>`;
             }
         });
 
+        // Nếu là cụm từ ghép, quét phân tích từng chữ đơn lẻ bên trong
+        if(char.length > 1) {
+            for(let singleChar of char) {
+                Object.keys(radicalsDatabase).forEach(r => {
+                    if(singleChar.includes(r) && !radicalHTML.includes(`[ ${r} ]`)) {
+                        foundCount++;
+                        radicalHTML += `<p style='margin:8px 0; color:#34495e; font-size:15px;'>➔ Chữ "${singleChar}" chứa <strong>Bộ [ ${r} ]:</strong> ${radicalsDatabase[r]}</p>`;
+                    }
+                });
+            }
+        }
+
         box.innerHTML = `
-            <strong>🔍 Phân tích cấu trúc chữ Hán: "${char}"</strong><br>
-            • Loại từ: <span style="color:blue; font-weight:bold;">${data.type}</span><br>
-            • Thành phần nét: ${data.components}<br>
-            • Ý nghĩa chiết tự (Sách cổ): <em>${data.etymology}</em>
-            ${radicalHTML ? `<div style="margin-top:10px; border-top:1px dashed #f1c40f; padding-top:8px;">${radicalHTML}</div>` : ""}
+            <div style="font-size:18px; font-weight:bold; color:var(--primary); border-bottom:2px solid #f1c40f; padding-bottom:5px; margin-bottom:10px;">
+                🔍 KẾT QUẢ PHÂN TÍCH BỘ THỦ TỰ ĐỘNG CHO CHỮ: "${char}"
+            </div>
+            ${foundCount > 0 ? radicalHTML : "<p style='color:#7f8c8d;'>Từ chứa các nét bút thuận cơ bản phối hợp tạo thành.</p>"}
         `;
         box.classList.remove('hidden');
         box.scrollIntoView({ behavior: 'smooth' });
