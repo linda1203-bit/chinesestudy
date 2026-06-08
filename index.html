@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <style>
   :root {
     --bg-main: #f4f7f6;
@@ -421,14 +421,12 @@
     document.getElementById('e-main-text').innerHTML = w.ex_cn.split("").map(c => `<span>${c}</span>`).join("");
     document.getElementById('e-py-text').innerText = w.ex_py; document.getElementById('e-vn-text').innerText = w.ex_vn;
 
+    document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => s.onclick = () => executeAIRadicalAnalyzer(s.innerText));
+
     if (activeSkillMode === 'write') { document.getElementById('panel-write').classList.remove('hidden'); document.getElementById('wr-prompt-vn').innerText = w.vn; document.getElementById('wr-user-input').value = ""; setTimeout(() => document.getElementById('wr-user-input').focus(), 100); }
     else if (activeSkillMode === 'read') { document.getElementById('panel-read').classList.remove('hidden'); document.getElementById('rd-prompt-zh').innerText = w.cn; buildFourMultipleChoicesOptions(w.vn); }
     else if (activeSkillMode === 'listen') { document.getElementById('panel-listen').classList.remove('hidden'); currentActiveSentenceTarget = w.ex_cn; document.getElementById('l-user-input-meaning').value = ""; buildListenPuzzleLayout(w.ex_cn); speakCoreSound(w.cn); setTimeout(() => document.getElementById('l-user-input-meaning').focus(), 100); }
     else if (activeSkillMode === 'speak') { document.getElementById('panel-speak').classList.remove('hidden'); document.getElementById('sp-prompt-zh').innerText = w.ex_cn; document.getElementById('sp-feedback-msg').innerText = ""; }
-
-document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
-    s.onclick = () => executeAIRadicalAnalyzer(s.innerText);
-});
   }
 
   function buildListenPuzzleLayout(sentence) {
@@ -469,16 +467,19 @@ document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
 
   // Thuật toán AI phân rã ma trận kết cấu lớp sâu bóc tách bộ thủ chuẩn xác 214 bộ ThanhMaiHSK
   function executeAIRadicalAnalyzer(char) {
-    let box = document.getElementById('panel-radical-analysis');
-    if (!box) {
-        box = document.createElement('div');
-        box.id = 'panel-radical-analysis';
-        document.body.appendChild(box);
+    const box = document.getElementById('panel-radical-analysis'); 
+    let htmlContent = ""; 
+    let count = 0;
+    
+    let parts = AI_Decomposition_Matrix_Map[char] || [];
+    if(parts.length > 0) {
+      parts.forEach(p => { 
+        if(TM_Radicals_Dict[p]) {
+          count++; 
+          htmlContent += `<p class="radical-item-text">➔ <strong>Bộ thủ [ ${p} ]:</strong> ${TM_Radicals_Dict[p]}</p>`; 
+        }
+      });
     }
-    let content = TM_Radicals_Dict[char] || "Không tìm thấy bộ thủ này.";
-    box.innerHTML = `<div style="padding:15px; background:#fff8db; border-left:5px solid #f59e0b; margin:10px 0;">🤖 Phân tích: ${char} - ${content}</div>`;
-    box.style.display = 'block';
-}
     
     Object.keys(TM_Radicals_Dict).forEach(r => { 
       if(char.includes(r) && !htmlContent.includes(`[ ${r} ]`)) {
