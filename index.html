@@ -7,14 +7,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.15/mammoth.browser.min.js"></script>
     <style>
-        :root { --bg-main: #f4f7f6; --bg-card: #ffffff; --bg-input: #f8fafc; --border: #cbd5e1; --text-primary: #1e293b; --accent-blue: #3b82f6; --accent-green: #10b981; --accent-orange: #f97316; --accent-red: #ef4444; }
-        body { background-color: var(--bg-main); color: var(--text-primary); padding: 20px; font-family: sans-serif; }
-        .container { max-width: 1000px; margin: auto; background: var(--bg-card); padding: 32px; border-radius: 24px; border: 1px solid var(--border); }
-        .hidden { display: none !important; }
-        .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-        .upload-box { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; }
-        .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
-    </style>
+    :root {
+        --bg-main: #f4f7f6; --bg-card: #ffffff; --bg-input: #f8fafc;
+        --border: #cbd5e1; --text-primary: #1e293b; --text-secondary: #64748b;
+        --accent-blue: #3b82f6; --accent-green: #10b981; --accent-orange: #f97316; --accent-red: #ef4444;
+    }
+    * { box-sizing: border-box; font-family: sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-primary); padding: 20px; }
+    
+    /* Khung chính */
+    .container { max-width: 1000px; margin: auto; background: var(--bg-card); padding: 32px; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    
+    /* Dashboard */
+    .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .upload-box { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; background: var(--bg-input); }
+    .stat-box-card { background: var(--bg-input); border: 1px solid var(--border); padding: 20px; border-radius: 16px; text-align: center; }
+    
+    /* Giao diện học tập */
+    .hidden { display: none !important; }
+    .study-card { background: white; padding: 25px; border-radius: 20px; border: 1px solid var(--border); margin-top: 20px; }
+    .display-zone { text-align: center; border-bottom: 2px solid var(--bg-main); padding-bottom: 20px; margin-bottom: 20px; }
+    .zh-main { font-size: 50px; font-weight: bold; margin: 10px 0; color: #000; cursor: pointer; }
+    .zh-main span:hover { color: var(--accent-blue); background: #ffe082; }
+    .py-sub { font-size: 18px; color: var(--text-secondary); margin-bottom: 10px; }
+    .vn-desc { font-size: 22px; color: var(--accent-red); font-weight: 600; margin-bottom: 20px; }
+    
+    /* Ví dụ & Phân tích */
+    .ex-container { background: var(--bg-input); padding: 15px; border-radius: 12px; border-left: 4px solid var(--accent-orange); margin-top: 15px; }
+    .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
+    .radical-item-text { margin: 8px 0; font-size: 14px; }
+    
+    /* Nút bấm & Input */
+    .action-btn-primary { width: 100%; padding: 15px; background: #2c3e50; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+    .audio-btn { background: #e2e8f0; border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; cursor: pointer; margin: 5px; }
+    .input-field { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; }
+    
+    /* Nav & Topic */
+    .nav-btn { padding: 10px 20px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; }
+    .nav-btn.active { background: #2c3e50; color: white; }
+    .topic-item-row { display: flex; justify-content: space-between; padding: 15px; border: 1px solid var(--border); border-radius: 10px; margin-top: 10px; cursor: pointer; width: 100%; background: white; }
+</style>
 </head>
 <body>
     <div class="container">
@@ -389,7 +421,10 @@ function refreshEngineCardLayoutData() {
     document.getElementById('engine-progress-counter').innerText = `${activeIdx + 1}/${currentWords.length}`;
     
     // 1. Reset ẩn/hiện các khung
-    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => {
+const el = document.getElementById(id);
+    if(el) el.classList.add('hidden'); // Ẩn sạch tất cả trước khi hiện đúng cái cần dùng
+});
 
     // 2. Đổ dữ liệu
     document.getElementById('v-main-text').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
