@@ -200,15 +200,28 @@ function listenInputEnter(e, func) { if (e.key === "Enter") { e.preventDefault()
     }
   }
 
-  function buildTopicSelectionList() {
-    const container = document.getElementById('workflow-topic-container-list'); container.innerHTML = "";
-    [...new Set(globalDatabase.map(d=>d.topic))].forEach(t => {
-      let b = document.createElement('button'); b.className = "topic-item-row";
-      b.innerHTML = `<span>📂 ${t}</span><span>${globalDatabase.filter(d => d.topic === t).length} từ</span>`;
-      b.onclick = () => { currentActiveTopicName = t; currentWords = globalDatabase.filter(d => d.topic === t); if(activeSkillMode !== '') initStudyEngineView(); else renderTopicPreviewMode(t); };
-      container.appendChild(b);
+function buildTopicSelectionList() {
+    const container = document.getElementById('workflow-topic-container-list'); 
+    container.innerHTML = "";
+    [...new Set(globalDatabase.map(d => d.topic))].forEach(t => {
+        let b = document.createElement('button'); 
+        b.className = "topic-item-row";
+        b.innerHTML = `<span>📂 ${t}</span><span>${globalDatabase.filter(d => d.topic === t).length} từ</span>`;
+        
+        b.onclick = () => { 
+            currentActiveTopicName = t; 
+            currentWords = globalDatabase.filter(d => d.topic === t); 
+            console.log("Đã chọn chủ đề:", t, "Số từ:", currentWords.length);
+            
+            if(activeSkillMode !== '') {
+                initStudyEngineView(); 
+            } else {
+                renderTopicPreviewMode(t);
+            }
+        };
+        container.appendChild(b);
     });
-  }
+}
 
   // SỬA LỖI ĐỒNG BỘ TRƯỜNG BIẾN CHUẨN XÁC: Thay thế toàn bộ e_cn thành ex_cn gạt bỏ hoàn toàn lỗi undefined
   function renderTopicPreviewMode(t) {
@@ -326,6 +339,10 @@ function executeTestAnswerVerification() {
 }
 
         function refreshEngineCardLayoutData() {
+if (!currentWords || currentWords.length === 0 || !currentWords[activeIdx]) {
+        console.error("Dữ liệu từ vựng chưa sẵn sàng!");
+        return; 
+    }
         const w = currentWords[activeIdx];
         document.getElementById('engine-header-title').innerText = `Học [${activeSkillMode.toUpperCase()}] - ${w.topic}`;
         document.getElementById('engine-progress-counter').innerText = `${activeIdx + 1}/${currentWords.length}`;
