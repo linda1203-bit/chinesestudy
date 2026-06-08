@@ -3,48 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>HánStudy - Học Tiếng Trung</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
-        .hidden { display: none; }
-        #panel-radical-analysis { background: #f4f4f4; padding: 15px; border-radius: 8px; margin-top: 20px; }
-        .radical-header-title { font-weight: bold; color: #d32f2f; margin-bottom: 10px; }
+    <script src="database.js"></script> <style>
+        /* CSS 3 hộp ngang hàng và giao diện sáng */
+        .container { max-width: 950px; margin: auto; padding: 20px; }
+        .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .upload-box { border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; }
+        .stat-box-card { background: #f8fafc; border: 1px solid #cbd5e1; padding: 20px; border-radius: 16px; text-align: center; }
+        .hidden { display: none !important; }
+        .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
     </style>
 </head>
 <body>
-    <h1>Chào mừng đến với HánStudy</h1>
-    <input type="text" id="charInput" placeholder="Nhập chữ Hán cần tra...">
-    <button onclick="analyze()">Tra bộ thủ</button>
-
-    <div id="panel-radical-analysis" class="hidden"></div>
-
+    <div class="container">
+        <div class="top-dashboard-grid">
+            <div class="upload-box" onclick="document.getElementById('file-input').click()">📁 Tải file học tập</div>
+            <div class="stat-box-card">Từ vựng đã nạp: <div id="count-vocab">0</div></div>
+            <div class="stat-box-card">Chủ đề: <div id="count-topic">0</div></div>
+        </div>
+        <input type="file" id="file-input" class="hidden" onchange="handleFile(this)">
+        
+        <div id="panel-radical-analysis" class="radical-pane hidden"></div>
+        </div>
     <script>
-        // Cơ sở dữ liệu 214 bộ thủ
-        const TM_Radicals_Dict = {
-            "一": "Bộ Nhất", "人": "Bộ Nhân", "口": "Bộ Khẩu", "土": "Bộ Thổ",
-            "女": "Bộ Nữ", "子": "Bộ Tử", "山": "Bộ Sơn", "心": "Bộ Tâm",
-            "手": "Bộ Thủ", "日": "Bộ Nhật", "月": "Bộ Nguyệt", "木": "Bộ Mộc",
-            "水": "Bộ Thủy", "火": "Bộ Hỏa", "田": "Bộ Điền", "目": "Bộ Mục",
-            "石": "Bộ Thạch", "禾": "Bộ Hòa", "竹": "Bộ Trúc", "米": "Bộ Mễ",
-            "糸": "Bộ Mịch", "羊": "Bộ Dương", "耳": "Bộ Nhĩ", "言": "Bộ Ngôn",
-            "足": "Bộ Túc", "金": "Bộ Kim", "雨": "Bộ Vũ", "食": "Bộ Thực",
-            "马": "Bộ Mã", "龙": "Bộ Long"
-            // Bạn có thể thêm tiếp các bộ khác vào đây theo định dạng trên
-        };
-
-        function analyze() {
-            const char = document.getElementById('charInput').value;
-            const box = document.getElementById('panel-radical-analysis');
-            let html = "";
-            
-            Object.keys(TM_Radicals_Dict).forEach(r => {
-                if (char.includes(r)) {
-                    html += `<p>➔ <strong>Bộ [ ${r} ]:</strong> ${TM_Radicals_Dict[r]}</p>`;
-                }
-            });
-            
-            box.innerHTML = `<div class="radical-header-title">🤖 Kết quả tra cứu:</div>${html || "<p>Không tìm thấy bộ thủ.</p>"}`;
-            box.classList.remove('hidden');
-        }
+        // Các hàm logic của bạn...
     </script>
 </body>
 </html>
