@@ -33,7 +33,7 @@
   .nav-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; }
   .nav-btn.active { background: #2c3e50; color: white; border-color: #2c3e50; }
   
-  /* GRID LAYOUT: 3 HỘP NGANG HÀNG TRÊN CÙNG GIỐNG HỆT HÌNH MẪU */
+  /* 3 HỘP ĐỒNG HÀNG TRÊN CÙNG */
   .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; align-items: stretch; }
   @media(max-width: 768px) { .top-dashboard-grid { grid-template-columns: 1fr; } }
   
@@ -70,7 +70,7 @@
   .preview-ex-py { font-size: 13px; color: var(--text-secondary); margin-bottom: 2px; }
   .preview-ex-vn { font-size: 14px; color: var(--accent-green); font-weight: 500; }
 
-  /* Giao diện tương tác 3 hàng phân cấp của cấu trúc học */
+  /* Giao diện tương tác học tập */
   .study-card { background: var(--bg-card); border-radius: 20px; padding: 10px 0; text-align: center; }
   .display-zone { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
   .zh-main { font-family: var(--font-zh); font-size: 58px; font-weight: 700; color: #000000; margin: 8px 0; letter-spacing: 2px; }
@@ -173,7 +173,7 @@
           <div class="vn-desc" id="v-vn-text"></div>
           <div class="audio-control-row">
             <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].cn)">🔊 Từ vựng</button>
-            <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].e_cn)">🔊 Câu mẫu</button>
+            <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].ex_cn)">🔊 Câu mẫu</button>
           </div>
         </div>
         <div class="ex-container">
@@ -197,7 +197,7 @@
       <div id="panel-listen" class="hidden">
         <div class="audio-control-row">
           <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].cn)">🔊 Nghe từ</button>
-          <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].e_cn)">🔊 Nghe câu</button>
+          <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].ex_cn)">🔊 Nghe câu</button>
         </div>
         <input type="text" id="l-user-input-meaning" class="input-field" placeholder="Đoán nghĩa tiếng Việt..." onkeydown="listenInputEnter(event, verifyListenPuzzle)">
         <div class="drop-container" id="l-puzzle-drop"></div><div class="chips-pool" id="l-puzzle-pool"></div>
@@ -206,6 +206,9 @@
 
       <div id="panel-speak" class="hidden">
         <div class="zh-main" id="sp-prompt-zh" style="font-size:36px;"></div>
+        <div class="audio-control-row" style="margin-top:10px;">
+          <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].ex_cn)">🔊 Nghe câu mẫu</button>
+        </div>
         <button class="action-btn-primary" id="mic-trigger-btn" onclick="activateVoiceRecognition()">🎤 Bấm nói</button>
         <div id="sp-feedback-msg" style="margin-top:15px; font-weight:700;"></div>
       </div>
@@ -394,7 +397,6 @@
     };
   }
 
-  function executeAIRalalyzer(char) { /* Giữ hàm bổ trợ hệ thống */ }
   function executeAIRadicalAnalyzer(char) {
     const box = document.getElementById('panel-radical-analysis'); let html = ""; let parts = AI_Decomposition_Matrix_Map[char] || [];
     if(parts.length > 0) parts.forEach(p => { if(TM_Radicals_Dict[p]) html += `<p style='margin:6px 0;color:var(--accent-orange);font-size:15px;'>➔ <strong>Bộ thủ [ ${p} ]:</strong> ${TM_Radicals_Dict[p]}</p>`; });
