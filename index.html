@@ -2,291 +2,47 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HánStudy – Học Tiếng Trung AI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="database.js"></script>
+    <script src="database.js"></script> 
     <style>
-        :root { --bg-main: #f4f7f6; --bg-card: #ffffff; --bg-input: #f8fafc; --border: #cbd5e1; --text-primary: #1e293b; --accent-blue: #3b82f6; }
-        body { background-color: var(--bg-main); color: var(--text-primary); padding: 20px; font-family: sans-serif; }
-        .container { max-width: 1000px; margin: auto; background: var(--bg-card); padding: 32px; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-        .upload-box { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; background: var(--bg-input); }
-        .stat-box-card { background: var(--bg-input); border: 1px solid var(--border); padding: 20px; border-radius: 16px; text-align: center; }
-        .hidden { display: none !important; }
+        /* [Giữ nguyên CSS của bạn ở đây] */
         .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
-        .radical-item-text { margin: 8px 0; font-size: 14px; }
-        .action-btn-primary { width: 100%; padding: 16px; background: #2c3e50; color: white; border: none; border-radius: 14px; cursor: pointer; margin-top: 24px; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="top-dashboard-grid">
-        <div class="upload-box" onclick="document.getElementById('file-input').click()">📁 Tải file học tập</div>
-        <div class="stat-box-card">Từ vựng: <div id="count-vocab">0</div></div>
-        <div class="stat-box-card">Chủ đề: <div id="count-topic">0</div></div>
-    </div>
-    <input type="file" id="file-input" class="hidden" onchange="triggerUploadParser(this)">
-
-    <div id="workflow-skill-section" class="hidden">
-        <button onclick="toggleWorkflowSkill('write')">Viết</button>
-        <button onclick="toggleWorkflowSkill('read')">Đọc</button>
-        <button onclick="toggleWorkflowSkill('listen')">Nghe</button>
-        <button onclick="toggleWorkflowSkill('speak')">Nói</button>
-    </div>
-    
-    <div id="workflow-topic-container-list"></div>
     <div id="panel-radical-analysis" class="radical-pane hidden"></div>
-    <div id="study-engine-board" class="hidden"></div>
-</div>
 
-<script>
-    // --- LOGIC GỐC TỪ V29 ---
-    let globalDatabase = JSON.parse(localStorage.getItem('zh_master_db')) || [];
-    let activeSkillMode = ''; let currentWords = []; let activeIdx = 0;
+    <script>
+        // --- 1. PHẦN LOGIC TỪ V29 (DÁN VÀO ĐÂY) ---
+        let globalDatabase = JSON.parse(localStorage.getItem('zh_master_db')) || [];
+        // ... dán toàn bộ các hàm: triggerUploadParser, executeTextParserEngine, ...
 
-    function triggerUploadParser(input) { /* Giữ nguyên logic v29 */ }
-    function executeTextParserEngine(txt) { /* Giữ nguyên logic v29 */ }
-    function toggleWorkflowSkill(s) { activeSkillMode = s; /* Logic v29 */ }
-    function shiftNextWord() { /* Logic v29 */ }
-
-    // --- CẦU NỐI ĐỂ GỌI BỘ THỦ TỪ DATABASE.JS ---
-    function refreshEngineCardLayoutData() {
-        // ... (Code hiển thị bài học v29) ...
-        
-        // CẤU HÌNH CLICK VÀO CHỮ HÁN ĐỂ PHÂN TÍCH
-        setTimeout(() => {
-            document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
-                s.onclick = () => executeAIRadicalAnalyzer(s.innerText);
-            });
-        }, 500);
-    }
-let globalDatabase = JSON.parse(localStorage.getItem('zh_master_db')) || [];
-  let activeSkillMode = ''; let currentWords = []; let activeIdx = 0;
-  let puzzleSelectedChips = []; let currentActiveSentenceTarget = ""; let currentActiveTopicName = "";
-  let voiceRecognitionEngine = ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) ? new (window.SpeechRecognition || window.webkitSpeechRecognition)() : null;
-  if(voiceRecognitionEngine) { voiceRecognitionEngine.lang = 'zh-CN'; voiceRecognitionEngine.interimResults = false; }
-
-  window.onload = function() { renderHomeDashboard(); };
-
-  // Khắc phục bẫy Enter chạy mượt mà
-  function listenInputEnter(e, func) { if (e.key === "Enter") { e.preventDefault(); func(); } }
-
-  function changeMainTab(tabName) {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-pane-view').forEach(p => p.classList.add('hidden'));
-    document.getElementById('study-engine-board').classList.add('hidden');
-    document.getElementById('test-engine-board').classList.add('hidden');
-    document.getElementById('sec-preview').classList.add('hidden');
-    if (document.getElementById(`nav-${tabName}`)) document.getElementById(`nav-${tabName}`).classList.add('active');
-    document.getElementById(`sec-${tabName}`).classList.remove('hidden');
-    if(tabName === 'home') renderHomeDashboard();
-    if(tabName === 'test') renderTestDashboard();
-  }
-
-  function renderHomeDashboard() {
-    document.getElementById('count-vocab').innerText = globalDatabase.length;
-    document.getElementById('count-topic').innerText = new Set(globalDatabase.map(d=>d.topic)).size;
-    if(globalDatabase.length > 0) {
-      document.getElementById('workflow-skill-section').classList.remove('hidden');
-      document.getElementById('workflow-topic-section').classList.remove('hidden');
-      buildTopicSelectionList();
-    }
-  }
-
-  function buildTopicSelectionList() {
-    const container = document.getElementById('workflow-topic-container-list'); container.innerHTML = "";
-    [...new Set(globalDatabase.map(d=>d.topic))].forEach(t => {
-      let b = document.createElement('button'); b.className = "topic-item-row";
-      b.innerHTML = `<span>📂 ${t}</span><span>${globalDatabase.filter(d => d.topic === t).length} từ</span>`;
-      b.onclick = () => { currentActiveTopicName = t; currentWords = globalDatabase.filter(d => d.topic === t); if(activeSkillMode !== '') initStudyEngineView(); else renderTopicPreviewMode(t); };
-      container.appendChild(b);
-    });
-  }
-
-  // SỬA LỖI ĐỒNG BỘ TRƯỜNG BIẾN CHUẨN XÁC: Thay thế toàn bộ e_cn thành ex_cn gạt bỏ hoàn toàn lỗi undefined
-  function renderTopicPreviewMode(t) {
-    document.querySelectorAll('.tab-pane-view').forEach(p => p.classList.add('hidden'));
-    document.getElementById('sec-preview').classList.remove('hidden');
-    document.getElementById('preview-heading-title').innerText = `Khái quát: ${t}`;
-    const container = document.getElementById('preview-cards-scroller'); container.innerHTML = "";
-    currentWords.forEach(w => {
-      let div = document.createElement('div'); div.className = "preview-card-item";
-      div.innerHTML = `<div class="preview-card-top"><div class="preview-vocab-block"><div class="preview-zh">${w.cn}</div><div class="preview-py">${w.py}</div></div><div class="preview-vn">${w.vn}</div></div><div class="preview-ex-block"><div class="preview-ex-zh">${w.ex_cn}</div><div class="preview-ex-py">${w.ex_py}</div><div class="preview-ex-vn">${w.ex_vn}</div></div>`;
-      container.appendChild(div);
-    });
-  }
-
-  function activateLearningWorkflow() {
-    document.getElementById('sec-preview').classList.add('hidden');
-    document.getElementById('sec-home').classList.remove('hidden');
-    document.getElementById('workflow-skill-section').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function toggleWorkflowSkill(s) {
-    activeSkillMode = s;
-    document.querySelectorAll('.skill-tab-btn').forEach(b => b.classList.remove('active'));
-    const btnMap = { 'write': 'sk-tab-write', 'read': 'sk-tab-read', 'listen': 'sk-tab-listen', 'speak': 'sk-tab-speak' };
-    if(btnMap[s]) document.getElementById(btnMap[s]).classList.add('active');
-    if (currentActiveTopicName !== '') initStudyEngineView();
-  }
-
-  function initStudyEngineView() {
-    activeIdx = 0;
-    document.querySelectorAll('.tab-pane-view').forEach(p => p.classList.add('hidden'));
-    document.getElementById('study-engine-board').classList.remove('hidden');
-    refreshEngineCardLayoutData();
-  }
-
-  function triggerUploadParser(input) {
-    const file = input.files[0]; if(!file) return;
-    document.getElementById('status-msg').innerText = "🔄 Đang bóc tách dữ liệu tài liệu...";
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      if(file.name.endsWith('.docx')) mammoth.extractRawText({ arrayBuffer: e.target.result }).then(r => executeTextParserEngine(r.value));
-      else pdfjsLib.getDocument({ data: new Uint8Array(e.target.result) }).promise.then(pdf => {
-        let p = [];
-        for(let i=1; i<=pdf.numPages; i++) p.push(pdf.getPage(i).then(pg => pg.getTextContent().then(c => c.items.map(m => m.str).join(' '))));
-        Promise.all(p).then(t => executeTextParserEngine(t.join('\n')));
-      });
-    };
-    reader.readAsArrayBuffer(file);
-  }
-
-  function executeTextParserEngine(txt) {
-    const lines = txt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-    let topic = "Chung", count = 0;
-    for(let i=0; i<lines.length; i++) {
-      if(/^\d+\./.test(lines[i]) || lines[i].includes("TỪ VỰNG")) { topic = lines[i]; continue; }
-      if(/[\u4e00-\u9fa5]/.test(lines[i]) && !lines[i].includes("Từ vựng") && !lines[i].includes("Pinyin")) {
-        let w = { cn: lines[i], py: lines[i+1]||"", vn: lines[i+2]||"", ex_cn: lines[i+3]||"", ex_py: lines[i+4]||"", ex_vn: lines[i+5]||"", topic: topic, date: new Date().toLocaleDateString('vi-VN') };
-        if(w.vn && w.ex_cn && !globalDatabase.some(d => d.cn === w.cn)) { globalDatabase.push(w); count++; }
-        i += 5;
-      }
-    }
-    localStorage.setItem('zh_master_db', JSON.stringify(globalDatabase));
-    document.getElementById('status-msg').innerText = `✅ Đã nạp ${count} từ vựng!`;
-    renderHomeDashboard();
-  }
-
-  // SỬA LỖI ĐƠ KẸT HIỂN THỊ: Khôi phục đồng bộ trường ex_cn toàn diện
-  function refreshEngineCardLayoutData() {
-    const w = currentWords[activeIdx];
-    document.getElementById('engine-header-title').innerText = `Học [${activeSkillMode.toUpperCase()}] - ${w.topic}`;
-    document.getElementById('engine-progress-counter').innerText = `${activeIdx + 1}/${currentWords.length}`;
-    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => document.getElementById(id).classList.add('hidden'));
-
-    document.getElementById('v-main-text').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
-    document.getElementById('v-py-text').innerText = w.py; document.getElementById('v-vn-text').innerText = w.vn;
-    
-    // Đổ móng chuẩn xác chuỗi span gạch chân đứt nét cho câu ví dụ mẫu
-    document.getElementById('e-main-text').innerHTML = w.ex_cn.split("").map(c => `<span>${c}</span>`).join("");
-    document.getElementById('e-py-text').innerText = w.ex_py; document.getElementById('e-vn-text').innerText = w.ex_vn;
-
-    document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => s.onclick = () => executeAIRadicalAnalyzer(s.innerText));
-
-    if (activeSkillMode === 'write') { document.getElementById('panel-write').classList.remove('hidden'); document.getElementById('wr-prompt-vn').innerText = w.vn; document.getElementById('wr-user-input').value = ""; setTimeout(() => document.getElementById('wr-user-input').focus(), 100); }
-    else if (activeSkillMode === 'read') { document.getElementById('panel-read').classList.remove('hidden'); document.getElementById('rd-prompt-zh').innerText = w.cn; buildFourMultipleChoicesOptions(w.vn); }
-    else if (activeSkillMode === 'listen') { document.getElementById('panel-listen').classList.remove('hidden'); currentActiveSentenceTarget = w.ex_cn; document.getElementById('l-user-input-meaning').value = ""; buildListenPuzzleLayout(w.ex_cn); speakCoreSound(w.cn); setTimeout(() => document.getElementById('l-user-input-meaning').focus(), 100); }
-    else if (activeSkillMode === 'speak') { document.getElementById('panel-speak').classList.remove('hidden'); document.getElementById('sp-prompt-zh').innerText = w.ex_cn; document.getElementById('sp-feedback-msg').innerText = ""; }
-  }
-
-  function buildListenPuzzleLayout(sentence) {
-    puzzleSelectedChips = []; const pool = document.getElementById('l-puzzle-pool'); const drop = document.getElementById('l-puzzle-drop'); pool.innerHTML = ""; drop.innerHTML = "";
-    let chips = sentence.split("").filter(c => !/[\s.,!?;。，！？]/.test(c));
-    chips.sort(() => Math.random() - 0.5).forEach(c => {
-      let div = document.createElement('div'); div.className = "puzzle-chip"; div.innerText = c;
-      div.onclick = () => { div.classList.add('used'); let d = document.createElement('div'); d.className = "puzzle-chip"; d.innerText = c; drop.appendChild(d); puzzleSelectedChips.push(c); };
-      pool.appendChild(div);
-    });
-  }
-  function rebuildListenPuzzle() { buildListenPuzzleLayout(currentActiveSentenceTarget); }
-  function verifyListenPuzzle() { document.getElementById('reveal-card-zone').classList.remove('hidden'); }
-
-  function buildFourMultipleChoicesOptions(correct) {
-    const box = document.getElementById('rd-quiz-options-wrapper'); box.innerHTML = ""; let opts = [correct]; let pool = globalDatabase.filter(w => w.vn !== correct);
-    while(opts.length < 4 && pool.length > 0) { let r = pool[Math.floor(Math.random() * pool.length)].vn; if(!opts.includes(r)) opts.push(r); }
-    opts.sort(() => Math.random() - 0.5).forEach(opt => {
-      let b = document.createElement('button'); b.className = "quiz-option-btn"; b.innerText = opt; b.onclick = () => document.getElementById('reveal-card-zone').classList.remove('hidden');
-      box.appendChild(b);
-    });
-  }
-  function verifyWriteAnswer() { document.getElementById('reveal-card-zone').classList.remove('hidden'); }
-
-  function activateVoiceRecognition() {
-    voiceRecognitionEngine.start(); document.getElementById('mic-trigger-btn').innerText = "🎙️ Đang nghe...";
-    voiceRecognitionEngine.onresult = (e) => {
-      const speech = e.results[0][0].transcript; document.getElementById('mic-trigger-btn').innerText = "🎤 Bấm nói";
-      let target = currentWords[activeIdx].ex_cn; let cleanSpeech = speech.replace(/[\s.,!?;。，！？、]/g, ""); let res = "Chấm điểm: ";
-      for(let c of target) {
-        if(/[\s.,!?;。，停！？、]/.test(c)) res += `<span style="color:var(--text-secondary);font-size:24px;">${c}</span>`;
-        else if(cleanSpeech.includes(c)) res += `<span style="color:var(--accent-green);font-size:24px;font-weight:700;">${c}</span>`;
-        else res += `<span style="color:var(--accent-red);font-size:24px;text-decoration:underline;font-weight:700;">${c}</span>`;
-      }
-      document.getElementById('sp-feedback-msg').innerHTML = res; document.getElementById('reveal-card-zone').classList.remove('hidden');
-    };
-  }
-
-  // Thuật toán AI phân rã ma trận kết cấu lớp sâu bóc tách bộ thủ chuẩn xác 214 bộ ThanhMaiHSK
-  function executeAIRadicalAnalyzer(char) {
-    const box = document.getElementById('panel-radical-analysis'); 
-    let htmlContent = ""; 
-    let count = 0;
-    
-    let parts = AI_Decomposition_Matrix_Map[char] || [];
-    if(parts.length > 0) {
-      parts.forEach(p => { 
-        if(TM_Radicals_Dict[p]) {
-          count++; 
-          htmlContent += `<p class="radical-item-text">➔ <strong>Bộ thủ [ ${p} ]:</strong> ${TM_Radicals_Dict[p]}</p>`; 
+        // --- 2. HÀM CẦU NỐI ĐỂ AI PHÂN TÍCH ---
+        function executeAIRadicalAnalyzer(char) {
+            const box = document.getElementById('panel-radical-analysis');
+            if (!box) return;
+            
+            // Gọi trực tiếp hàm từ database.js của bạn
+            // Lưu ý: Đảm bảo database.js có hàm runGlobalAIAnalyzer(char) như tôi đã hướng dẫn
+            let resultHtml = runGlobalAIAnalyzer(char); 
+            
+            box.innerHTML = `<div class="radical-header-title">🤖 AI Phân Tích: "${char}"</div>${resultHtml}`;
+            box.classList.remove('hidden');
+            box.scrollIntoView({ behavior: 'smooth' });
         }
-      });
-    }
-    
-    Object.keys(TM_Radicals_Dict).forEach(r => { 
-      if(char.includes(r) && !htmlContent.includes(`[ ${r} ]`)) {
-        count++; 
-        htmlContent += `<p class="radical-item-text">➔ Chứa <strong>Bộ thủ [ ${r} ]:</strong> ${TM_Radicals_Dict[r]}</p>`; 
-      }
-    });
-    
-    box.innerHTML = `<div class="radical-header-title">🤖 AI Phân Rã & Đối Chiếu Bộ Thủ Cho Chữ: "${char}"</div>${htmlContent || "<p style='color:var(--text-secondary);'>Nét bút thuận đơn lẻ cơ bản.</p>"}`;
-    box.classList.remove('hidden'); 
-    box.scrollIntoView({ behavior: 'smooth' });
-  }
 
-  function speakCoreSound(t) { const u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; window.speechSynthesis.speak(u); }
-  function shiftNextWord() { if(activeIdx < currentWords.length - 1) { activeIdx++; refreshEngineCardLayoutData(); } else { alert("🎉 Hoàn thành chủ đề!"); location.reload(); } }
-
-  function renderTestDashboard() {
-    let container = document.getElementById('test-topic-container-list'); container.innerHTML = "";
-    [...new Set(globalDatabase.map(d=>d.topic))].forEach(t => {
-      let r = document.createElement('button'); r.className = "topic-item-row"; r.innerHTML = `<span>📋 Tạo đề thi chủ đề: ${t}</span><span>Bắt đầu →</span>`;
-      r.onclick = () => buildTestEngine(t); container.appendChild(r);
-    });
-  }
-
-  let testIdx = 0, testScore = 0;
-  function buildTestEngine(scope) {
-    let pool = (scope === 'ALL_TOPICS') ? globalDatabase : globalDatabase.filter(d=>d.topic === scope);
-    currentWords = pool.sort(() => Math.random() - 0.5).slice(0, 10); testIdx = 0; testScore = 0;
-    document.querySelectorAll('.tab-pane-view').forEach(id => id.classList.add('hidden'));
-    document.getElementById('test-engine-board').classList.remove('hidden'); loadTestQ();
-  }
-
-  function loadTestQ() {
-    let q = currentWords[testIdx];
-    document.getElementById('test-question-content-box').innerHTML = `<div class="section-title">Câu hỏi số ${testIdx + 1}:</div><h3 style="font-size:24px;margin-bottom:8px;">Nghĩa của [ <span style="font-family:var(--font-zh);color:var(--accent-orange);font-size:32px;">${q.cn}</span> ] là gì?</h3><p style="color:var(--text-secondary);margin-bottom:12px;">Phiên âm: ${q.py}</p><input type='text' id='t-ans' class='input-field' style='text-align:left;' placeholder='Nhập nghĩa tiếng Việt...' onkeydown='listenInputEnter(event, executeTestAnswerVerification)'>`;
-    setTimeout(() => document.getElementById('t-ans').focus(), 100);
-  }
-
-  function executeTestAnswerVerification() {
-    let q = currentWords[testIdx];
-    if(document.getElementById('t-ans').value.trim().toLowerCase() === q.vn.toLowerCase()) testScore++;
-    if(testIdx < currentWords.length - 1) { testIdx++; loadTestQ(); }
-    else { alert(`🎉 Hoàn thành! Kết quả: ${testScore} / ${currentWords.length}`); location.reload(); }
-  }
-</script>
+        // --- 3. ĐẢM BẢO KHI RENDER BÀI HỌC, CLICK VÀO CHỮ THÌ GỌI HÀM ---
+        function refreshEngineCardLayoutData() {
+            // ... (Code cũ của bạn) ...
+            setTimeout(() => {
+                document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
+                    s.onclick = () => executeAIRadicalAnalyzer(s.innerText);
+                });
+            }, 500);
+        }
+    </script>
 </body>
 </html>
