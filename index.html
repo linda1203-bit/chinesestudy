@@ -57,7 +57,7 @@
   .topic-item-row { background: var(--bg-input); border: 1px solid var(--border); padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; font-size: 14px; }
   .topic-item-row:hover { border-color: var(--text-secondary); background: rgba(255,255,255,0.02); }
 
-  /* Bảng Tổng Quan Preview Mode Mới */
+  /* Bảng Tổng Quan Preview Mode */
   .preview-section { margin-top: 8px; }
   .preview-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; }
   .preview-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; max-height: 500px; overflow-y: auto; padding-right: 4px; }
@@ -77,11 +77,11 @@
   /* Interactive Cards Engine */
   .study-card { background: var(--bg-card); border-radius: 20px; padding: 12px 0; text-align: center; }
   .display-zone { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .zh-main { font-family: var(--font-zh); font-size: 58px; font-weight: 700; color: var(--text-primary); margin: 8px 0; letter-spacing: 2px; }
+  .zh-main { font-family: var(--font-zh); font-size: 58px; font-weight: 700; color: var(--text-primary); margin: 8px 0; letter-spacing: 2px; text-align: center; }
   .zh-main span, .ex-zh-row span { cursor: help; border-bottom: 2px dashed rgba(255,255,255,0.15); padding: 0 4px; display: inline-block; transition: all 0.2s; }
   .zh-main span:hover, .ex-zh-row span:hover { color: var(--accent-blue); border-bottom-color: var(--accent-blue); background: rgba(59,130,246,0.08); border-radius: 4px; }
-  .py-sub { font-size: 22px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }
-  .vn-desc { font-size: 26px; font-weight: 700; color: var(--accent-orange); margin-bottom: 16px; }
+  .py-sub { font-size: 22px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; text-align: center; }
+  .vn-desc { font-size: 26px; font-weight: 700; color: var(--accent-orange); margin-bottom: 16px; text-align: center; }
   
   .audio-control-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
   .audio-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
@@ -125,7 +125,7 @@
     <div class="stats-grid" id="stats-area-counter"></div>
     
     <input type="file" id="file-input" class="hidden" accept=".pdf,.docx" onchange="triggerUploadParser(this)">
-    <div class="upload-box" id="upload-box-click">
+    <div class="upload-box" id="upload-box-click" onclick="document.getElementById('file-input').click()">
       <span class="upload-icon">📁</span>
       <p class="upload-text">Tải lên tài liệu giảng dạy (.pdf, .docx)</p>
       <p class="upload-sub">Hệ thống AI tự động xử lý và trích xuất cấu trúc dữ liệu</p>
@@ -184,7 +184,7 @@
           
           <div class="audio-control-row">
             <button class="audio-btn" onclick="speakCoreSound(activeWordsList[activeIdx].cn)">🔊 Phát âm từ vựng</button>
-            <button class="audio-btn" style="border-color:var(--accent-green);" onclick="speakCoreSound(activeWordsList[activeIdx].e_cn)">🔊 Phát âm câu mẫu</button>
+            <button class="audio-btn" style="border-color:var(--accent-green);" onclick="speakCoreSound(activeWordsList[activeIdx].ex_cn)">🔊 Phát âm câu mẫu</button>
           </div>
         </div>
 
@@ -215,7 +215,7 @@
         <div class="section-title">🔊 Nghe Phát Âm, Đoán Nghĩa Từ & Sắp Xếp Lại Câu Mẫu:</div>
         <div class="audio-control-row" style="margin:16px 0;">
           <button class="audio-btn" style="background:var(--accent-blue); border-color:var(--accent-blue);" onclick="speakCoreSound(activeWordsList[activeIdx].cn)">🔊 Nghe từ gốc</button>
-          <button class="audio-btn" style="background:var(--accent-green); border-color:var(--accent-green);" onclick="speakCoreSound(activeWordsList[activeIdx].e_cn)">🔊 Nghe câu ví dụ</button>
+          <button class="audio-btn" style="background:var(--accent-green); border-color:var(--accent-green);" onclick="speakCoreSound(activeWordsList[activeIdx].ex_cn)">🔊 Nghe câu ví dụ</button>
         </div>
         <input type="text" id="l-user-input-meaning" class="input-field" placeholder="Gõ dự đoán nghĩa tiếng Việt của từ vào đây..." onkeydown="listenInputEnter(event, verifyListenPuzzle)">
         
@@ -233,7 +233,7 @@
         <div class="section-title">🎙️ Nhìn Câu Chữ Hán Trần, Hãy Luyện Phát Âm Theo Máy:</div>
         <div class="zh-main" id="sp-prompt-zh" style="font-size:36px; margin:24px 0; letter-spacing:1px;"></div>
         <div class="audio-control-row">
-          <button class="audio-btn" onclick="speakCoreSound(activeWordsList[activeIdx].e_cn)">🔊 Nghe câu mẫu trước</button>
+          <button class="audio-btn" onclick="speakCoreSound(activeWordsList[activeIdx].ex_cn)">🔊 Nghe câu mẫu trước</button>
           <button class="audio-btn" style="background:var(--accent-red); border-color:var(--accent-red);" id="mic-trigger-btn" onclick="activateVoiceRecognition()">🎤 Bật Mic đọc câu</button>
         </div>
         <div id="sp-feedback-msg" style="margin-top:20px; font-weight:700; font-size:16px; line-height:1.6;"></div>
@@ -252,25 +252,23 @@
 </div>
 
 <script>
-  // Từ điển bộ thủ 214 chuẩn hóa
+  // Cơ sở dữ liệu bộ thủ chuẩn mã hóa 214
   const TM_Radicals_Dict = {
     "一": "Bộ Nhất - Số một, khởi đầu của vạn vật.", "丨": "Bộ Cổn - Nét sổ dọc thẳng đứng.", "丶": "Bộ Chủ - Điểm chấm, biểu thị dấu vết.", "丿": "Bộ Phiệt - Nét phẩy quét sang trái.",
     "乙": "Bộ Ất - Vị trí thứ hai trong thiên can.", "亅": "Bộ Quyết - Nét móc lên ở cuối nét sổ.", "二": "Bộ Nhị - Số hai, đại diện cho âm dương.", "亠": "Bộ Đầu - Nét chấm đầu gạch ngang phía trên.",
     "人": "Bộ Nhân - Con người, tư thế đứng thẳng gánh vác.", "亻": "Bộ Nhân đứng - Biến thể con người, xuất hiện trong 我, 职位, 修改.", "儿": "Bộ Nhi - Đứa trẻ sơ sinh đi chập chững.",
     "入": "Bộ Nhập - Đi vào bên trong, tiếp thu vào.", "八": "Bộ Bát - Số tám, biểu thị sự chia rẽ, phân chia.", "冂": "Bộ Quynh - Vùng biên giới xa xôi bao bọc bên ngoài (Chữ 同).",
-    "冖": "Bộ Mịch - Khăn trùm che đậy kín lên đồ vật.", "Ref": "Bộ thủ phân tích sâu trích xuất từ 214 bộ thủ ThanhMaiHSK.", "冫": "Bộ Băng - Nước đá, hiện tượng lạnh giá, đông kết.",
+    "冖": "Bộ Mịch - Khăn trùm che đậy kín lên đồ vật.", "冫": "Bộ Băng - Nước đá, hiện tượng lạnh giá, đông kết.",
     "几": "Bộ Kỷ - Ghế tựa tựa lưng, cái bàn nhỏ.", "凵": "Bộ Khảm - Há miệng to khảm sâu, hố lõm xuống.", "刀": "Bộ Đao - Con dao, vũ khí sắc bén cắt gọt.",
     "刂": "Bộ Đao đứng - Biến thể liên quan đến chặt, khắc, sửa đổi hành chính.", "力": "Bộ Lực - Sức mạnh, chiếc cày ruộng cần cơ bắp lao động vất vả (Chữ 劳, 动).",
-    "勹": "Bộ Bao - Bao bọc, gói ghém ôm giữ đồ vật.", "匕": "Bộ Chủy - Cái thìa xúc cơm, muỗng ăn.", "匚": "Bộ Phương - Tủ đựng, vật chứa đồ vuông vắn.",
-    "匸": "Bộ Hệ - Che giấu, giấu kín không để lộ.", "十": "Bộ Thập - Số mười, biểu thị sự hoàn vẹn, thập toàn thập mỹ.", "卜": "Bộ Bốc - Quẻ bói toán, xem dự đoán tương lai.",
-    "卩": "Bộ Tiết - Đốt tre, quỳ gối phục tùng, mệnh lệnh.", "厂": "Bộ Hán - Sườn núi dốc, vách đá dựng đứng.", "厶": "Bộ Tư - Riêng tư, ích kỷ cá nhân.",
+    "包": "Bộ Bao - Bao bọc, gói ghém ôm giữ đồ vật.", "匕": "Bộ Chủy - Cái thìa xúc cơm, muỗng ăn.", "匚": "Bộ Phương - Tủ đựng, vật chứa đồ vuông vắn.",
+    "十": "Bộ Thập - Số mười, biểu thị sự hoàn vẹn, thập toàn thập mỹ.", "卜": "Bộ Bốc - Quẻ bói toán, xem dự đoán tương lai.", "卩": "Bộ Tiết - Đốt tre, quỳ gối phục tùng, mệnh lệnh.", "厂": "Bộ Hán - Sườn núi dốc, vách đá dựng đứng.", "厶": "Bộ Tư - Riêng tư, ích kỷ cá nhân.",
     "口": "Bộ Khẩu - Cái miệng, đại diện cho ăn uống, ngôn ngữ, hợp đồng (Chữ 合, 同).", "囗": "Bộ Vi - Bao vây xung quanh ranh giới quốc gia, doanh nghiệp.", "土": "Bộ Thổ - Đất đai, mặt đất sinh trưởng vạn vật (Chữ 在).",
     "士": "Bộ Sĩ - Kẻ sĩ, người học thức, nam tử hán.", "夂": "Bộ Truy - Bước chân đi theo phía sau trì trệ (Chữ 修改).",
     "夕": "Bộ Tịch - Đêm tối, mặt trời lặn nửa vầng trăng khuyết.", "大": "Bộ Đại - To lớn, hình người dang rộng hai tay.", "女": "Bộ Nữ - Người phụ nữ quỳ gối kính cẩn, biểu thị phái yếu, hôn nhân (Chữ 好).",
     "子": "Bộ Tử - Đứa trẻ sơ sinh vẫy tay, bảo tồn nòi giống, học hành (Chữ 好, 学).", "宀": "Bộ Miên - Mái che ngôi nhà, tổ ấm gia đình an cư lạc nghiệp (Chữ 劳).",
-    "寸": "Bộ Thốn - Tấc, đơn vị đo lường chiều dài thời cổ, quy tắc.", "小": "Bộ Tiểu - Nhỏ bé, phân tách vật chất ra ít đi.", "尢": "Bộ Uông - Quẻ chân yếu, chân đi khập khiễng.",
-    "尸": "Bộ Thi - Thân xác, thây ma, nơi trú ngụ cố định.", "屮": "Bộ Triệt - Mầm cây non mới mọc nhú lên khỏi đất.", "山": "Bộ Sơn - Núi non trùng điệp, các ngọn núi cao.",
-    "川": "Bộ Xuyên - Sông ngòi, dòng nước chảy dài cuồn cuộn.", "工": "Bộ Công - Người thợ, công cụ làm việc gạch nối trời đất, gia công.",
+    "寸": "Bộ Thốn - Tấc, đơn vị đo lường chiều dài thời cổ, quy tắc.", "小": "Bộ Tiểu - Nhỏ bé, phân tách vật chất ra ít đi.", "尸": "Bộ Thi - Thân xác, thây ma, nơi trú ngụ cố định.",
+    "山": "Bộ Sơn - Núi non trùng điệp, các ngọn núi cao.", "川": "Bộ Xuyên - Sông ngòi, dòng nước chảy dài cuồn cuộn.", "工": "Bộ Công - Người thợ, công cụ làm việc gạch nối trời đất, gia công.",
     "己": "Bộ Kỷ - Bản thân mình, tự mình gánh vác.", "巾": "Bộ Cân - Khăn vải, vải vóc may mặc trang trí.", "干": "Bộ Can - Thiên can, cái khiên chắn bảo vệ, phạm đến.",
     "弓": "Bộ Cung - Cái cung bắn tên, hình cánh cung co giãn.", "彡": "Bộ Sâm - Lông tóc dài thướt tha, hoa văn trang trí (Chữ 修).",
     "彳": "Bộ Xích - Bước chân trái đi lại trên đường, hành động.", "心": "Bộ Tâm - Quả tim, liên quan đến tư duy sâu, cảm xúc tình cảm.",
@@ -278,11 +276,8 @@
     "户": "Bộ Hộ - Một cánh cửa gia đình, hộ gia đình quản lý.", "手": "Bộ Thủ - Bàn tay có các ngón nắm giữ, thực hiện thao tác (Chữ 我).",
     "扌": "Bộ Thủ đứng - Biến thể bàn tay, biểu thị hành động cầm, nắm, sửa đổi, gia công.",
     "日": "Bộ Nhật - Mặt trời chiếu sáng, quy luật thời gian, ngày tháng.", "曰": "Bộ Viết - Nói rằng, lời phán ra từ miệng.",
-    "月": "Bộ Nguyệt - Mặt trăng khuyết, đại diện cho ban đêm hoặc xác thịt cơ thể.", "木": "Bộ Mộc - Cây cối thân gỗ, vật liệu xây dựng thực vật (Chữ 材, 核).",
-    "欠": "Bộ Khiếm - Thiếu thốn, há miệng ngáp dài thiếu dưỡng khí.", "止": "Bộ Chỉ - Dừng lại, dấu chân đứng im không dịch tiếp, sửa cho đúng (Chữ 正).",
-    "歹": "Bộ Tịch - Xương tàn, cái chết, sự suy tàn hủy hoại.", "殳": "Bộ Thù - Binh khí dài bằng tre gỗ gõ đập.", "毋": "Bộ Vô - Chớ có, đừng làm điều cấm đoán.",
-    "比": "Bộ Tỷ - So sánh, hai người đứng liền kề đọ cao thấp.", "毛": "Bộ Mao - Lông thú, lông tóc động vật mềm mại.", "氏": "Bộ Thị - Họ trong gia tộc, gốc rễ nguồn cội.",
-    "气": "Bộ Khí - Hơi nước bốc lên, bầu không khí, năng lượng khí chất.", "水": "Bộ Thủy - Nước chảy thành dòng, chất lỏng thanh lọc.",
+    "月": "Bộ Nguyệt - Mặt trăng khuyết, đại diện cho ban đêm hoặc xác thịt cơ thể.", "木": "Bộ Mộc - Cây cối thân gỗ, vật liệu xây dựng thực vật (Chữ 材, 核).", "欠": "Bộ Khiếm - Thiếu thốn, há miệng ngáp dài thiếu dưỡng khí.", "止": "Bộ Chỉ - Dừng lại, dấu chân đứng im không dịch tiếp, sửa cho đúng (Chữ 正).",
+    "殳": "Bộ Thù - Binh khí dài bằng tre gỗ gõ đập.", "比": "Bộ Tỷ - So sánh, hai người đứng liền kề đọ cao thấp.", "毛": "Bộ Mao - Lông thú, lông tóc động vật mềm mại.", "氏": "Bộ Thị - Họ trong gia tộc, gốc rễ nguồn cội.", "气": "Bộ Khí - Hơi nước bốc lên, bầu không khí, năng lượng khí chất.", "水": "Bộ Thủy - Nước chảy thành dòng, chất lỏng thanh lọc.",
     "氵": "Bộ Thủy đứng - Biến thể dòng nước, liên quan đến đóng nộp, xử lý hóa chất.",
     "火": "Bộ Hỏa - Ngọn lửa cháy bốc lên ngùn ngụt, năng lượng sưởi ấm.",
     "灬": "Bộ Hỏa dưới - Bốn chấm lửa đuôi, liên quan đến nấu nướng, nhiệt độ cao.",
@@ -305,11 +300,11 @@
     "示": "Bộ Thị - Chúc thư thần linh ban xuống bệ thờ, hiển thị rõ ràng.",
     "禾": "Bộ Hòa - Cây lúa có bông hạt trĩu xuống, nông nghiệp lương thực.",
     "穴": "Bộ Huyệt - Hang ổ, hang động khoét sâu vào lòng núi.",
+    "立": "Bộ Lập - Đứng thẳng hiên ngang trên mặt đất, thiết lập vị trí (Chữ 位).",
     "竹": "Bộ Trúc - Cây tre, sổ sách thẻ tre ghi chép sổ sách dữ liệu (Chữ 算).",
     "米": "Bộ Mễ - Hạt gạo, hạt ngũ cốc bóc vỏ nguồn sống.",
     "糸": "Bộ Mịch - Sợi tơ kéo dài đan cài dệt vải vóc.",
     "纟": "Bộ Mịch giản thể - Liên quan đến dệt may, dây buộc, quy trình liên kết hợp đồng.",
-    "网": "Bộ Võng - Lưới đánh cá, lưới bẫy chim, hệ thống mạng lưới.",
     "羊": "Bộ Dương - Con dê, con cừu đại diện cho sự cát tường hiền lành.",
     "羽": "Bộ Vũ - Lông vũ lông chim, đôi cánh bay lượn luyện tập.",
     "老": "Bộ Lão - Người già chống gậy bước đi, tuổi thọ tri thức.",
@@ -319,13 +314,11 @@
     "舌": "Bộ Thiệt - Cái lưỡi thò ra từ miệng để nếm vị phát âm.",
     "舟": "Bộ Chu - Chiếc thuyền nan trôi trên dòng nước vận chuyển.",
     "艮": "Bộ Cấn - Quẻ cấn, sự dừng lại vững vàng kiên định giữ vững.",
-    "色": "Bộ Sắc - Màu sắc, khí sắc, vẻ mặt biểu cảm con người.",
     "艹": "Bộ Thảo - Cỏ cây hoa lá mọc xanh tươi ruộng đất công trình (Chữ 劳).",
     "虫": "Bộ Trùng - Côn trùng, rắn rết, các loài bò sát nhỏ.",
     "血": "Bộ Huyết - Giọt máu đựng trong đĩa tế lễ tâm linh.",
     "行": "Bộ Hành - Ngã tư đường đi lại giao thông, thực hiện hành động.",
     "衣": "Bộ Y - Quần áo tà áo may mặc che thân bảo vệ.",
-    "跨": "Bộ Túc - Đi lại đứng vững.",
     "衤": "Bộ Y đứng - Biến thể quần áo, liên quan đến trang phục, chứng nhận.",
     "见": "Bộ Kiến - Trông thấy, mở to mắt để nhìn nhận thấu suốt.",
     "角": "Bộ Giác - Sừng động vật, góc nhọn kích thước đo lường.",
@@ -356,8 +349,6 @@
     "职": ["耳"], "位": ["亻", "立"], "会": ["人", "云"], "计": ["言", "十"],
     "修": ["亻", "夂", "彡"], "改": ["亻", "攵"], "合": ["人", "口"], "在": ["土"], "正": ["止"]
   };
-
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
   let globalDatabase = JSON.parse(localStorage.getItem('zh_master_db')) || [];
   let activeSkillMode = ''; 
@@ -425,16 +416,13 @@
     });
   }
 
-  /* ĐIỀU PHỐI WORKFLOW KHÁI QUÁT/HỌC MỚI THEO THIẾT KẾ CỦA BẠN */
   function handleTopicWorkflowClick(topicName) {
     currentActiveTopicName = topicName;
     activeWordsList = globalDatabase.filter(d => d.topic === topicName);
     
     if (activeSkillMode !== '') {
-      // Trường hợp 1: Nếu người dùng ĐÃ chọn một kỹ năng trước đó -> Tiến hành vào học luôn
       initStudyEngineView();
     } else {
-      // Trường hợp 2: Nếu người dùng CHƯA bấm chọn kỹ năng -> Chuyển đến màn hình Preview khái quát nội dung
       renderTopicPreviewMode(topicName);
     }
   }
@@ -468,7 +456,6 @@
     });
   }
 
-  /* KHI BẤM NÚT XANH Ở MÀN HÌNH PREVIEW -> CUỘN LÊN ĐẦU VÀ TRỎ KHỐI KỸ NĂNG */
   function activateLearningWorkflow() {
     document.getElementById('sec-preview').classList.add('hidden');
     document.getElementById('sec-home').classList.remove('hidden');
@@ -487,7 +474,6 @@
     const activeBtnMap = { 'write': 'sk-tab-write', 'read': 'sk-tab-read', 'listen': 'sk-tab-listen', 'speak': 'sk-tab-speak' };
     if(activeBtnMap[skillName]) document.getElementById(activeBtnMap[skillName]).classList.add('active');
 
-    // Tháo bỏ viền cảnh báo cuộn
     const skillBox = document.getElementById('workflow-skill-section');
     skillBox.style.borderColor = "var(--border)";
     skillBox.style.boxShadow = "none";
@@ -550,7 +536,6 @@
     renderHomeDashboard();
   }
 
-  /* KHÔI PHỤC HIỆU ỨNG CLICK SPAN CHO CẢ TỪ VỰNG VÀ CÂU VÍ DỤ */
   function refreshEngineCardLayoutData() {
     const w = activeWordsList[activeIdx];
     document.getElementById('engine-title').innerText = `Thiết kế học [${activeSkillMode.toUpperCase()}]`;
@@ -559,17 +544,14 @@
     ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('global-next-item-btn').classList.remove('hidden');
 
-    // Chữ Hán từ vựng bọc span gạch chân đứt nét
     document.getElementById('v-main-text').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
     document.getElementById('v-py-text').innerText = w.py; 
     document.getElementById('v-vn-text').innerText = w.vn;
     
-    // Khôi phục hiệu ứng từng chữ Hán gạch chân đứt nét cho CÂU VÍ DỤ mẫu
     document.getElementById('e-main-text').innerHTML = w.ex_cn.split("").map(c => `<span>${c}</span>`).join("");
     document.getElementById('e-py-text').innerText = w.ex_py; 
     document.getElementById('e-vn-text').innerText = w.ex_vn;
 
-    // Gán sự kiện click bóc tách bộ thủ thời gian thực cho tất cả thẻ span chữ Hán
     document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(span => {
       span.onclick = (e) => { e.stopPropagation(); executeAIRadicalAnalyzer(span.innerText); };
     });
@@ -579,6 +561,7 @@
       document.getElementById('wr-prompt-vn').innerText = w.vn;
       document.getElementById('wr-user-input').value = "";
       document.getElementById('wr-feedback-msg').innerText = "";
+      setTimeout(() => document.getElementById('wr-user-input').focus(), 100);
     } 
     else if (activeSkillMode === 'read') {
       document.getElementById('panel-read').classList.remove('hidden');
@@ -592,6 +575,7 @@
       document.getElementById('l-user-input-meaning').value = "";
       buildListenPuzzleLayout(w.ex_cn);
       speakCoreSound(w.cn); 
+      setTimeout(() => document.getElementById('l-user-input-meaning').focus(), 100);
     } 
     else if (activeSkillMode === 'speak') {
       document.getElementById('panel-speak').classList.remove('hidden');
@@ -641,7 +625,7 @@
     if(!voiceRecognitionEngine) return alert("Trình duyệt/thiết bị chưa hỗ trợ API Micro giọng nói.");
     voiceRecognitionEngine.start(); 
     const btn = document.getElementById('mic-trigger-btn');
-    btn.innerText = "🎙️ Đang lắng nghe giọng bạn...";
+    btn.innerText = "🎙 *Đang lắng nghe giọng bạn...";
     voiceRecognitionEngine.onresult = (e) => {
       const speech = e.results[0][0].transcript; 
       btn.innerText = "🎤 Bật Mic đọc câu";
@@ -660,7 +644,6 @@
     };
   }
 
-  /* THUẬT TOÁN AI PHÂN TÍCH QUET BỘ THỦ REAL-TIME CHUẨN XÁC */
   function executeAIRadicalAnalyzer(char) {
     const box = document.getElementById('panel-radical-analysis');
     let htmlContent = ""; let count = 0;
@@ -717,7 +700,7 @@
       <p style="color:var(--text-secondary);margin-bottom:12px;">Phiên âm gợi ý: ${q.py}</p>
       <input type='text' id='t-ans' class='input-field' style='text-align:left;' placeholder='Nhập nghĩa dịch tiếng Việt...' onkeydown='listenInputEnter(event, executeTestAnswerVerification)'>
     `;
-    setTimeout(()=>document.getElementById('t-ans').focus(), 100);
+    setTimeout(() => document.getElementById('t-ans').focus(), 100);
   }
 
   function executeTestAnswerVerification() {
