@@ -69,3 +69,20 @@ function executeAIRadicalAnalyzer(char) {
     box.classList.remove('hidden');
     box.scrollIntoView({ behavior: 'smooth' });
 }
+
+function runGlobalAIAnalyzer(char) {
+    let html = "";
+    // Nếu có trong map phân rã
+    if(AI_Decomposition_Map[char]) {
+        AI_Decomposition_Map[char].forEach(p => {
+            if(TM_Radicals_Dict[p]) html += `<p>➔ Bộ [ ${p} ]: ${TM_Radicals_Dict[p]}</p>`;
+        });
+    }
+    // Hoặc tìm bộ thủ cơ bản
+    Object.keys(TM_Radicals_Dict).forEach(r => {
+        if (char.includes(r) && !html.includes(r)) {
+            html += `<p>➔ Bộ [ ${r} ]: ${TM_Radicals_Dict[r]}</p>`;
+        }
+    });
+    return html || "<p>Nét bút thuận đơn lẻ.</p>";
+}
