@@ -255,16 +255,30 @@ let globalDatabase = JSON.parse(localStorage.getItem('zh_master_db')) || [];
   }
 
         // CẦU NỐI ĐỂ CLICK VÀO CHỮ HÁN GỌI ĐƯỢC AI:
-        function refreshEngineCardLayoutData() {
-            // ... (Code logic hiển thị v29) ...
-            
-            // CẦU NỐI AI:
-            setTimeout(() => {
-                document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
-                    s.onclick = () => executeAIRadicalAnalyzer(s.innerText);
-                });
-            }, 500);
-        }
+function refreshEngineCardLayoutData() {
+    const w = currentWords[activeIdx];
+    document.getElementById('engine-header-title').innerText = `Học [${activeSkillMode.toUpperCase()}] - ${w.topic}`;
+    document.getElementById('engine-progress-counter').innerText = `${activeIdx + 1}/${currentWords.length}`;
+    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => document.getElementById(id).classList.add('hidden'));
+
+    document.getElementById('v-main-text').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
+    document.getElementById('v-py-text').innerText = w.py; document.getElementById('v-vn-text').innerText = w.vn;
+    
+    document.getElementById('e-main-text').innerHTML = w.ex_cn.split("").map(c => `<span>${c}</span>`).join("");
+    document.getElementById('e-py-text').innerText = w.ex_py; document.getElementById('e-vn-text').innerText = w.ex_vn;
+
+    if (activeSkillMode === 'write') { document.getElementById('panel-write').classList.remove('hidden'); document.getElementById('wr-prompt-vn').innerText = w.vn; document.getElementById('wr-user-input').value = ""; setTimeout(() => document.getElementById('wr-user-input').focus(), 100); }
+    else if (activeSkillMode === 'read') { document.getElementById('panel-read').classList.remove('hidden'); document.getElementById('rd-prompt-zh').innerText = w.cn; buildFourMultipleChoicesOptions(w.vn); }
+    else if (activeSkillMode === 'listen') { document.getElementById('panel-listen').classList.remove('hidden'); currentActiveSentenceTarget = w.ex_cn; document.getElementById('l-user-input-meaning').value = ""; buildListenPuzzleLayout(w.ex_cn); speakCoreSound(w.cn); setTimeout(() => document.getElementById('l-user-input-meaning').focus(), 100); }
+    else if (activeSkillMode === 'speak') { document.getElementById('panel-speak').classList.remove('hidden'); document.getElementById('sp-prompt-zh').innerText = w.ex_cn; document.getElementById('sp-feedback-msg').innerText = ""; }
+
+    // --- CẦU NỐI AI ĐƯỢC LỒNG VÀO ĐÂY ---
+    setTimeout(() => {
+        document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
+            s.onclick = () => executeAIRadicalAnalyzer(s.innerText);
+        });
+    }, 500);
+}
     </script>
 </body>
 </html>
