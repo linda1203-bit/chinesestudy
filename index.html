@@ -2,16 +2,16 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HánStudy – Học Tiếng Trung AI</title>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="database.js"></script> <style>
-        body { background-color: #f4f7f6; font-family: sans-serif; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 32px; border-radius: 24px; border: 1px solid #cbd5e1; }
-        .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-        .upload-box { border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; }
-        .hidden { display: none !important; }
-        .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    
+    <script src="database.js"></script>
+    
+    <style>
+        /* [Giữ nguyên CSS của bạn ở đây] */
     </style>
 </head>
 <body>
@@ -272,12 +272,20 @@ function refreshEngineCardLayoutData() {
     else if (activeSkillMode === 'listen') { document.getElementById('panel-listen').classList.remove('hidden'); currentActiveSentenceTarget = w.ex_cn; document.getElementById('l-user-input-meaning').value = ""; buildListenPuzzleLayout(w.ex_cn); speakCoreSound(w.cn); setTimeout(() => document.getElementById('l-user-input-meaning').focus(), 100); }
     else if (activeSkillMode === 'speak') { document.getElementById('panel-speak').classList.remove('hidden'); document.getElementById('sp-prompt-zh').innerText = w.ex_cn; document.getElementById('sp-feedback-msg').innerText = ""; }
 
-    // --- CẦU NỐI AI ĐƯỢC LỒNG VÀO ĐÂY ---
-    setTimeout(() => {
-        document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => {
-            s.onclick = () => executeAIRadicalAnalyzer(s.innerText);
-        });
-    }, 500);
+   // Thay thế đoạn CẦU NỐI AI cũ bằng đoạn này:
+setTimeout(() => {
+    const elements = document.querySelectorAll('.zh-main span, .ex-zh-row span');
+    elements.forEach(s => {
+        s.onclick = function() {
+            // Kiểm tra nếu hàm tồn tại mới gọi
+            if (typeof executeAIRadicalAnalyzer === 'function') {
+                executeAIRadicalAnalyzer(this.innerText);
+            } else {
+                console.error("Hàm phân tích bộ thủ chưa được nạp!");
+            }
+        };
+    });
+}, 800); // Tăng thời gian chờ lên 800ms để database.js nạp xong hoàn toàn
 }
     </script>
 </body>
