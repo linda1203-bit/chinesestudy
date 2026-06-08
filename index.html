@@ -173,20 +173,6 @@
   }
 
   // Thuật toán AI phân rã ma trận kết cấu lớp sâu bóc tách bộ thủ chuẩn xác 214 bộ ThanhMaiHSK
-  function executeAIRadicalAnalyzer(char) {
-    const box = document.getElementById('panel-radical-analysis'); 
-    let htmlContent = ""; 
-    let count = 0;
-    
-    let parts = AI_Decomposition_Matrix_Map[char] || [];
-    if(parts.length > 0) {
-      parts.forEach(p => { 
-        if(TM_Radicals_Dict[p]) {
-          count++; 
-          htmlContent += `<p class="radical-item-text">➔ <strong>Bộ thủ [ ${p} ]:</strong> ${TM_Radicals_Dict[p]}</p>`; 
-        }
-      });
-    }
     
     Object.keys(TM_Radicals_Dict).forEach(r => { 
       if(char.includes(r) && !htmlContent.includes(`[ ${r} ]`)) {
