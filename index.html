@@ -2,16 +2,17 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HánStudy – Học Tiếng Trung AI</title>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-    
     <script src="database.js"></script>
-    
     <style>
-        /* [Giữ nguyên CSS của bạn ở đây] */
+        body { background-color: #f4f7f6; font-family: sans-serif; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 32px; border-radius: 24px; border: 1px solid #cbd5e1; }
+        .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .upload-box { border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; }
+        .hidden { display: none !important; }
+        .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
     </style>
 </head>
 <body>
@@ -22,6 +23,7 @@
             <div class="stat-box-card">Chủ đề: <div id="count-topic">0</div></div>
         </div>
         <input type="file" id="file-input" class="hidden" onchange="triggerUploadParser(this)">
+        <div id="status-msg"></div>
         <div id="panel-radical-analysis" class="radical-pane hidden"></div>
         <div id="study-engine-board" class="hidden"></div>
     </div>
