@@ -4,22 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="description" content="HánStudy – Học tiếng Trung chuyên ngành với AI: Nghe, Nói, Đọc, Viết. Upload PDF/DOCX và bắt đầu học ngay.">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#f4f7f6">
 <title>HánStudy – Học Tiếng Trung AI</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111'/><text y='.92em' font-size='68' x='8' fill='white' font-family='serif'>汉</text></svg>\">
-<link rel="manifest" href="data:application/json,{%22name%22:%22HánStudy%22,%22short_name%22:%22HánStudy%22,%22display%22:%22standalone%22,%22background_color%22:%22%23111%22}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232c3e50'/><text y='.92em' font-size='68' x='8' fill='white' font-family='serif'>汉</text></svg>\">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <style>
+  /* ĐỔI TOÀN BỘ SANG THEME SÁNG THEO YÊU CẦU */
+  :box { box-sizing: border-box; }
   :root {
-    --bg-main: #111111;
-    --bg-card: #18181c;
-    --bg-input: #222226;
-    --border: #2c2c35;
-    --text-primary: #f3f4f6;
-    --text-secondary: #9ca3af;
+    --bg-main: #f4f7f6;
+    --bg-card: #ffffff;
+    --bg-input: #f8fafc;
+    --border: #cbd5e1;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
     --accent-blue: #3b82f6;
     --accent-green: #10b981;
     --accent-orange: #f97316;
@@ -30,20 +31,20 @@
   }
   * { box-sizing: border-box; font-family: var(--font-en); margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body { background-color: var(--bg-main); color: var(--text-primary); padding: 20px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
-  .container { width: 100%; max-width: 800px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .container { width: 100%; max-width: 950px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
   .hidden { display: none !important; }
   
   /* Navigation Menu */
   .main-nav { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
   .nav-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; }
-  .nav-btn.active { background: var(--text-primary); color: var(--bg-main); border-color: var(--text-primary); }
+  .nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
   
   /* Upload Area */
-  .upload-box { border: 2px dashed var(--border); padding: 40px 20px; text-align: center; border-radius: 16px; cursor: pointer; background: rgba(255,255,255,0.01); transition: all 0.2s; margin-bottom: 24px; }
+  .upload-box { border: 2px dashed var(--border); padding: 30px 20px; text-align: center; border-radius: 16px; cursor: pointer; background: var(--bg-input); transition: all 0.2s; margin-bottom: 24px; }
   .upload-box:hover { border-color: var(--accent-blue); background: rgba(59,130,246,0.03); }
-  .upload-icon { font-size: 40px; margin-bottom: 12px; display: block; }
-  .upload-text { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-  .upload-sub { font-size: 13px; color: var(--text-secondary); }
+  .upload-icon { font-size: 36px; margin-bottom: 8px; display: block; }
+  .upload-text { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
+  .upload-sub { font-size: 12px; color: var(--text-secondary); }
   #status-msg { text-align: center; font-weight: 600; color: var(--accent-green); margin-top: -12px; margin-bottom: 16px; font-size: 14px; }
 
   /* Grid Layouts & Skill Tabs */
@@ -51,11 +52,11 @@
   .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
   @media(min-width: 550px) { .skills-grid { grid-template-columns: repeat(4, 1fr); } }
   .skill-tab-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 13px; text-align: center; }
-  .skill-tab-btn.active { border-color: var(--text-primary); color: var(--text-primary); box-shadow: 0 0 12px rgba(255,255,255,0.05); }
+  .skill-tab-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
 
   .topic-list { display: flex; flex-direction: column; gap: 8px; }
-  .topic-item-row { background: var(--bg-input); border: 1px solid var(--border); padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; font-size: 14px; }
-  .topic-item-row:hover { border-color: var(--text-secondary); background: rgba(255,255,255,0.02); }
+  .topic-item-row { background: var(--bg-input); border: 1px solid var(--border); padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; font-size: 14px; color: var(--text-primary); }
+  .topic-item-row:hover { border-color: var(--text-secondary); background: #f1f5f9; }
 
   /* Bảng Tổng Quan Preview Mode */
   .preview-section { margin-top: 8px; }
@@ -64,7 +65,7 @@
   .preview-container::-webkit-scrollbar { width: 6px; }
   .preview-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   .preview-card-item { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; }
-  .preview-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 10px; }
+  .preview-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
   .preview-vocab-block { display: flex; flex-direction: column; gap: 2px; }
   .preview-zh { font-family: var(--font-zh); font-size: 26px; font-weight: 700; color: var(--text-primary); }
   .preview-py { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
@@ -77,11 +78,11 @@
   /* Interactive Cards Engine */
   .study-card { background: var(--bg-card); border-radius: 20px; padding: 12px 0; text-align: center; }
   .display-zone { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .zh-main { font-family: var(--font-zh); font-size: 58px; font-weight: 700; color: var(--text-primary); margin: 8px 0; letter-spacing: 2px; text-align: center; }
-  .zh-main span, .ex-zh-row span { cursor: help; border-bottom: 2px dashed rgba(255,255,255,0.15); padding: 0 4px; display: inline-block; transition: all 0.2s; }
-  .zh-main span:hover, .ex-zh-row span:hover { color: var(--accent-blue); border-bottom-color: var(--accent-blue); background: rgba(59,130,246,0.08); border-radius: 4px; }
+  .zh-main { font-family: var(--font-zh); font-size: 58px; font-weight: 700; color: #000000; margin: 8px 0; letter-spacing: 2px; text-align: center; }
+  .zh-main span, .ex-zh-row span { cursor: help; border-bottom: 2px dashed var(--border); padding: 0 4px; display: inline-block; transition: all 0.2s; }
+  .zh-main span:hover, .ex-zh-row span:hover { color: var(--accent-blue); border-bottom-color: var(--accent-blue); background: #ffe082; border-radius: 4px; }
   .py-sub { font-size: 22px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; text-align: center; }
-  .vn-desc { font-size: 26px; font-weight: 700; color: var(--accent-orange); margin-bottom: 16px; text-align: center; }
+  .vn-desc { font-size: 26px; font-weight: 700; color: var(--accent-accent, #e74c3c); margin-bottom: 16px; text-align: center; }
   
   .audio-control-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
   .audio-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
@@ -97,7 +98,7 @@
   .input-field { width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 14px; color: var(--text-primary); font-size: 18px; text-align: center; transition: all 0.2s; margin-top: 12px; }
   .input-field:focus { outline: none; border-color: var(--text-secondary); }
   .quiz-option-btn { width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 14px; text-align: left; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; transition: all 0.2s; }
-  .quiz-option-btn:hover { background: rgba(255,255,255,0.02); border-color: var(--text-secondary); }
+  .quiz-option-btn:hover { background: #f1f5f9; border-color: var(--text-secondary); }
 
   /* Chips Puzzle Area */
   .chips-pool, .drop-container { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 56px; padding: 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 14px; margin: 16px 0; }
@@ -106,10 +107,10 @@
   .btn-group { display: flex; gap: 10px; justify-content: center; margin: 12px 0; }
 
   /* Radical Box */
-  .radical-pane { text-align: left; background: #222216; border: 1px solid #333311; border-left: 4px solid var(--accent-yellow); padding: 20px; border-radius: 14px; margin-top: 20px; }
-  .radical-header-title { font-size: 15px; font-weight: 700; color: var(--accent-yellow); border-bottom: 1px dashed #333311; padding-bottom: 8px; margin-bottom: 12px; }
+  .radical-pane { text-align: left; background: #fff8db; border: 1px solid #cbd5e1; border-left: 4px solid var(--accent-yellow); padding: 20px; border-radius: 14px; margin-top: 20px; color: #1e293b; }
+  .radical-header-title { font-size: 15px; font-weight: 700; color: #b45309; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; margin-bottom: 12px; }
 
-  .action-btn-primary { width: 100%; padding: 16px; background: var(--text-primary); color: var(--bg-main); border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 24px; }
+  .action-btn-primary { width: 100%; padding: 16px; background: var(--primary, #2c3e50); color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 24px; }
   .action-btn-primary:hover { opacity: 0.9; }
 </style>
 </head>
@@ -122,13 +123,17 @@
   </div>
 
   <div id="sec-home" class="tab-pane-view">
-    <div class="stats-grid" id="stats-area-counter"></div>
     
-    <input type="file" id="file-input" class="hidden" accept=".pdf,.docx" onchange="triggerUploadParser(this)">
-    <div class="upload-box" id="upload-box-click" onclick="document.getElementById('file-input').click()">
-      <span class="upload-icon">📁</span>
-      <p class="upload-text">Tải lên tài liệu giảng dạy (.pdf, .docx)</p>
-      <p class="upload-sub">Hệ thống AI tự động xử lý và trích xuất cấu trúc dữ liệu</p>
+    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-bottom: 20px;">
+      <div>
+        <input type="file" id="file-input" class="hidden" accept=".pdf,.docx" onchange="triggerUploadParser(this)">
+        <div class="upload-box" id="upload-box-click" style="margin-bottom:0;" onclick="document.getElementById('file-input').click()">
+          <span class="upload-icon">📁</span>
+          <p class="upload-text">Tải lên tài liệu (.pdf, .docx)</p>
+          <p class="upload-sub">AI tự động bóc tách trích xuất bảng dữ liệu</p>
+        </div>
+      </div>
+      <div class="stats-grid" id="stats-area-counter" style="margin-bottom:0; grid-template-columns:1fr; gap:10px;"></div>
     </div>
     <div id="status-msg"></div>
     
@@ -200,22 +205,22 @@
         <div class="section-title">✍️ Nhìn Nghĩa Việt, Hãy Gõ Lại Từ Chữ Hán:</div>
         <div class="vn-desc" id="wr-prompt-vn" style="font-size:32px; margin:16px 0;"></div>
         <input type="text" id="wr-user-input" class="input-field" placeholder="Nhập từ chữ Hán của bạn vào đây..." onkeydown="listenInputEnter(event, verifyWriteAnswer)">
-        <button class="action-btn-primary" style="background:var(--accent-blue); color:#fff;" onclick="verifyWriteAnswer()">Xác nhận kết quả viết</button>
+        <button class="action-btn-primary" style="background:var(--accent-blue); color:#fff; max-width:300px; margin: 15px auto dsiplay:block;" onclick="verifyWriteAnswer()">Xác nhận kết quả viết</button>
         <div id="wr-feedback-msg" style="margin-top:16px; font-weight:700; font-size:16px;"></div>
       </div>
 
       <div id="panel-read" class="hidden">
         <div class="section-title">📖 Chọn Nghĩa Tiếng Việt Chính Xác Cho Từ Hán Dưới Đây:</div>
         <div class="zh-main" id="rd-prompt-zh" style="margin:24px 0;"></div>
-        <div id="rd-quiz-options-wrapper"></div>
+        <div id="rd-quiz-options-wrapper" style="max-width:500px; margin:0 auto;"></div>
         <div id="rd-feedback-msg" style="margin-top:16px; font-weight:700; font-size:16px;"></div>
       </div>
 
       <div id="panel-listen" class="hidden">
         <div class="section-title">🔊 Nghe Phát Âm, Đoán Nghĩa Từ & Sắp Xếp Lại Câu Mẫu:</div>
         <div class="audio-control-row" style="margin:16px 0;">
-          <button class="audio-btn" style="background:var(--accent-blue); border-color:var(--accent-blue);" onclick="speakCoreSound(activeWordsList[activeIdx].cn)">🔊 Nghe từ gốc</button>
-          <button class="audio-btn" style="background:var(--accent-green); border-color:var(--accent-green);" onclick="speakCoreSound(activeWordsList[activeIdx].ex_cn)">🔊 Nghe câu ví dụ</button>
+          <button class="audio-btn" style="background:var(--accent-blue); border-color:var(--accent-blue); color:#fff;" onclick="speakCoreSound(activeWordsList[activeIdx].cn)">🔊 Nghe từ gốc</button>
+          <button class="audio-btn" style="background:var(--accent-green); border-color:var(--accent-green); color:#fff;" onclick="speakCoreSound(activeWordsList[activeIdx].ex_cn)">🔊 Nghe câu ví dụ</button>
         </div>
         <input type="text" id="l-user-input-meaning" class="input-field" placeholder="Gõ dự đoán nghĩa tiếng Việt của từ vào đây..." onkeydown="listenInputEnter(event, verifyListenPuzzle)">
         
@@ -223,8 +228,8 @@
         <div class="chips-pool" id="l-puzzle-pool"></div>
         
         <div class="btn-group">
-          <button class="audio-btn" style="background:var(--accent-orange); border-color:var(--accent-orange);" onclick="rebuildListenPuzzle()">🔄 Xóa xếp lại</button>
-          <button class="audio-btn" style="background:var(--accent-green); border-color:var(--accent-green);" onclick="verifyListenPuzzle()">✅ Nộp kết quả kiểm tra</button>
+          <button class="audio-btn" style="background:var(--accent-orange); border-color:var(--accent-orange); color:#fff;" onclick="rebuildListenPuzzle()">🔄 Xóa xếp lại</button>
+          <button class="audio-btn" style="background:var(--accent-green); border-color:var(--accent-green); color:#fff;" onclick="verifyListenPuzzle()">✅ Nộp kết quả kiểm tra</button>
         </div>
         <div id="l-feedback-msg" style="margin-top:16px; font-weight:700; font-size:16px;"></div>
       </div>
@@ -234,7 +239,7 @@
         <div class="zh-main" id="sp-prompt-zh" style="font-size:36px; margin:24px 0; letter-spacing:1px;"></div>
         <div class="audio-control-row">
           <button class="audio-btn" onclick="speakCoreSound(activeWordsList[activeIdx].ex_cn)">🔊 Nghe câu mẫu trước</button>
-          <button class="audio-btn" style="background:var(--accent-red); border-color:var(--accent-red);" id="mic-trigger-btn" onclick="activateVoiceRecognition()">🎤 Bật Mic đọc câu</button>
+          <button class="audio-btn" style="background:var(--accent-red); border-color:var(--accent-red); color:#fff;" id="mic-trigger-btn" onclick="activateVoiceRecognition()">🎤 Bật Mic đọc câu</button>
         </div>
         <div id="sp-feedback-msg" style="margin-top:20px; font-weight:700; font-size:16px; line-height:1.6;"></div>
       </div>
@@ -252,10 +257,10 @@
 </div>
 
 <script>
-  // Cơ sở dữ liệu bộ thủ chuẩn mã hóa 214
+  // Cơ sở dữ liệu bộ thủ 214 chuẩn
   const TM_Radicals_Dict = {
     "一": "Bộ Nhất - Số một, khởi đầu của vạn vật.", "丨": "Bộ Cổn - Nét sổ dọc thẳng đứng.", "丶": "Bộ Chủ - Điểm chấm, biểu thị dấu vết.", "丿": "Bộ Phiệt - Nét phẩy quét sang trái.",
-    "乙": "Bộ Ất - Vị trí thứ hai trong thiên can.", "亅": "Bộ Quyết - Nét móc lên ở cuối nét sổ.", "二": "Bộ Nhị - Số hai, đại diện cho âm dương.", "亠": "Bộ Đầu - Nét chấm đầu gạch ngang phía trên.",
+    "乙": "Bộ Ất - Vị trí thứ hai trong thiên can.", "亅": "Bộ Quyết - Nét móc lên ở cuối nét sổ.", "二": "Bộ Nhị - Số hai, đại diện cho âm dương.", "亠": "Bộ Đầu - Nét chấm đầu gạch quang phía trên.",
     "人": "Bộ Nhân - Con người, tư thế đứng thẳng gánh vác.", "亻": "Bộ Nhân đứng - Biến thể con người, xuất hiện trong 我, 职位, 修改.", "儿": "Bộ Nhi - Đứa trẻ sơ sinh đi chập chững.",
     "入": "Bộ Nhập - Đi vào bên trong, tiếp thu vào.", "八": "Bộ Bát - Số tám, biểu thị sự chia rẽ, phân chia.", "冂": "Bộ Quynh - Vùng biên giới xa xôi bao bọc bên ngoài (Chữ 同).",
     "冖": "Bộ Mịch - Khăn trùm che đậy kín lên đồ vật.", "冫": "Bộ Băng - Nước đá, hiện tượng lạnh giá, đông kết.",
@@ -278,6 +283,7 @@
     "日": "Bộ Nhật - Mặt trời chiếu sáng, quy luật thời gian, ngày tháng.", "曰": "Bộ Viết - Nói rằng, lời phán ra từ miệng.",
     "月": "Bộ Nguyệt - Mặt trăng khuyết, đại diện cho ban đêm hoặc xác thịt cơ thể.", "木": "Bộ Mộc - Cây cối thân gỗ, vật liệu xây dựng thực vật (Chữ 材, 核).", "欠": "Bộ Khiếm - Thiếu thốn, há miệng ngáp dài thiếu dưỡng khí.", "止": "Bộ Chỉ - Dừng lại, dấu chân đứng im không dịch tiếp, sửa cho đúng (Chữ 正).",
     "殳": "Bộ Thù - Binh khí dài bằng tre gỗ gõ đập.", "比": "Bộ Tỷ - So sánh, hai người đứng liền kề đọ cao thấp.", "毛": "Bộ Mao - Lông thú, lông tóc động vật mềm mại.", "氏": "Bộ Thị - Họ trong gia tộc, gốc rễ nguồn cội.", "气": "Bộ Khí - Hơi nước bốc lên, bầu không khí, năng lượng khí chất.", "水": "Bộ Thủy - Nước chảy thành dòng, chất lỏng thanh lọc.",
+    "微": "Bộ Vi - Nhỏ bé, tinh vi.",
     "氵": "Bộ Thủy đứng - Biến thể dòng nước, liên quan đến đóng nộp, xử lý hóa chất.",
     "火": "Bộ Hỏa - Ngọn lửa cháy bốc lên ngùn ngụt, năng lượng sưởi ấm.",
     "灬": "Bộ Hỏa dưới - Bốn chấm lửa đuôi, liên quan đến nấu nướng, nhiệt độ cao.",
@@ -289,6 +295,7 @@
     "生": "Bộ Sinh - Sinh trưởng, mầm cây mọc vươn lên mặt đất sinh sống.",
     "用": "Bộ Dụng - Sử dụng, công cụ có ích để vận hành dùng việc.",
     "田": "Bộ Điền - Ruộng đất phân chia bờ cõi canh tác nông nghiệp.",
+    "专业": "Chuyên ngành, lĩnh vực.",
     "疒": "Bộ Tật - Giường bệnh, đau ốm bệnh tật suy nhược.",
     "白": "Bộ Bạch - Màu trắng, sự minh bạch rành mạch trong sạch.",
     "皮": "Bộ Bì - Da động vật bóc ra tấm da bọc ngoài.",
@@ -388,8 +395,8 @@
   function renderHomeDashboard() {
     const stats = document.getElementById('stats-area-counter');
     stats.innerHTML = `
-      <div class="stat-card"><div class="stat-val">${globalDatabase.length}</div><div style="font-size:12px;color:var(--text-secondary);font-weight:600;margin-top:4px">TỪ VỰNG ĐÃ NẠP</div></div>
-      <div class="stat-card"><div class="stat-val">${new Set(globalDatabase.map(d=>d.topic)).size}</div><div style="font-size:12px;color:var(--text-secondary);font-weight:600;margin-top:4px">CHỦ ĐỀ TỰ ĐỘNG</div></div>
+      <div class="stat-card" style="border-color:var(--border);"><div class="stat-val" style="color:var(--accent-blue);">${globalDatabase.length}</div><div style="font-size:12px;color:var(--text-secondary);font-weight:600;margin-top:4px">TỪ VỰNG ĐÃ NẠP</div></div>
+      <div class="stat-card" style="border-color:var(--border);"><div class="stat-val" style="color:var(--accent-blue);">${new Set(globalDatabase.map(d=>d.topic)).size}</div><div style="font-size:12px;color:var(--text-secondary);font-weight:600;margin-top:4px">CHỦ ĐỀ TỰ ĐỘNG</div></div>
     `;
     if(globalDatabase.length > 0) {
       document.getElementById('workflow-skill-section').classList.remove('hidden');
@@ -536,12 +543,15 @@
     renderHomeDashboard();
   }
 
+  /* ĐỒNG BỘ HIỂN THỊ DỮ LIỆU SỬA LỖI TRẮNG ENGINE */
   function refreshEngineCardLayoutData() {
     const w = activeWordsList[activeIdx];
     document.getElementById('engine-title').innerText = `Thiết kế học [${activeSkillMode.toUpperCase()}]`;
     document.getElementById('engine-progress-counter').innerText = `${activeIdx + 1} / ${activeWordsList.length}`;
     
-    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    // Gỡ hidden để các kỹ năng học hiển thị nội dung chuẩn xác (Sửa lỗi hình 2 & 3)
+    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById('panel-radical-analysis').classList.add('hidden');
     document.getElementById('global-next-item-btn').classList.remove('hidden');
 
     document.getElementById('v-main-text').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
@@ -625,7 +635,7 @@
     if(!voiceRecognitionEngine) return alert("Trình duyệt/thiết bị chưa hỗ trợ API Micro giọng nói.");
     voiceRecognitionEngine.start(); 
     const btn = document.getElementById('mic-trigger-btn');
-    btn.innerText = "🎙 *Đang lắng nghe giọng bạn...";
+    btn.innerText = "🎙️ Đang ghi âm giọng đọc...";
     voiceRecognitionEngine.onresult = (e) => {
       const speech = e.results[0][0].transcript; 
       btn.innerText = "🎤 Bật Mic đọc câu";
