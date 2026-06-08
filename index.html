@@ -1,503 +1,58 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head> : <script src="database.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>HánStudy – Học Tiếng Trung AI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-<style>
-  :root {
-    --bg-main: #f4f7f6;
-    --bg-card: #ffffff;
-    --bg-input: #f8fafc;
-    --border: #cbd5e1;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --accent-blue: #3b82f6;
-    --accent-green: #10b981;
-    --accent-orange: #f97316;
-    --accent-red: #ef4444;
-    --accent-yellow: #f59e0b;
-    --font-zh: 'Noto Sans SC', sans-serif;
-    --font-en: 'Plus Jakarta Sans', sans-serif;
-  }
-  * { box-sizing: border-box; font-family: var(--font-en); margin: 0; padding: 0; }
-  body { background-color: var(--bg-main); color: var(--text-primary); padding: 20px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
-  .container { width: 100%; max-width: 1000px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-  .hidden { display: none !important; }
-  
-  /* Top Navigation */
-  .main-nav { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
-  .nav-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; }
-  .nav-btn.active { background: #2c3e50; color: white; border-color: #2c3e50; }
-  
-  /* 3 HỘP ĐỒNG HÀNG TRÊN CÙNG */
-  .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; align-items: stretch; }
-  @media(max-width: 768px) { .top-dashboard-grid { grid-template-columns: 1fr; } }
-  
-  .upload-box { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; background: var(--bg-input); transition: all 0.2s; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 140px; }
-  .upload-box:hover { border-color: var(--accent-blue); background: rgba(59,130,246,0.02); }
-  .upload-icon { font-size: 32px; margin-bottom: 4px; }
-  .upload-text { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-  .upload-sub { font-size: 11px; color: var(--text-secondary); }
-  
-  .stat-box-card { background: var(--bg-input); border: 1px solid var(--border); padding: 20px; border-radius: 16px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 140px; }
-  .stat-box-val { font-size: 40px; font-weight: 700; color: var(--accent-blue); line-height: 1; margin-bottom: 8px; }
-  .stat-box-lbl { font-size: 12px; color: var(--text-secondary); font-weight: 700; letter-spacing: 0.5px; }
-
-  /* Bố cục chọn kỹ năng và chủ đề */
-  .section-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; }
-  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
-  @media(min-width: 600px) { .skills-grid { grid-template-columns: repeat(4, 1fr); } }
-  .skill-tab-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 13px; text-align: center; }
-  .skill-tab-btn.active { background: #2c3e50; border-color: #2c3e50; color: white; }
-
-  .topic-list { display: flex; flex-direction: column; gap: 8px; }
-  .topic-item-row { background: var(--bg-input); border: 1px solid var(--border); padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; font-size: 14px; color: var(--text-primary); }
-  .topic-item-row:hover { border-color: var(--text-secondary); background: #f1f5f9; }
-
-  /* Bảng Tổng Quan Preview Mode */
-  .preview-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .preview-container { display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto; }
-  .preview-card-item { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: left; }
-  .preview-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-  .preview-zh { font-family: var(--font-zh); font-size: 26px; font-weight: 700; color: var(--text-primary); }
-  .preview-py { font-size: 14px; color: var(--text-secondary); }
-  .preview-vn { font-size: 16px; font-weight: 700; color: var(--accent-orange); text-align: right; }
-  .preview-ex-block { display: flex; flex-direction: column; gap: 3px; }
-  .preview-ex-zh { font-family: var(--font-zh); font-size: 16px; color: var(--text-primary); font-weight: 500; }
-  .preview-ex-py { font-size: 13px; color: var(--text-secondary); }
-  .preview-ex-vn { font-size: 14px; color: var(--accent-green); font-weight: 500; }
-
-  /* Giao diện tương tác học tập */
-  .study-card { background: var(--bg-card); border-radius: 20px; padding: 10px 0; text-align: center; }
-  .display-zone { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .zh-main { font-family: var(--font-zh); font-size: 58px; font-weight: 700; color: #000000; margin: 8px 0; letter-spacing: 2px; text-align: center; }
-  .zh-main span, .ex-zh-row span { cursor: help; border-bottom: 2px dashed var(--border); padding: 0 4px; display: inline-block; transition: all 0.2s; }
-  .zh-main span:hover, .ex-zh-row span:hover { color: var(--accent-blue); background: #ffe082; border-bottom-color: var(--accent-blue); }
-  .py-sub { font-size: 22px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; text-align: center; }
-  .vn-desc { font-size: 26px; font-weight: 700; color: var(--accent-red); margin-bottom: 16px; text-align: center; }
-  
-  .audio-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; margin: 5px; font-size: 13px; }
-  .ex-container { text-align: left; background: var(--bg-input); border: 1px solid var(--border); padding: 20px; border-radius: 16px; border-left: 4px solid var(--accent-orange); margin-top: 16px; }
-  .ex-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
-  .ex-zh-row { font-family: var(--font-zh); font-size: 24px; font-weight: 600; margin-bottom: 4px; }
-  .ex-py-row { font-size: 16px; color: var(--text-secondary); margin-bottom: 4px; }
-  .ex-vn-row { font-size: 16px; color: var(--accent-green); font-weight: 500; }
-
-  .input-field { width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 14px; color: var(--text-primary); font-size: 18px; text-align: center; margin-top: 12px; }
-  .quiz-option-btn { width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 14px; text-align: left; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
-  .quiz-option-btn:hover { background: #f1f5f9; border-color: var(--text-secondary); }
-
-  .chips-pool, .drop-container { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 56px; padding: 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 14px; margin: 16px 0; }
-  .puzzle-chip { padding: 10px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 18px; color: var(--text-primary); }
-  .puzzle-chip.used { opacity: 0.25; pointer-events: none; }
-  
-  /* Radical Pane AI đối chiếu bộ thủ */
-  .radical-pane { text-align: left; background: #fff8db; border: 1px solid #cbd5e1; border-left: 4px solid var(--accent-yellow); padding: 20px; border-radius: 14px; margin-top: 20px; color: #1e293b; }
-  .radical-header-title { font-size: 15px; font-weight: 700; color: #b45309; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; margin-bottom: 12px; }
-  .radical-item-text { font-size: 14px; margin: 8px 0; line-height: 1.6; color: #1e293b; }
-
-  .action-btn-primary { width: 100%; padding: 16px; background: #2c3e50; color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 24px; }
-</style>
+<head>
+    <meta charset="UTF-8">
+    <title>HánStudy – Học Tiếng Trung AI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="database.js"></script> 
+    <style>
+        /* CSS 3 hộp ngang hàng và giao diện sáng */
+        :root { --bg-main: #f4f7f6; --bg-card: #ffffff; --bg-input: #f8fafc; --border: #cbd5e1; --text-primary: #1e293b; }
+        body { background-color: var(--bg-main); padding: 20px; font-family: sans-serif; }
+        .container { max-width: 1000px; margin: auto; background: var(--bg-card); padding: 32px; border-radius: 24px; border: 1px solid var(--border); }
+        .top-dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .upload-box { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 16px; cursor: pointer; background: var(--bg-input); }
+        .stat-box-card { background: var(--bg-input); border: 1px solid var(--border); padding: 20px; border-radius: 16px; text-align: center; }
+        .hidden { display: none !important; }
+        .radical-pane { background: #fff8db; padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 4px solid #f59e0b; }
+        .action-btn-primary { width: 100%; padding: 16px; background: #2c3e50; color: white; border-radius: 14px; cursor: pointer; margin-top: 24px; border: none; }
+    </style>
 </head>
 <body>
-
 <div class="container">
-  <div class="main-nav">
-    <button class="nav-btn active" id="nav-home" onclick="changeMainTab('home')">🏠 Trang Chủ</button>
-    <button class="nav-btn" id="nav-test" onclick="changeMainTab('test')">📝 Kiểm Tra</button>
-  </div>
-
-  <div id="sec-home" class="tab-pane-view">
-    <div class="top-dashboard-grid">
-      <div class="upload-box" onclick="document.getElementById('file-input').click()">
-        <span class="upload-icon">📁</span>
-        <p class="upload-text">Tải lên tài liệu (.pdf, .docx)</p>
-        <p class="upload-sub">AI tự động bóc tách trích xuất</p>
-      </div>
-      <div class="stat-box-card">
-        <div class="stat-box-val" id="count-vocab">0</div>
-        <div class="stat-box-lbl">TỪ VỰNG ĐÃ NẠP</div>
-      </div>
-      <div class="stat-box-card">
-        <div class="stat-box-val" id="count-topic">0</div>
-        <div class="stat-box-lbl">CHỦ ĐỀ TỰ ĐỘNG</div>
-      </div>
-    </div>
-    <input type="file" id="file-input" class="hidden" accept=".pdf,.docx" onchange="triggerUploadParser(this)">
-    <div id="status-msg"></div>
-    
-    <div id="workflow-skill-section" class="hidden">
-      <div class="section-title">⚡ Bước 1: Chọn Kỹ Năng Muốn Học Chuyên Sâu</div>
-      <div class="skills-grid">
-        <button class="skill-tab-btn" id="sk-tab-write" onclick="toggleWorkflowSkill('write')">✍️ 1. Luyện Viết (Chiết tự)</button>
-        <button class="skill-tab-btn" id="sk-tab-read" onclick="toggleWorkflowSkill('read')">📖 2. Luyện Đọc (Mặt chữ)</button>
-        <button class="skill-tab-btn" id="sk-tab-listen" onclick="toggleWorkflowSkill('listen')">🔊 3. Luyện Nghe (Ghép câu)</button>
-        <button class="skill-tab-btn" id="sk-tab-speak" onclick="toggleWorkflowSkill('speak')">🎙️ 4. Luyện Nói (Phát âm)</button>
-      </div>
+    <div class="main-nav">
+        <button class="nav-btn active" onclick="changeMainTab('home')">🏠 Trang Chủ</button>
+        <button class="nav-btn" onclick="changeMainTab('test')">📝 Kiểm Tra</button>
     </div>
 
-    <div id="workflow-topic-section" class="hidden" style="margin-top: 16px;">
-      <div class="section-title">📂 Bước 2: Chọn Chủ Đề Học Tập</div>
-      <div class="topic-list" id="workflow-topic-container-list"></div>
-    </div>
-  </div>
-
-  <div id="sec-preview" class="tab-pane-view hidden">
-    <div class="preview-section">
-      <div class="preview-header-bar">
-        <button class="nav-btn" onclick="changeMainTab('home')">← Trang chủ</button>
-        <div class="section-title" id="preview-heading-title" style="margin:0;">Tra cứu khái quát</div>
-        <button class="nav-btn" style="background:var(--accent-green); color:#fff;" onclick="activateLearningWorkflow()">🚀 Học chủ đề này</button>
-      </div>
-      <div class="preview-container" id="preview-cards-scroller"></div>
-    </div>
-  </div>
-
-  <div id="sec-test" class="tab-pane-view hidden">
-    <div class="section-title">📋 Tạo Đề Kiểm Tra</div>
-    <button class="topic-item-row" style="width:100%; background:rgba(16,185,129,0.1); border-color:var(--accent-green);" onclick="buildTestEngine('ALL_TOPICS')">
-      <span>🎯 ĐỀ THI KIỂM TRA TỔNG HỢP TẤT CẢ CHỦ ĐỀ</span><span>Bắt đầu →</span>
-    </button>
-    <div class="topic-list" id="test-topic-container-list"></div>
-  </div>
-
-  <div id="study-engine-board" class="hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:20px;">
-      <button class="nav-btn" onclick="location.reload()">← Thoát</button>
-      <div id="engine-header-title" style="font-weight:700; color:var(--text-secondary);"></div>
-      <strong id="engine-progress-counter">0/0</strong>
-    </div>
-
-    <div class="study-card">
-      <div id="reveal-card-zone" class="hidden">
-        <div class="display-zone">
-          <div class="zh-main" id="v-main-text"></div>
-          <div class="py-sub" id="v-py-text"></div>
-          <div class="vn-desc" id="v-vn-text"></div>
-          <div class="audio-control-row">
-            <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].cn)">🔊 Từ vựng</button>
-            <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].ex_cn)">🔊 Câu mẫu</button>
-          </div>
+    <div id="sec-home" class="tab-pane-view">
+        <div class="top-dashboard-grid">
+            <div class="upload-box" onclick="document.getElementById('file-input').click()">📁 Tải file học tập</div>
+            <div class="stat-box-card">Từ vựng: <div id="count-vocab">0</div></div>
+            <div class="stat-box-card">Chủ đề: <div id="count-topic">0</div></div>
         </div>
-        <div class="ex-container">
-          <div class="ex-label">Câu ví dụ mẫu ngữ cảnh</div>
-          <div class="ex-zh-row" id="e-main-text"></div>
-          <div class="ex-py-row" id="e-py-text"></div>
-          <div class="ex-vn-row" id="e-vn-text"></div>
+        <input type="file" id="file-input" class="hidden" onchange="triggerUploadParser(this)">
+        <div id="workflow-skill-section" class="hidden">
+            <button onclick="toggleWorkflowSkill('write')">Viết</button>
+            <button onclick="toggleWorkflowSkill('read')">Đọc</button>
+            <button onclick="toggleWorkflowSkill('listen')">Nghe</button>
+            <button onclick="toggleWorkflowSkill('speak')">Nói</button>
         </div>
-      </div>
-
-      <div id="panel-write" class="hidden">
-        <div class="vn-desc" id="wr-prompt-vn"></div>
-        <input type="text" id="wr-user-input" class="input-field" placeholder="Nhập từ chữ Hán..." onkeydown="listenInputEnter(event, verifyWriteAnswer)">
-        <button class="action-btn-primary" onclick="verifyWriteAnswer()">Xác nhận</button>
-      </div>
-
-      <div id="panel-read" class="hidden">
-        <div class="zh-main" id="rd-prompt-zh"></div>
-        <div id="rd-quiz-options-wrapper"></div>
-      </div>
-
-      <div id="panel-listen" class="hidden">
-        <div class="audio-control-row">
-          <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].cn)">🔊 Nghe từ</button>
-          <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].ex_cn)">🔊 Nghe câu</button>
-        </div>
-        <input type="text" id="l-user-input-meaning" class="input-field" placeholder="Đoán nghĩa tiếng Việt..." onkeydown="listenInputEnter(event, verifyListenPuzzle)">
-        <div class="drop-container" id="l-puzzle-drop"></div><div class="chips-pool" id="l-puzzle-pool"></div>
-        <button class="action-btn-primary" onclick="verifyListenPuzzle()">✅ Nộp kết quả</button>
-      </div>
-
-      <div id="panel-speak" class="hidden">
-        <div class="zh-main" id="sp-prompt-zh" style="font-size:36px;"></div>
-        <div class="audio-control-row" style="margin-top:10px;">
-          <button class="audio-btn" onclick="speakCoreSound(currentWords[activeIdx].ex_cn)">🔊 Nghe câu mẫu</button>
-        </div>
-        <button class="action-btn-primary" id="mic-trigger-btn" onclick="activateVoiceRecognition()">🎤 Bấm nói</button>
-        <div id="sp-feedback-msg" style="margin-top:15px; font-weight:700;"></div>
-      </div>
-
-      <div id="panel-radical-analysis" class="radical-pane hidden"></div>
-      <button class="action-btn-primary" id="global-next-item-btn" onclick="shiftNextWord()">CÂU TIẾP THEO →</button>
+        <div id="workflow-topic-container-list"></div>
     </div>
-  </div>
 
-  <div id="test-engine-board" class="hidden interactive-card" style="text-align:left;">
-    <div id="test-question-content-box"></div>
-    <button class="action-btn-primary" style="background:var(--accent-green);" onclick="executeTestAnswerVerification()">Xác Nhận & Tiếp tục</button>
-  </div>
+    <div id="panel-radical-analysis" class="radical-pane hidden"></div>
+    <div id="study-engine-board" class="hidden">
+        </div>
 </div>
 
 <script>
-  // TÍNH NĂNG MỚI: BỘ TỪ ĐIỂN 214 BỘ THỦ THANHMAIHSK TOÀN DIỆN TỪ 1 NÉT ĐẾN 17 NÉT ĐƯỢC NHÚNG TRỰC TIẾP
-  const TM_Radicals_Dict = {
-    "一": "Bộ Nhất (Số một) - Khởi đầu của vạn vật.", "丨": "Bộ Cổn - Nét sổ dọc thẳng đứng.", "丶": "Bộ Chủ - Điểm chấm, biểu thị dấu vết.", "丿": "Bộ Phiệt - Nét phẩy quét sang trái.",
-    "乙": "Bộ Ất - Vị trí thứ hai trong thiên can.", "亅": "Bộ Quyết - Nét móc lên ở cuối nét sổ.", "二": "Bộ Nhị (Số hai) - Đại diện cho âm dương.", "亠": "Bộ Đầu - Nét chấm đầu gạch ngang phía trên.",
-    "人": "Bộ Nhân (Người) - Con người, tư thế đứng thẳng gánh vác việc lớn.", "亻": "Bộ Nhân đứng - Biến thể của con người, liên quan đến hành vi, hoạt động.", "儿": "Bộ Nhi - Đứa trẻ sơ sinh, chân em bé đi chập chững.",
-    "入": "Bộ Nhập - Đi vào bên trong, tiếp thu vào.", "八": "Bộ Bát (Số tám) - Biểu thị sự chia rẽ, phân chia (Chữ 其, 彩).", "冂": "Bộ Quynh - Vùng biên giới xa xôi bao bọc cõi ngoài (Chữ 同).",
-    "冖": "Bộ Mịch - Khăn trùm che đậy kín lên đồ vật.", "冫": "Bộ Băng - Nước đá, hiện tượng lạnh giá, đông kết.", "几": "Bộ Kỷ - Ghế tựa tựa lưng, cái bàn nhỏ.",
-    "凵": "Bộ Khảm - Há miệng to khảm sâu, hố lõm xuống.", "刀": "Bộ Đao - Con dao, vũ khí sắc bén cắt gọt.", "刂": "Bộ Đao đứng - Biến thể con dao, liên quan chặt, khắc, sửa đổi hành chính.",
-    "力": "Bộ Lực - Sức mạnh, hình chiếc cày ruộng cần cơ bắp lao động vất vả (Chữ 劳, 动).", "包": "Bộ Bao - Bao bọc, gói ghém ôm giữ đồ vật.", "匕": "Bộ Chủy - Cái thìa xúc cơm, muỗng ăn.",
-    "匚": "Bộ Phương - Tủ đựng, vật chứa đồ vuông vắn.", "十": "Bộ Thập (Số mười) - Biểu thị sự hoàn vẹn, thập toàn thập mỹ (Chữ 计).", "卜": "Bộ Bốc - Quẻ bói toán, xem dự đoán tương lai.",
-    "卩": "Bộ Tiết - Đốt tre, quỳ gối phục tùng, mệnh lệnh.", "厂": "Bộ Hán - Sườn núi dốc, vách đá dựng đứng.", "厶": "Bộ Tư - Riêng tư, ích kỷ cá nhân.",
-    "口": "Bộ Khẩu - Cái miệng, đại diện cho ăn uống, ngôn ngữ, hợp đồng (Chữ 合, 同).", "囗": "Bộ Vi - Bao vây xung quanh ranh giới quốc gia, nhà xưởng.", "土": "Bộ Thổ - Đất đai, mặt đất xây dựng công trình, sinh trưởng vạn vật (Chữ 在).",
-    "士": "Bộ Sĩ - Kẻ sĩ, người học thức, nam tử hán.", "夂": "Bộ Truy - Bước chân đi theo phía sau trì trệ (Chữ 修).", "夕": "Bộ Tịch - Đêm tối, mặt trời lặn nửa vầng trăng khuyết.",
-    "大": "Bộ Đại - To lớn, hình người dang rộng hai tay hiên ngang.", "女": "Bộ Nữ - Người phụ nữ quỳ gối kính cẩn, biểu thị thuộc tính nữ, gia đình (Chữ 好).",
-    "子": "Bộ Tử - Đứa trẻ sơ sinh vẫy tay, bảo tồn nòi giống, học hành (Chữ 好).", "宀": "Bộ Miên - Mái che ngôi nhà, tổ ấm gia đình an cư lạc nghiệp (Chữ 劳, 定).", "寸": "Bộ Thốn (Tấc) - Đơn vị đo lường chiều dài thời cổ, quy tắc.",
-    "小": "Bộ Tiểu - Nhỏ bé, phân tách vật chất ra ít đi.", "尸": "Bộ Thi - Thân xác, thây ma, nơi trú ngụ cố định.", "山": "Bộ Sơn - Núi non trùng điệp, các ngọn núi cao.",
-    "川": "Bộ Xuyên - Sông ngòi, dòng nước chảy dài cuồn cuộn.", "工": "Bộ Công - Người thợ, công cụ làm việc gạch nối trời đất, gia công kỹ thuật (Chữ 经).", "己": "Bộ Kỷ - Bản thân mình, tự mình gánh vác (Chữ 改).",
-    "巾": "Bộ Cân - Khăn vải, vải vóc may mặc trang trí văn phòng.", "干": "Bộ Can - Khiên chắn bảo vệ, can dự, phạm đến.", "幺": "Bộ Yêu - Nhỏ nhắn, sợi chỉ tơ mảnh dẻ.",
-    "广": "Bộ Quảng - Ngôi nhà lớn xây dựa vào sườn núi.", "廴": "Bộ Dẫn - Bước chân đi dài, kéo dài khoảng cách.", "廾": "Bộ Củng - Hai tay chắp lại cung kính, nâng vật nâng lên (Chữ 算).",
-    "弋": "Bộ Dực - Cái cọc tre găm xuống đất, bắn tên có dây.", "弓": "Bộ Cung - Cái cung bắn tên, hình cánh cung co giãn.", "彡": "Bộ Sâm - Lông tóc dài thướt tha, hoa văn trang trí (Chữ 修, 彩).",
-    "彳": "Bộ Xích - Bước chân trái đi lại trên đường, hành động.", "心": "Bộ Tâm - Quả tim, liên quan đến tư duy sâu, cảm xúc tình cảm.",
-    "忄": "Bộ Tâm đứng - Biến thể quả tim, liên quan đến tâm trạng, suy nhìn nội tâm.", "戈": "Bộ Qua - Cây mác, binh khí tác chiến thời cổ (Chữ 我).", "户": "Bộ Hộ - Một cánh cửa gia đình, hộ gia đình quản lý.",
-    "手": "Bộ Thủ - Bàn tay có các ngón nắm giữ, thực hiện thao tác (Chữ 我).", "扌": "Bộ Thủ đứng - Biến thể bàn tay, biểu thị hành động cầm, nắm, sửa đổi, gia công.",
-    "日": "Bộ Nhật - Mặt trời chiếu sáng, quy luật thời gian, ngày tháng (Chữ 是).", "曰": "Bộ Viết - Nói rằng, lời phán ra từ miệng.", "月": "Bộ Nguyệt - Mặt trăng khuyết, đại diện cho ban đêm hoặc cơ thể xác thịt (Chữ 期).",
-    "木": "Bộ Mộc - Cây cối thân gỗ, vật liệu xây dựng thực vật (Chữ 材, 核).", "欠": "Bộ Khiếm - Thiếu thốn, há miệng ngáp dài thiếu dưỡng khí.", "止": "Bộ Chỉ - Dừng lại, dấu chân đứng im không đi tiếp (Chữ 正, 证).",
-    "歹": "Bộ Tịch - Xương tàn, cái chết, sự suy tàn hủy hoại.", "殳": "Bộ Thù - Binh khí dài bằng tre gỗ gõ đập.", "毋": "Bộ Vô - Chớ có, đừng làm điều cấm đoán.",
-    "比": "Bộ Tỷ - So sánh, hai người đứng liền kề đọ cao thấp.", "毛": "Bộ Mao - Lông thú, lông tóc động vật mềm mại.", "氏": "Bộ Thị - Họ trong gia tộc, gốc rễ nguồn cội.",
-    "气": "Bộ Khí - Hơi nước bốc lên, bầu không khí, năng lượng khí chất.", "水": "Bộ Thủy - Nước chảy thành dòng, chất lỏng thanh lọc.",
-    "氵": "Bộ Thủy đứng - Biến thể dòng nước, liên quan đến đóng nộp, xử lý hóa chất.",
-    "火": "Bộ Hỏa - Ngọn lửa cháy bốc lên ngùn ngụt, năng lượng sưởi ấm.",
-    "灬": "Bộ Hỏa dưới - Bốn chấm lửa đuôi, liên quan đến nấu nướng, nhiệt độ cao.", "爪": "Bộ Trảo - Móng vuốt chim thú, bàn tay bấu chặt lấy.", "父": "Bộ Phụ - Người cha gánh vác, cầm roi chỉ bảo dạy dỗ.",
-    "爻": "Bộ Hào - Các vạch hào trong kinh dịch, đan xen nhau.", "爿": "Bộ Tường - Mảnh gỗ xẻ bên trái, cái giường nằm.", "片": "Bộ Phiến - Mảnh gỗ xẻ bên phải, tài liệu mỏng, lát mỏng.",
-    "牙": "Bộ Nha - Răng nanh động vật đan cài vào nhau.", "牛": "Bộ Ngưu - Con trâu, con bò phục vụ nông nghiệp kéo cày.", "犬": "Bộ Khuyển - Con chó trung thành giữ nhà.",
-    "犭": "Bộ Khuyển đứng - Liên quan đến các loại động vật hoang dã, tính chất săn bắn.", "玄": "Bộ Huyền - Màu đen kỳ ảo, sâu thẳm huyền biến.", "玉": "Bộ Ngọc - Viên ngọc quý giá có dây xỏ qua bảo vật.",
-    "王": "Bộ Vương - Đại diện vua chúa, quyền lực tối cao chỉ huy kiểm lý (Chữ 理).", "甘": "Bộ Cam - Vị ngọt ngào bùi béo ngậm trong miệng.", "生": "Bộ Sinh - Sinh trưởng, mầm cây mọc vươn lên mặt đất sinh sống.",
-    "用": "Bộ Dụng - Sử dụng, công cụ có ích để vận hành dùng việc.", "田": "Bộ Điền - Ruộng đất phân chia bờ cõi canh tác nông nghiệp.", "疒": "Bộ Tật - Giường bệnh, đau ốm bệnh tật suy nhược.",
-    "癶": "Bộ Bát - Hai bàn chân bước rẽ sang hai hướng ngược nhau.", "白": "Bộ Bạch - Màu trắng, sự minh bạch rành mạch trong sạch.", "皮": "Bộ Bì - Da động vật bóc ra tấm da bọc ngoài.",
-    "皿": "Bộ Mãnh - Bát đĩa, đồ sành sứ chứa thức ăn.", "目": "Bộ Mục - Con mắt nhìn nhận, kiểm nghiệm, giám sát hiện trường (Chữ 算).", "矛": "Bộ Mâu - Cái mâu đâm xuyên kẻ địch vũ khí.",
-    "矢": "Bộ Thỉ - Mũi tên bay thẳng cắm vào đích mục tiêu.", "石": "Bộ Thạch - Tảng đá dưới sườn núi, vật liệu bền vững cứng rắn.", "示": "Bộ Thị - Chúc thư thần linh ban xuống bệ thờ, hiển thị rõ ràng.",
-    "禸": "Bộ Nhựu - Dấu chân con thú hoang giẫm trên đất.", "禾": "Bộ Hòa - Cây lúa có bông hạt trĩu xuống, nông nghiệp lương thực.", "穴": "Bộ Huyệt - Hang ổ, hang động khoét sâu vào lòng núi.",
-    "立": "Bộ Lập - Đứng thẳng hiên ngang trên mặt đất, thiết lập vị trí (Chữ 位).", "竹": "Bộ Trúc - Lá tre rủ xuống, làm ống sáo thẻ tre (Chữ 算).", "米": "Bộ Mễ - Hạt gạo, hạt ngũ cốc bóc vỏ nguồn sống.",
-    "糸": "Bộ Mịch - Sợi tơ kéo dài đan cài dệt vải vóc.", "纟": "Bộ Mịch giản thể - Liên quan đến dệt may, dây buộc, quy trình liên kết hợp đồng (Chữ 经).", "缶": "Bộ Phẫu - Bình gốm miệng nhỏ bụng to đựng rượu nước.",
-    "网": "Bộ Võng - Lưới đánh cá, lưới bẫy chim, hệ thống mạng lưới.", "羊": "Bộ Dương - Con dê, con cừu đại diện cho sự cát tường hiền lành.", "羽": "Bộ Vũ - Lông vũ lông chim, đôi cánh bay lượn luyện tập.",
-    "老": "Bộ Lão - Người già chống gậy bước đi, tuổi thọ tri thức.", "耳": "Bộ Nhĩ - Cái tai để nghe ngóng âm thanh, tiếp thu phận sự vị trí (Chữ 职).", "自": "Bộ Tự - Cái mũi của bản thân, xuất phát từ chính mình.",
-    "至": "Bộ Chí - Đến nơi, mũi tên bay cắm trúng hồng tâm mặt đất.", "艹": "Bộ Thảo - Cỏ cây hoa lá mọc xanh tươi mặt đất (Chữ 劳).", "虫": "Bộ Trùng - Côn trùng, các loài bò sát nhỏ.",
-    "行": "Bộ Hành - Ngã tư đường đi lại giao thông, thực hiện hành động.", "衣": "Bộ Y - Quần áo tà áo may mặc che thân bảo vệ.", "衣": "Bộ Y đứng - Biến thể quần áo, liên quan đến trang phục, chứng nhận.",
-    "见": "Bộ Kiến - Trông thấy, mở to mắt để nhìn nhận thấu suốt.", "角": "Bộ Giác - Sừng động vật, góc nhọn kích thước đo lường.",
-    "讠": "Bộ Ngôn giản thể - Liên quan đến ngôn ngữ thương mại, thông báo, hợp đồng (Chữ 证).",
-    "贝": "Bộ Bối giản thể - Vỏ sò cổ tiền tệ của cải vật giá trị báo giá ngân hàng.",
-    "走": "Bộ Tẩu - Chạy đi, rảo bước chân nhanh di chuyển hành động.", "足": "Bộ Túc - Cái chân đầy đủ, đi lại đứng vững.",
-    "身": "Bộ Thân - Thân thể con người mang bụng bầu bảo tồn.", "车": "Bộ Xa - Chiếc xe có hai bánh trục quay vận chuyển chi phí.",
-    "辶": "Bộ Sai - Bước đi dài dốc sức di chuyển tiến tới giao tiếp gửi đi.",
-    "里": "Bộ Lý - Dặm đường đơn vị chiều dài, làng xóm quê hương (Chữ 理).",
-    "金": "Bộ Kim - Kim loại vàng bạc đúc tiền của cải nguyên vật liệu thép.",
-    "钅": "Bộ Kim giản thể - Liên quan trực tiếp đến vật liệu thép tấm, tôn màu gia công kỹ thuật (Chữ 钢).",
-    "门": "Bộ Môn - Cánh cổng nhà hai tà đóng mở ra vào bộ phận phòng ban.", "隹": "Bộ Chuy - Loài chim đuôi ngắn lông vũ bay lượn tự do.",
-    "雨": "Bộ Vũ - Hạt mưa rơi từ trên trời xuống thời tiết khí hậu.", "饣": "Bộ Thực giản thể - Liên quan đến ăn uống, phụ cấp cơm trưa nhà ăn.",
-    "马": "Bộ Mã - Con ngựa chạy nhanh vận chuyển đường dài lực lượng.", "鱼": "Bộ Ngư - Con cá bơi dưới nước có vảy có đuôi nguồn sống.",
-    "鸟": "Bộ Điểu - Loài chim có lông vũ dài có mỏ có chân bay lượn.",
-    "云": "Bộ Vân - Đám mây bay trên trời di chuyển tác động hoạt động (Chữ 动, 会).", "疋": "Bộ Sơ - Chân đi, đơn vị đo mảnh vải (Chữ 是, 定).", "攵": "Bộ Phác - Đánh khẽ, răn dạy học tập (Chữ 改).",
-    "其": "Chữ Kỳ - Cơ sở dữ liệu nét bổ trợ (Chữ 期).", "冈": "Chữ Cương - Khung nét của kết cấu (Chữ 钢).", "新": "Chữ Tân - Nét cấu thành cho từ khóa phức tạp."
-  };
-
-  // MỞ RỘNG MA TRẬN PHÂN RÃ CHỮ ĐA TẦNG CHO MỌI CHỮ HÁN PHÁT SINH TRONG FILE CỦA BẠN (SỬA LỖI HÌNH MẪU 1 & 2)
-  const AI_Decomposition_Matrix_Map = {
-    "我": ["手", "戈"], "同": ["冂", "口"], "好": ["女", "子"], "劳": ["宀", "艹", "力"], "动": ["云", "力"],
-    "职": ["耳", "口"], "位": ["亻", "立"], "会": ["人", "云"], "计": ["言", "十"], "期": ["月", "其"],
-    "修": ["亻", "夂", "彡"], "改": ["己", "攵"], "合": ["人", "一", "口"], "在": ["土"], "正": ["止", "一"],
-    "是": ["日", "疋"], "钢": ["钅", "冈"], "材": ["木"], "核": ["木"], "算": ["竹", "目", "廾"], 
-    "证": ["讠", "正"], "理": ["王", "里"], "经": ["纟", "工"], "定": ["宀", "疋"], "板": ["木", "反"],
-    "彩": ["爪", "木", "彡"], "等": ["竹", "土", "寸"], "正": ["一", "止"], "修": ["亻", "彡"]
-  };
-
-  let globalDatabase = JSON.parse(localStorage.getItem('zh_master_db')) || [];
-  let activeSkillMode = ''; let currentWords = []; let activeIdx = 0;
-  let puzzleSelectedChips = []; let currentActiveSentenceTarget = ""; let currentActiveTopicName = "";
-  let voiceRecognitionEngine = ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) ? new (window.SpeechRecognition || window.webkitSpeechRecognition)() : null;
-  if(voiceRecognitionEngine) { voiceRecognitionEngine.lang = 'zh-CN'; voiceRecognitionEngine.interimResults = false; }
-
-  window.onload = function() { renderHomeDashboard(); };
-
-  function listenInputEnter(e, func) { if (e.key === "Enter") { e.preventDefault(); func(); } }
-
-  function changeMainTab(tabName) {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-pane-view').forEach(p => p.classList.add('hidden'));
-    document.getElementById('study-engine-board').classList.add('hidden');
-    document.getElementById('test-engine-board').classList.add('hidden');
-    document.getElementById('sec-preview').classList.add('hidden');
-    if (document.getElementById(`nav-${tabName}`)) document.getElementById(`nav-${tabName}`).classList.add('active');
-    document.getElementById(`sec-${tabName}`).classList.remove('hidden');
-    if(tabName === 'home') renderHomeDashboard();
-    if(tabName === 'test') renderTestDashboard();
-  }
-
-  function renderHomeDashboard() {
-    document.getElementById('count-vocab').innerText = globalDatabase.length;
-    document.getElementById('count-topic').innerText = new Set(globalDatabase.map(d=>d.topic)).size;
-    if(globalDatabase.length > 0) {
-      document.getElementById('workflow-skill-section').classList.remove('hidden');
-      document.getElementById('workflow-topic-section').classList.remove('hidden');
-      buildTopicSelectionList();
-    }
-  }
-
-  function buildTopicSelectionList() {
-    const container = document.getElementById('workflow-topic-container-list'); container.innerHTML = "";
-    [...new Set(globalDatabase.map(d=>d.topic))].forEach(t => {
-      let b = document.createElement('button'); b.className = "topic-item-row";
-      b.innerHTML = `<span>📂 ${t}</span><span>${globalDatabase.filter(d => d.topic === t).length} từ</span>`;
-      b.onclick = () => { currentActiveTopicName = t; currentWords = globalDatabase.filter(d => d.topic === t); if(activeSkillMode !== '') initStudyEngineView(); else renderTopicPreviewMode(t); };
-      container.appendChild(b);
-    });
-  }
-
-  function renderTopicPreviewMode(t) {
-    document.querySelectorAll('.tab-pane-view').forEach(p => p.classList.add('hidden'));
-    document.getElementById('sec-preview').classList.remove('hidden');
-    document.getElementById('preview-heading-title').innerText = `Khái quát: ${t}`;
-    const container = document.getElementById('preview-cards-scroller'); container.innerHTML = "";
-    currentWords.forEach(w => {
-      let div = document.createElement('div'); div.className = "preview-card-item";
-      div.innerHTML = `<div class="preview-card-top"><div class="preview-vocab-block"><div class="preview-zh">${w.cn}</div><div class="preview-py">${w.py}</div></div><div class="preview-vn">${w.vn}</div></div><div class="preview-ex-block"><div class="preview-ex-zh">${w.ex_cn}</div><div class="preview-ex-py">${w.ex_py}</div><div class="preview-ex-vn">${w.ex_vn}</div></div>`;
-      container.appendChild(div);
-    });
-  }
-
-  function activateLearningWorkflow() {
-    document.getElementById('sec-preview').classList.add('hidden');
-    document.getElementById('sec-home').classList.remove('hidden');
-    document.getElementById('workflow-skill-section').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function toggleWorkflowSkill(s) {
-    activeSkillMode = s;
-    document.querySelectorAll('.skill-tab-btn').forEach(b => b.classList.remove('active'));
-    const btnMap = { 'write': 'sk-tab-write', 'read': 'sk-tab-read', 'listen': 'sk-tab-listen', 'speak': 'sk-tab-speak' };
-    if(btnMap[s]) document.getElementById(btnMap[s]).classList.add('active');
-    if (currentActiveTopicName !== '') initStudyEngineView();
-  }
-
-  function initStudyEngineView() {
-    activeIdx = 0;
-    document.querySelectorAll('.tab-pane-view').forEach(p => p.classList.add('hidden'));
-    document.getElementById('study-engine-board').classList.remove('hidden');
-    refreshEngineCardLayoutData();
-  }
-
-  function triggerUploadParser(input) {
-    const file = input.files[0]; if(!file) return;
-    document.getElementById('status-msg').innerText = "🔄 Đang bóc tách dữ liệu tài liệu...";
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      if(file.name.endsWith('.docx')) mammoth.extractRawText({ arrayBuffer: e.target.result }).then(r => executeTextParserEngine(r.value));
-      else pdfjsLib.getDocument({ data: new Uint8Array(e.target.result) }).promise.then(pdf => {
-        let p = [];
-        for(let i=1; i<=pdf.numPages; i++) p.push(pdf.getPage(i).then(pg => pg.getTextContent().then(c => c.items.map(m => m.str).join(' '))));
-        Promise.all(p).then(t => executeTextParserEngine(t.join('\n')));
-      });
-    };
-    reader.readAsArrayBuffer(file);
-  }
-
-  function executeTextParserEngine(txt) {
-    const lines = txt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-    let topic = "Chung", count = 0;
-    for(let i=0; i<lines.length; i++) {
-      if(/^\d+\./.test(lines[i]) || lines[i].includes("TỪ VỰNG")) { topic = lines[i]; continue; }
-      if(/[\u4e00-\u9fa5]/.test(lines[i]) && !lines[i].includes("Từ vựng") && !lines[i].includes("Pinyin")) {
-        let w = { cn: lines[i], py: lines[i+1]||"", vn: lines[i+2]||"", ex_cn: lines[i+3]||"", ex_py: lines[i+4]||"", ex_vn: lines[i+5]||"", topic: topic, date: new Date().toLocaleDateString('vi-VN') };
-        if(w.vn && w.ex_cn && !globalDatabase.some(d => d.cn === w.cn)) { globalDatabase.push(w); count++; }
-        i += 5;
-      }
-    }
-    localStorage.setItem('zh_master_db', JSON.stringify(globalDatabase));
-    document.getElementById('status-msg').innerText = `✅ Đã nạp ${count} từ vựng!`;
-    renderHomeDashboard();
-  }
-
-  function refreshEngineCardLayoutData() {
-    const w = currentWords[activeIdx];
-    document.getElementById('engine-header-title').innerText = `Học [${activeSkillMode.toUpperCase()}] - ${w.topic}`;
-    document.getElementById('engine-progress-counter').innerText = `${activeIdx + 1}/${currentWords.length}`;
-    ['panel-write', 'panel-read', 'panel-listen', 'panel-speak', 'reveal-card-zone', 'panel-radical-analysis'].forEach(id => document.getElementById(id).classList.add('hidden'));
-
-    document.getElementById('v-main-text').innerHTML = w.cn.split("").map(c => `<span>${c}</span>`).join("");
-    document.getElementById('v-py-text').innerText = w.py; document.getElementById('v-vn-text').innerText = w.vn;
-    
-    document.getElementById('e-main-text').innerHTML = w.ex_cn.split("").map(c => `<span>${c}</span>`).join("");
-    document.getElementById('e-py-text').innerText = w.ex_py; document.getElementById('e-vn-text').innerText = w.ex_vn;
-
-    if (activeSkillMode === 'write') { document.getElementById('panel-write').classList.remove('hidden'); document.getElementById('wr-prompt-vn').innerText = w.vn; document.getElementById('wr-user-input').value = ""; setTimeout(() => document.getElementById('wr-user-input').focus(), 100); }
-    else if (activeSkillMode === 'read') { document.getElementById('panel-read').classList.remove('hidden'); document.getElementById('rd-prompt-zh').innerText = w.cn; buildFourMultipleChoicesOptions(w.vn); }
-    else if (activeSkillMode === 'listen') { document.getElementById('panel-listen').classList.remove('hidden'); currentActiveSentenceTarget = w.ex_cn; document.getElementById('l-user-input-meaning').value = ""; buildListenPuzzleLayout(w.ex_cn); speakCoreSound(w.cn); setTimeout(() => document.getElementById('l-user-input-meaning').focus(), 100); }
-    else if (activeSkillMode === 'speak') { document.getElementById('panel-speak').classList.remove('hidden'); document.getElementById('sp-prompt-zh').innerText = w.ex_cn; document.getElementById('sp-feedback-msg').innerText = ""; }
-  }
-
-  function buildListenPuzzleLayout(sentence) {
-    puzzleSelectedChips = []; const pool = document.getElementById('l-puzzle-pool'); const drop = document.getElementById('l-puzzle-drop'); pool.innerHTML = ""; drop.innerHTML = "";
-    let chips = sentence.split("").filter(c => !/[\s.,!?;。，！？]/.test(c));
-    chips.sort(() => Math.random() - 0.5).forEach(c => {
-      let div = document.createElement('div'); div.className = "puzzle-chip"; div.innerText = c;
-      div.onclick = () => { div.classList.add('used'); let d = document.createElement('div'); d.className = "puzzle-chip"; d.innerText = c; drop.appendChild(d); puzzleSelectedChips.push(c); };
-      pool.appendChild(div);
-    });
-  }
-  function rebuildListenPuzzle() { buildListenPuzzleLayout(currentActiveSentenceTarget); }
-  function verifyListenPuzzle() { document.getElementById('reveal-card-zone').classList.remove('hidden'); }
-
-  function buildFourMultipleChoicesOptions(correct) {
-    const box = document.getElementById('rd-quiz-options-wrapper'); box.innerHTML = ""; let opts = [correct]; let pool = globalDatabase.filter(w => w.vn !== correct);
-    while(opts.length < 4 && pool.length > 0) { let r = pool[Math.floor(Math.random() * pool.length)].vn; if(!opts.includes(r)) opts.push(r); }
-    opts.sort(() => Math.random() - 0.5).forEach(opt => {
-      let b = document.createElement('button'); b.className = "quiz-option-btn"; b.innerText = opt; b.onclick = () => document.getElementById('reveal-card-zone').classList.remove('hidden');
-      box.appendChild(b);
-    });
-  }
-  function verifyWriteAnswer() { document.getElementById('reveal-card-zone').classList.remove('hidden'); }
-
-  function activateVoiceRecognition() {
-    voiceRecognitionEngine.start(); document.getElementById('mic-trigger-btn').innerText = "🎙️ Đang nghe...";
-    voiceRecognitionEngine.onresult = (e) => {
-      const speech = e.results[0][0].transcript; document.getElementById('mic-trigger-btn').innerText = "🎤 Bấm nói";
-      let target = currentWords[activeIdx].ex_cn; let cleanSpeech = speech.replace(/[\s.,!?;。，！？、]/g, ""); let res = "Chấm điểm: ";
-      for(let c of target) {
-        if(/[\s.,!?;。，！？、]/.test(c)) res += `<span style="color:var(--text-secondary);font-size:24px;">${c}</span>`;
-        else if(cleanSpeech.includes(c)) res += `<span style="color:var(--accent-green);font-size:24px;font-weight:700;">${c}</span>`;
-        else res += `<span style="color:var(--accent-red);font-size:24px;text-decoration:underline;font-weight:700;">${c}</span>`;
-      }
-      document.getElementById('sp-feedback-msg').innerHTML = res; document.getElementById('reveal-card-zone').classList.remove('hidden');
-    };
-  }
-
-  function speakCoreSound(t) { const u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; window.speechSynthesis.speak(u); }
-  function shiftNextWord() { if(activeIdx < currentWords.length - 1) { activeIdx++; refreshEngineCardLayoutData(); } else { alert("🎉 Hoàn thành chủ đề!"); location.reload(); } }
-
-  function renderTestDashboard() {
-    let container = document.getElementById('test-topic-container-list'); container.innerHTML = "";
-    [...new Set(globalDatabase.map(d=>d.topic))].forEach(t => {
-      let r = document.createElement('button'); r.className = "topic-item-row"; r.innerHTML = `<span>📋 Tạo đề thi chủ đề: ${t}</span><span>Bắt đầu →</span>`;
-      r.onclick = () => buildTestEngine(t); container.appendChild(r);
-    });
-  }
-
-  let testIdx = 0, testScore = 0;
-  function buildTestEngine(scope) {
-    let pool = (scope === 'ALL_TOPICS') ? globalDatabase : globalDatabase.filter(d=>d.topic === scope);
-    currentWords = pool.sort(() => Math.random() - 0.5).slice(0, 10); testIdx = 0; testScore = 0;
-    document.querySelectorAll('.tab-pane-view').forEach(id => id.classList.add('hidden'));
-    document.getElementById('test-engine-board').classList.remove('hidden'); loadTestQ();
-  }
-
-  function loadTestQ() {
-    let q = currentWords[testIdx];
-    document.getElementById('test-question-content-box').innerHTML = `<div class="section-title">Câu hỏi số ${testIdx + 1}:</div><h3 style="font-size:24px;margin-bottom:8px;">Nghĩa của [ <span style="font-family:var(--font-zh);color:var(--accent-orange);font-size:32px;">${q.cn}</span> ] là gì?</h3><p style="color:var(--text-secondary);margin-bottom:12px;">Phiên âm: ${q.py}</p><input type='text' id='t-ans' class='input-field' style='text-align:left;' placeholder='Nhập nghĩa tiếng Việt...' onkeydown='listenInputEnter(event, executeTestAnswerVerification)'>`;
-    setTimeout(() => document.getElementById('t-ans').focus(), 100);
-  }
-
-  function executeTestAnswerVerification() {
-    let q = currentWords[testIdx];
-    if(document.getElementById('t-ans').value.trim().toLowerCase() === q.vn.toLowerCase()) testScore++;
-    if(testIdx < currentWords.length - 1) { testIdx++; loadTestQ(); }
-    else { alert(`🎉 Hoàn thành! Kết quả: ${testScore} / ${currentWords.length}`); location.reload(); }
-  }
+    // Bạn hãy chèn các hàm logic: triggerUploadParser, executeTextParserEngine, 
+    // toggleWorkflowSkill, shiftNextWord, buildTestEngine... vào đây.
+    // Đảm bảo trong hàm refreshEngineCardLayoutData, bạn gọi:
+    // document.querySelectorAll('.zh-main span, .ex-zh-row span').forEach(s => 
+    //    s.onclick = () => executeAIRadicalAnalyzer(s.innerText));
 </script>
 </body>
 </html>
