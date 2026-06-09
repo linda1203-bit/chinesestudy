@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>HánStudy AI</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.15/mammoth.browser.min.js"></script>
 
 <style>
@@ -14,6 +22,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
 
 :root{
+
     --bg:#eef2f7;
     --card:#ffffff;
     --border:#d6dfeb;
@@ -24,9 +33,6 @@
 
     --text:#1e293b;
     --sub:#64748b;
-
-    --shadow:
-    0 10px 30px rgba(15,23,42,.06);
 }
 
 *{
@@ -34,48 +40,52 @@
 }
 
 body{
+
     margin:0;
-    background:var(--bg);
-    font-family:'Be Vietnam Pro',sans-serif;
-    color:var(--text);
     padding:40px;
+
+    background:var(--bg);
+
+    font-family:'Be Vietnam Pro',sans-serif;
 }
 
 .container{
+
     max-width:1300px;
     margin:auto;
 
     background:#f8fafc;
 
+    border-radius:30px;
+
+    padding:30px;
+
     border:1px solid #d9e2ef;
-    border-radius:34px;
-
-    padding:26px;
-
-    box-shadow:var(--shadow);
 }
 
 .hidden{
     display:none !important;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+/* NAV */
 
 .top-nav{
+
     display:flex;
     gap:14px;
 
     padding-bottom:20px;
-    border-bottom:1px solid #d8e2ef;
+
+    border-bottom:1px solid #d9e2ef;
 }
 
 .nav-btn{
+
     border:none;
-    border-radius:18px;
 
     padding:16px 28px;
+
+    border-radius:18px;
 
     font-size:18px;
     font-weight:700;
@@ -83,24 +93,21 @@ body{
     cursor:pointer;
 
     background:white;
-    color:#64748b;
 
-    border:1px solid #cfd9e8;
-
-    transition:.25s;
+    border:1px solid #d9e2ef;
 }
 
 .nav-btn.active{
+
     background:#24364b;
     color:white;
 }
 
-/* =========================
-   DASHBOARD
-========================= */
+/* DASHBOARD */
 
 .dashboard-grid{
-    margin-top:34px;
+
+    margin-top:30px;
 
     display:grid;
 
@@ -111,54 +118,52 @@ body{
 }
 
 .upload-card{
+
+    min-height:220px;
+
     border:2px dashed #c8d5e6;
 
     border-radius:26px;
-
-    min-height:200px;
 
     background:#f8fafc;
 
     display:flex;
     flex-direction:column;
 
-    align-items:center;
     justify-content:center;
+    align-items:center;
 
     cursor:pointer;
-
-    transition:.25s;
-}
-
-.upload-card:hover{
-    transform:translateY(-2px);
 }
 
 .upload-icon{
-    font-size:58px;
+    font-size:60px;
 }
 
 .upload-title{
-    margin-top:14px;
 
-    font-size:32px;
+    margin-top:16px;
+
+    font-size:34px;
     font-weight:800;
 }
 
 .upload-sub{
-    margin-top:8px;
+
+    margin-top:10px;
+
+    font-size:18px;
 
     color:#64748b;
-    font-size:18px;
 }
 
 .stat-card{
+
     background:white;
 
-    border:1px solid #d6dfeb;
     border-radius:26px;
 
-    min-height:200px;
+    border:1px solid #d9e2ef;
 
     display:flex;
     flex-direction:column;
@@ -168,12 +173,15 @@ body{
 }
 
 .stat-number{
-    font-size:72px;
+
+    font-size:70px;
     font-weight:800;
+
     color:#3b82f6;
 }
 
 .stat-label{
+
     margin-top:10px;
 
     font-size:22px;
@@ -182,12 +190,11 @@ body{
     color:#64748b;
 }
 
-/* =========================
-   SKILL
-========================= */
+/* STEP */
 
 .step-title{
-    margin-top:34px;
+
+    margin-top:40px;
     margin-bottom:20px;
 
     font-size:38px;
@@ -195,6 +202,7 @@ body{
 }
 
 .skill-grid{
+
     display:grid;
 
     grid-template-columns:
@@ -204,48 +212,49 @@ body{
 }
 
 .skill-btn{
+transition:.2s;
     border:none;
-
-    border-radius:20px;
 
     padding:24px;
 
+    border-radius:20px;
+
     background:white;
 
-    border:1px solid #d7e0ec;
-
-    cursor:pointer;
+    border:1px solid #d9e2ef;
 
     font-size:22px;
     font-weight:700;
 
-    transition:.25s;
+    cursor:pointer;
 }
 
 .skill-btn.active{
+
     background:#eff6ff;
+
     border:2px solid #60a5fa;
+
     color:#2563eb;
 }
 
-/* =========================
-   TOPIC
-========================= */
+/* TOPIC */
 
 .topic-list{
     margin-top:24px;
 }
 
 .topic-card{
+transition:.2s;
     width:100%;
 
     background:white;
 
-    border:1px solid #d8e1ec;
+    border:1px solid #d9e2ef;
 
     border-radius:22px;
 
-    padding:24px 28px;
+    padding:24px;
 
     margin-bottom:18px;
 
@@ -257,196 +266,98 @@ body{
 }
 
 .topic-title{
+
     font-size:30px;
     font-weight:700;
 }
 
 .topic-count{
+
     font-size:22px;
     font-weight:700;
 }
 
-/* =========================
-   PREVIEW
-========================= */
-
-.preview-top{
-    margin-top:24px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.preview-title{
-    font-size:42px;
-    font-weight:800;
-}
-
-.back-btn,
-.start-btn{
-    border:none;
-
-    border-radius:18px;
-
-    padding:18px 28px;
-
-    font-size:20px;
-    font-weight:700;
-
-    cursor:pointer;
-}
-
-.back-btn{
-    background:white;
-    border:1px solid #d7e0ec;
-}
-
-.start-btn{
-    background:#10b981;
-    color:white;
-}
-
-.preview-scroll{
-    margin-top:28px;
-
-    max-height:70vh;
-    overflow:auto;
-
-    padding-right:10px;
-}
-
-.preview-card{
-    background:white;
-
-    border:1px solid #d9e2ef;
-
-    border-radius:24px;
-
-    padding:30px;
-
-    margin-bottom:22px;
-}
-
-.preview-main{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-}
-
-.preview-cn{
-    font-size:60px;
-    font-weight:800;
-}
-
-.preview-py{
-    margin-top:10px;
-
-    font-size:26px;
-    color:#64748b;
-}
-
-.preview-vn{
-    font-size:34px;
-    font-weight:700;
-    color:#ff7a00;
-}
-
-.preview-divider{
-    margin:24px 0;
-
-    height:1px;
-    background:#dbe5f0;
-}
-
-.preview-ex-cn{
-    font-size:34px;
-    font-weight:700;
-}
-
-.preview-ex-py{
-    margin-top:8px;
-
-    font-size:24px;
-    color:#64748b;
-}
-
-.preview-ex-vn{
-    margin-top:10px;
-
-    font-size:28px;
-    color:#10b981;
-}
-
-/* =========================
-   STUDY
-========================= */
+/* STUDY */
 
 #study-engine-board{
     margin-top:30px;
 }
 
 .zh-main{
-    font-size:64px;
+
+    font-size:62px;
     font-weight:800;
+
     margin-bottom:10px;
 }
 
-.zh-main span{
+.zh-char{
+
     cursor:pointer;
+
     transition:.2s;
 }
 
-.zh-main span:hover{
+.zh-char:hover{
     color:#3b82f6;
 }
 
 #v-py-text,
 #e-py-text{
+
     color:#64748b;
+
     font-size:24px;
-    margin-bottom:14px;
+
+    margin-bottom:16px;
 }
 
 #v-vn-text,
 #e-vn-text{
+
     font-size:30px;
     font-weight:700;
+
     color:#ff7a00;
-    margin-bottom:18px;
+
+    margin-bottom:20px;
 }
 
 .quiz-option-btn{
-    display:block;
+
     width:100%;
-
-    margin-bottom:12px;
-
-    padding:18px;
 
     border:none;
 
+    padding:18px;
+
     border-radius:16px;
+
+    background:white;
+
+    border:1px solid #d9e2ef;
+
+    margin-bottom:14px;
 
     font-size:22px;
     font-weight:700;
 
     cursor:pointer;
-
-    background:white;
-    border:1px solid #d7e0ec;
 }
 
 .puzzle-chip{
+
     display:inline-block;
 
     padding:12px 18px;
-    margin:8px;
+
+    border-radius:14px;
 
     background:white;
 
-    border:1px solid #cfd9e8;
-    border-radius:14px;
+    border:1px solid #d9e2ef;
+
+    margin:8px;
 
     font-size:28px;
     font-weight:700;
@@ -455,28 +366,46 @@ body{
 }
 
 .puzzle-chip.used{
-    opacity:.35;
+    opacity:.3;
 }
 
 .radical-pane{
+
     margin-top:30px;
 
     background:white;
 
-    border:1px solid #d7e0ec;
-
     border-radius:22px;
+
+    border:1px solid #d9e2ef;
 
     padding:24px;
 }
 
-.radical-pane h3{
-    margin-top:0;
+.radical-row{
+
+    display:flex;
+
+    gap:20px;
+
+    margin-bottom:14px;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+.radical-char{
+
+    font-size:34px;
+    font-weight:800;
+
+    width:50px;
+}
+
+.radical-desc{
+
+    font-size:18px;
+    line-height:1.6;
+}
+
+/* RESPONSIVE */
 
 @media(max-width:1100px){
 
@@ -487,14 +416,10 @@ body{
     .skill-grid{
         grid-template-columns:1fr 1fr;
     }
-
-    .preview-top{
-        flex-direction:column;
-        gap:20px;
-    }
 }
 
 </style>
+
 </head>
 
 <body>
@@ -506,17 +431,21 @@ body{
     <div class="top-nav">
 
         <button
-            class="nav-btn active"
-            id="nav-home"
-            onclick="changeMainTab('home')">
-            🏠 Trang Chủ
+        class="nav-btn active"
+        id="nav-home"
+        onclick="changeMainTab('home')">
+
+            🏠 Trang chủ
+
         </button>
 
         <button
-            class="nav-btn"
-            id="nav-test"
-            onclick="changeMainTab('test')">
-            📝 Kiểm Tra
+        class="nav-btn"
+        id="nav-test"
+        onclick="changeMainTab('test')">
+
+            📝 Kiểm tra
+
         </button>
 
     </div>
@@ -528,13 +457,15 @@ body{
         <div class="dashboard-grid">
 
             <button
-                class="upload-card"
-                onclick="document.getElementById('file-input').click()">
+            class="upload-card"
+            onclick="document.getElementById('file-input').click()">
 
-                <div class="upload-icon">📁</div>
+                <div class="upload-icon">
+                    📁
+                </div>
 
                 <div class="upload-title">
-                    Tải lên tài liệu
+                    Tải tài liệu
                 </div>
 
                 <div class="upload-sub">
@@ -546,9 +477,11 @@ body{
             <div class="stat-card">
 
                 <div
-                    class="stat-number"
-                    id="count-vocab">
+                class="stat-number"
+                id="count-vocab">
+
                     0
+
                 </div>
 
                 <div class="stat-label">
@@ -560,9 +493,11 @@ body{
             <div class="stat-card">
 
                 <div
-                    class="stat-number"
-                    id="count-topic">
+                class="stat-number"
+                id="count-topic">
+
                     0
+
                 </div>
 
                 <div class="stat-label">
@@ -574,27 +509,25 @@ body{
         </div>
 
         <input
-            type="file"
-            id="file-input"
-            class="hidden"
-            accept=".pdf,.docx,.txt"
-            onchange="triggerUploadParser(this)"
+        type="file"
+        id="file-input"
+        class="hidden"
+        accept=".pdf,.docx,.txt"
+        onchange="triggerUploadParser(this)"
         >
 
         <div
-            id="status-msg"
-            style="
-            margin-top:20px;
-            font-size:28px;
-            font-weight:700;
-            ">
+        id="status-msg"
+        style="
+        margin-top:20px;
+        font-size:28px;
+        font-weight:700;
+        ">
         </div>
 
-        <!-- SKILL -->
-
         <div
-            id="workflow-skill-section"
-            class="hidden">
+        id="workflow-skill-section"
+        class="hidden">
 
             <div class="step-title">
                 ⚡ Bước 1: Chọn kỹ năng
@@ -603,38 +536,38 @@ body{
             <div class="skill-grid">
 
                 <button
-                    class="skill-btn"
-                    id="sk-tab-write"
-                    onclick="toggleWorkflowSkill('write')">
+                class="skill-btn"
+                id="sk-tab-write"
+                onclick="toggleWorkflowSkill('write')">
 
-                    ✍️ Luyện Viết
-
-                </button>
-
-                <button
-                    class="skill-btn"
-                    id="sk-tab-read"
-                    onclick="toggleWorkflowSkill('read')">
-
-                    📖 Luyện Đọc
+                    ✍️ Luyện viết
 
                 </button>
 
                 <button
-                    class="skill-btn"
-                    id="sk-tab-listen"
-                    onclick="toggleWorkflowSkill('listen')">
+                class="skill-btn"
+                id="sk-tab-read"
+                onclick="toggleWorkflowSkill('read')">
 
-                    🔊 Luyện Nghe
+                    📖 Luyện đọc
 
                 </button>
 
                 <button
-                    class="skill-btn"
-                    id="sk-tab-speak"
-                    onclick="toggleWorkflowSkill('speak')">
+                class="skill-btn"
+                id="sk-tab-listen"
+                onclick="toggleWorkflowSkill('listen')">
 
-                    🎤 Luyện Nói
+                    🔊 Luyện nghe
+
+                </button>
+
+                <button
+                class="skill-btn"
+                id="sk-tab-speak"
+                onclick="toggleWorkflowSkill('speak')">
+
+                    🎤 Luyện nói
 
                 </button>
 
@@ -645,205 +578,33 @@ body{
             </div>
 
             <div
-                id="workflow-topic-container-list"
-                class="topic-list">
+            id="workflow-topic-container-list"
+            class="topic-list">
             </div>
 
         </div>
 
     </div>
-
-    <!-- PREVIEW -->
-
-    <div
-        id="sec-preview"
-        class="hidden">
-
-        <div class="preview-top">
-
-            <button
-                class="back-btn"
-                onclick="activateLearningWorkflow()">
-
-                ← Trang chủ
-
-            </button>
-
-            <div
-                class="preview-title"
-                id="preview-heading-title">
-            </div>
-
-            <button
-                class="start-btn"
-                onclick="initStudyEngineView()">
-
-                🚀 Học ngay
-
-            </button>
-
-        </div>
-
-        <div
-            class="preview-scroll"
-            id="preview-cards-scroller">
-        </div>
-
-    </div>
-
-    <!-- STUDY -->
-
-    <div
-        id="study-engine-board"
-        class="hidden">
-
-        <h2 id="engine-header-title"></h2>
-
-        <div id="engine-progress-counter"></div>
-
-        <div
-            id="v-main-text"
-            class="zh-main">
-        </div>
-
-        <div id="v-py-text"></div>
-        <div id="v-vn-text"></div>
-
-        <hr>
-
-        <div
-            id="e-main-text"
-            class="zh-main">
-        </div>
-
-        <div id="e-py-text"></div>
-        <div id="e-vn-text"></div>
-
-        <!-- WRITE -->
-
-        <div
-            id="panel-write"
-            class="hidden">
-
-            <input
-                type="text"
-                id="write-answer">
-
-            <button
-                onclick="verifyWriteAnswer()">
-
-                Kiểm tra
-
-            </button>
-
-        </div>
-
-        <!-- READ -->
-
-        <div
-            id="panel-read"
-            class="hidden">
-
-            <div
-                id="rd-quiz-options-wrapper">
-            </div>
-
-        </div>
-
-        <!-- LISTEN -->
-
-        <div
-            id="panel-listen"
-            class="hidden">
-
-            <div id="l-puzzle-pool"></div>
-
-            <hr>
-
-            <div id="l-puzzle-drop"></div>
-
-            <button
-                onclick="verifyListenPuzzle()">
-
-                Kiểm tra
-
-            </button>
-
-        </div>
-
-        <!-- SPEAK -->
-
-        <div
-            id="panel-speak"
-            class="hidden">
-
-            <button
-                id="mic-trigger-btn"
-                onclick="activateVoiceRecognition()">
-
-                🎤 Bấm nói
-
-            </button>
-
-            <div id="sp-feedback-msg"></div>
-
-        </div>
-
-        <!-- NEXT -->
-
-        <div
-            id="reveal-card-zone"
-            class="hidden">
-
-            <button
-                onclick="shiftNextWord()">
-
-                ➡ Từ tiếp theo
-
-            </button>
-
-        </div>
-
-        <!-- RADICAL -->
-
-        <div
-            id="panel-radical-analysis"
-            class="radical-pane hidden">
-        </div>
-
-    </div>
-
-    <!-- TEST -->
-
-    <div
-        id="test-engine-board"
-        class="hidden">
-
-        <div
-            id="test-topic-container-list">
-        </div>
-
-        <div
-            id="test-question-content-box">
-        </div>
-
-    </div>
-
-</div>
+<!-- =========================================================
+PART 2 — STUDY ENGINE + UPLOAD PARSER + RADICAL
++ QUIZ + SPEECH + TEST MODE
+========================================================= -->
 
 <script>
 
-/* =========================
-   VARIABLES
-========================= */
+/* =========================================================
+GLOBAL VARIABLES
+========================================================= */
 
 let globalDatabase =
 JSON.parse(
-    localStorage.getItem('zh_master_db')
+    localStorage.getItem("zh_master_db")
 ) || [];
 
 let activeSkillMode = "";
+
 let currentWords = [];
+
 let activeIdx = 0;
 
 let currentActiveTopicName = "";
@@ -852,334 +613,64 @@ let puzzleSelectedChips = [];
 
 let currentActiveSentenceTarget = "";
 
-/* =========================
-   SAFE DOM
-========================= */
+let testIdx = 0;
+
+let testScore = 0;
+
+/* =========================================================
+SAFE DOM
+========================================================= */
 
 function safeText(id,val){
 
-    const el=document.getElementById(id);
+    const el =
+    document.getElementById(id);
 
     if(el){
-        el.innerText=val;
+
+        el.innerText = val;
     }
 }
 
 function safeHTML(id,val){
 
-    const el=document.getElementById(id);
+    const el =
+    document.getElementById(id);
 
     if(el){
-        el.innerHTML=val;
+
+        el.innerHTML = val;
     }
 }
-    
-/* =========================
-   SPEECH
-========================= */
+
+/* =========================================================
+SPEECH ENGINE
+========================================================= */
 
 const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
 
 let voiceRecognitionEngine = null;
 
 if(SpeechRecognition){
 
     voiceRecognitionEngine =
-        new SpeechRecognition();
+    new SpeechRecognition();
 
-    voiceRecognitionEngine.lang='zh-CN';
+    voiceRecognitionEngine.lang =
+    "zh-CN";
 
-    voiceRecognitionEngine.continuous=false;
+    voiceRecognitionEngine.continuous =
+    false;
 
-    voiceRecognitionEngine.interimResults=false;
+    voiceRecognitionEngine.interimResults =
+    false;
 }
 
-/* =========================
-   RADICAL DICT
-========================= */
-
-const TM_Radicals_Dict = {
-
-"一": "Bộ Nhất - số một, khởi đầu.",
-"丨": "Bộ Cổn - nét sổ dọc.",
-"丶": "Bộ Chủ - dấu chấm.",
-"丿": "Bộ Phiệt - nét phẩy.",
-"乙": "Bộ Ất - thiên can thứ hai.",
-"亅": "Bộ Quyết - nét móc.",
-"二": "Bộ Nhị - đại diện cho âm dương.",
-"亠": "Bộ Đầu - nét chấm đầu gạch ngang.",
-"人": "Bộ Nhân - con người.",
-"亻": "Nhân đứng - hành động con người.",
-"儿": "Bộ Nhi - trẻ em.",
-"入": "Bộ Nhập - đi vào.",
-"八": "Bộ Bát - phân chia.",
-"冂": "Bộ Quynh - bao quanh.",
-"冖": "Bộ Mịch - khăn trùm.",
-"冫": "Bộ Băng - nước đá.",
-"几": "Bộ Kỷ - ghế dựa.",
-"凵": "Bộ Khảm - hố lõm.",
-"刀": "Bộ Đao - con dao.",
-"刂": "Đao đứng - cắt gọt.",
-"力": "Bộ Lực - sức mạnh.",
-"勹": "Bộ Bao - bao bọc.",
-"匕": "Bộ Chủy - cái thìa.",
-"匚": "Bộ Phương - hộp chứa.",
-"十": "Bộ Thập - số mười.",
-"卜": "Bộ Bốc - bói toán.",
-"卩": "Bộ Tiết - đốt tre.",
-"厂": "Bộ Hán - vách núi.",
-"厶": "Bộ Tư - riêng tư.",
-"又": "Bộ Hựu - bàn tay phải.",
-"口": "Bộ Khẩu - cái miệng.",
-"囗": "Bộ Vi - bao quanh.",
-"土": "Bộ Thổ - đất.",
-"士": "Bộ Sĩ - học trò.",
-"夂": "Bộ Truy - đi chậm.",
-"夕": "Bộ Tịch - buổi tối.",
-"大": "Bộ Đại - to lớn.",
-"女": "Bộ Nữ - phụ nữ.",
-"子": "Bộ Tử - đứa trẻ.",
-"宀": "Bộ Miên - mái nhà.",
-"寸": "Bộ Thốn - tấc.",
-"小": "Bộ Tiểu - nhỏ.",
-"尸": "Bộ Thi - xác.",
-"山": "Bộ Sơn - núi.",
-"川": "Bộ Xuyên - sông.",
-"工": "Bộ Công - công việc.",
-"己": "Bộ Kỷ - bản thân.",
-"巾": "Bộ Cân - khăn.",
-"干": "Bộ Can - cái khiên.",
-"幺": "Bộ Yêu - nhỏ bé.",
-"广": "Bộ Quảng - mái che.",
-"廴": "Bộ Dẫn - bước dài.",
-"廾": "Bộ Củng - hai tay chắp lại.",
-"弋": "Bộ Dực - cái cọc tre.",
-"弓": "Bộ Cung - cây cung.",
-"彡": "Bộ Sâm - lông tóc dài.",
-"彳": "Bộ Xích - bước chân.",
-"心": "Bộ Tâm - trái tim.",
-"忄": "Tâm đứng - cảm xúc.",
-"戈": "Bộ Qua - binh khí.",
-"户": "Bộ Hộ - cửa gia đình.",
-"手": "Bộ Thủ - bàn tay.",
-"扌": "Thủ đứng - động tác tay.",
-"日": "Bộ Nhật - mặt trời.",
-"曰": "Bộ Viết - nói rằng.",
-"月": "Bộ Nguyệt - mặt trăng.",
-"木": "Bộ Mộc - cây.",
-"欠": "Bộ Khiếm - thiếu.",
-"止": "Bộ Chỉ - dừng lại.",
-"歹": "Bộ Tịch/Đãi - chết chóc.",
-"殳": "Bộ Thù - vũ khí.",
-"毋": "Bộ Vô - chớ có.",
-"比": "Bộ Tỷ - so sánh.",
-"毛": "Bộ Mao - lông.",
-"氏": "Bộ Thị - họ tộc.",
-"气": "Bộ Khí - hơi khí.",
-"水": "Bộ Thủy - nước.",
-"氵": "Thủy đứng - liên quan nước.",
-"火": "Bộ Hỏa - lửa.",
-"灬": "Hỏa dưới - lửa phía dưới.",
-"爪": "Bộ Trảo - móng vuốt.",
-"父": "Bộ Phụ - cha.",
-"爻": "Bộ Hào - các vạch hào kinh dịch.",
-"爿": "Bộ Tường - mảnh gỗ xẻ.",
-"片": "Bộ Phiến - mảnh.",
-"牙": "Bộ Nha - răng.",
-"牛": "Bộ Ngưu - trâu bò.",
-"犬": "Bộ Khuyển - chó.",
-"犭": "Khuyển đứng - động vật.",
-"玄": "Bộ Huyền - màu đen kỳ ảo.",
-"玉": "Bộ Ngọc - ngọc quý.",
-"王": "Bộ Vương - vua.",
-"甘": "Bộ Cam - ngọt.",
-"生": "Bộ Sinh - sinh ra.",
-"用": "Bộ Dụng - sử dụng.",
-"田": "Bộ Điền - ruộng.",
-"疒": "Bộ Tật/Nạch - bệnh.",
-"癶": "Bộ Bát - hai bàn chân rẽ hướng.",
-"白": "Bộ Bạch - màu trắng.",
-"皮": "Bộ Bì - da.",
-"皿": "Bộ Mãnh - đồ đựng.",
-"目": "Bộ Mục - mắt.",
-"矛": "Bộ Mâu - giáo.",
-"矢": "Bộ Thỉ - mũi tên.",
-"石": "Bộ Thạch - đá.",
-"示": "Bộ Thị - thần linh.",
-"禸": "Bộ Nhựu - dấu chân thú.",
-"禾": "Bộ Hòa - lúa.",
-"穴": "Bộ Huyệt - hang.",
-"立": "Bộ Lập - đứng.",
-"竹": "Bộ Trúc - tre.",
-"米": "Bộ Mễ - gạo.",
-"糸": "Bộ Mịch - sợi tơ.",
-"纟": "Mịch giản thể - tơ.",
-"缶": "Bộ Phẫu - bình gốm.",
-"网": "Bộ Võng - lưới.",
-"羊": "Bộ Dương - dê.",
-"羽": "Bộ Vũ - lông cánh.",
-"老": "Bộ Lão - già.",
-"耳": "Bộ Nhĩ - tai.",
-"自": "Bộ Tự - bản thân.",
-"至": "Bộ Chí - đến.",
-"艹": "Bộ Thảo - cỏ.",
-"虫": "Bộ Trùng - sâu bọ.",
-"行": "Bộ Hành - đi lại.",
-"衣": "Bộ Y - quần áo.",
-"衤": "Y đứng - quần áo.",
-"见": "Bộ Kiến - nhìn thấy.",
-"角": "Bộ Giác - sừng.",
-"讠": "Ngôn giản thể - lời nói.",
-"贝": "Bối giản thể - tiền tài.",
-"走": "Bộ Tẩu - chạy.",
-"足": "Bộ Túc - chân.",
-"身": "Bộ Thân - cơ thể.",
-"车": "Bộ Xa - xe.",
-"辶": "Bộ Sước - đi xa.",
-"里": "Bộ Lý - dặm đường.",
-"金": "Bộ Kim - kim loại.",
-"钅": "Kim giản thể - kim loại.",
-"门": "Bộ Môn - cửa.",
-"隹": "Bộ Chuy - chim đuôi ngắn.",
-"雨": "Bộ Vũ - mưa.",
-"饣": "Bộ Thực giản thể - ăn uống.",
-"马": "Bộ Mã - ngựa.",
-"鱼": "Bộ Ngư - cá.",
-"鸟": "Bộ Điểu - chim.",
-"云": "Bộ Vân - đám mây.",
-"鬲": "Bộ Cách - cái vạc/nồi.",
-"鼓": "Bộ Cổ - cái trống.",
-"龠": "Bộ Dược - sáo/ống thổi.",
-"鼎": "Bộ Đỉnh - cái đỉnh.",
-"页": "Bộ Hiệt - cái đầu.",
-"镸": "Bộ Trường - dài.",
-"鬯": "Bộ Sưởng - rượu thơm.",
-"髟": "Bộ Bưu - lông dài trên đầu.",
-"麻": "Bộ Ma - cây gai.",
-"鹿": "Bộ Lộc - con hươu.",
-"鼻": "Bộ Tỵ - cái mũi.",
-"鼠": "Bộ Thử - con chuột.",
-"黑": "Bộ Hắc - màu đen.",
-"亀": "Bộ Quy - con rùa."
-
-
-};
-
-/* =========================
-   DECOMPOSITION MAP
-========================= */
-
-const AI_Decomposition_Matrix_Map = {
-
-"你": ["亻", "尔"],
-"好": ["女", "子"],
-"妈": ["女", "马"],
-"她": ["女", "也"],
-"他": ["亻", "也"],
-"们": ["亻", "门"],
-"位": ["亻", "立"],
-
-"我": ["手", "戈"],
-"找": ["扌", "戈"],
-"打": ["扌", "丁"],
-"看": ["手", "目"],
-"想": ["木", "目", "心"],
-"修": ["亻", "夂", "彡"],
-"改": ["己", "攵"],
-"会": ["人", "云"],
-
-"问": ["门", "口"],
-"间": ["门", "日"],
-"听": ["口", "斤"],
-"说": ["讠", "兑"],
-"话": ["讠", "舌"],
-"请": ["讠", "青"],
-"谢": ["讠", "身", "寸"],
-"认": ["讠", "人"],
-"识": ["讠", "只"],
-"语": ["讠", "吾"],
-"计": ["讠", "十"],
-"证": ["讠", "止", "一"],
-
-"吃": ["口", "乞"],
-"喝": ["口", "曷"],
-"唱": ["口", "昌"],
-"叫": ["口", "丩"],
-"吗": ["口", "马"],
-"饭": ["饣", "反"],
-"菜": ["艹", "采"],
-"茶": ["艹", "人", "木"],
-"酒": ["氵", "酉"],
-
-"明": ["日", "月"],
-"晚": ["日", "免"],
-"昨": ["日", "乍"],
-"时": ["日", "寸"],
-"春": ["三", "人", "日"],
-"电": ["日", "乚"],
-"河": ["氵", "可"],
-"海": ["氵", "每"],
-"洗": ["氵", "先"],
-"热": ["灬", "执"],
-"动": ["云", "力"],
-
-"林": ["木", "木"],
-"森": ["木", "木", "木"],
-"杯": ["木", "不"],
-"校": ["木", "交"],
-"桌": ["木", "卓"],
-"材": ["木", "才"],
-"核": ["木", "亥"],
-"家": ["宀", "豕"],
-"房": ["户", "方"],
-"安": ["宀", "女"],
-"学": ["冖", "子"],
-"店": ["广", "占"],
-"门": ["门"],
-"坐": ["土", "人"],
-
-"猫": ["犭", "苗"],
-"狗": ["犭", "句"],
-"猪": ["犭", "者"],
-"鱼": ["鱼"],
-"鸟": ["鸟"],
-"钱": ["钅", "戋"],
-"银": ["钅", "艮"],
-"错": ["钅", "昔"],
-"钢": ["钅", "冈"],
-"跑": ["足", "包"],
-"路": ["足", "各"],
-"跟": ["足", "艮"],
-"跳": ["足", "兆"],
-"车": ["车"],
-"国": ["囗", "玉"],
-"园": ["囗", "元"],
-"图": ["囗", "冬"],
-"回": ["囗", "口"],
-"衣": ["衣"],
-"裤": ["衤", "库"],
-"鞋": ["革", "圭"],
-"帽": ["巾", "冒"],
-"开": ["一", "廾"],
-"关": ["丷", "天"],
-"算": ["竹", "目", "廾"],
-"理": ["王", "里"],
-"经": ["纟", "工"],
-"定": ["宀", "疋"],
-"劳": ["宀", "艹", "力"],
-"职": ["耳", "口"],
-"同": ["冂", "口"],
-"在": ["土", "丿"],
-"正": ["止", "一"],
-"是": ["日", "疋"]
-
-};
-    
-/* =========================
-   FILE UPLOAD
-========================= */
+/* =========================================================
+UPLOAD PARSER
+========================================================= */
 
 function triggerUploadParser(input){
 
@@ -1192,33 +683,60 @@ function triggerUploadParser(input){
         "🔄 Đang xử lý file..."
     );
 
-    const reader = new FileReader();
+    const reader =
+    new FileReader();
 
-    reader.onload = function(e){
+    reader.onload =
+    function(e){
 
-        if(file.name.endsWith('.docx')){
+        /* DOCX */
+
+        if(
+            file.name
+            .toLowerCase()
+            .endsWith(".docx")
+        ){
 
             mammoth.extractRawText({
-                arrayBuffer:e.target.result
-            }).then(result=>{
+
+                arrayBuffer:
+                e.target.result
+
+            })
+
+            .then(result=>{
 
                 executeTextParserEngine(
                     result.value
                 );
-
             });
 
+            return;
         }
 
-        else if(file.name.endsWith('.pdf')){
+        /* PDF */
 
-            pdfjsLib.getDocument({
-                data:new Uint8Array(
+        if(
+            file.name
+            .toLowerCase()
+            .endsWith(".pdf")
+        ){
+
+            pdfjsLib
+            .getDocument({
+
+                data:
+                new Uint8Array(
                     e.target.result
                 )
-            }).promise.then(pdf=>{
 
-                let pages=[];
+            })
+
+            .promise
+
+            .then(async pdf=>{
+
+                let fullText = "";
 
                 for(
                     let i=1;
@@ -1226,155 +744,191 @@ function triggerUploadParser(input){
                     i++
                 ){
 
-                    pages.push(
+                    const page =
+                    await pdf.getPage(i);
 
-                        pdf.getPage(i)
-                        .then(page=>
+                    const content =
+                    await page.getTextContent();
 
-                            page.getTextContent()
-                            .then(content=>
+                    const text =
+                    content.items
+                    .map(x=>x.str)
+                    .join(" ");
 
-                                content.items
-                                .map(x=>x.str)
-                                .join(' ')
-
-                            )
-
-                        )
-
-                    );
+                    fullText +=
+                    text + "\n";
                 }
 
-                Promise.all(pages)
-                .then(allText=>{
-
-                    executeTextParserEngine(
-                        allText.join('\n')
-                    );
-
-                });
-
+                executeTextParserEngine(
+                    fullText
+                );
             });
 
+            return;
         }
 
-        else{
+        /* TXT */
 
-            executeTextParserEngine(
-                e.target.result
-            );
-
-        }
-
+        executeTextParserEngine(
+            e.target.result
+        );
     };
 
-    if(file.name.endsWith('.txt')){
+    if(
+        file.name
+        .toLowerCase()
+        .endsWith(".txt")
+    ){
 
         reader.readAsText(file);
 
     }else{
 
         reader.readAsArrayBuffer(file);
-
     }
 }
 
-/* =========================
-   TEXT PARSER
-========================= */
+/* =========================================================
+TEXT PARSER
+========================================================= */
 
-function executeTextParserEngine(txt){
-
-    const lines = txt
-    .split('\n')
+function executeTextParserEngine(text){
+    text = text
+    .replace(/\t/g," ")
+    .replace(/ +/g," ")
+    .replace(/\r/g,"");
+    const lines =
+    text
+    .split("\n")
     .map(l=>l.trim())
     .filter(l=>l.length>0);
 
-    let topic="Chung";
+    let topic = "Chung";
 
-    let addedCount=0;
+    let added = 0;
 
-    for(let i=0;i<lines.length;i++){
+    for(
+        let i=0;
+        i<lines.length;
+        i++
+    ){
 
-        const line=lines[i];
+        const line = lines[i];
 
         /* detect topic */
 
         if(
-            line.includes("TỪ VỰNG") ||
-            line.includes("CHỦ ĐỀ") ||
-            line.includes("BÀI")
+
+            /^BÀI\s*\d*/i.test(line)
+    ||
+    /^CHỦ ĐỀ/i.test(line)
+    ||
+    /^TỪ VỰNG/i.test(line)
+
         ){
 
-            topic=line;
+            topic = line;
 
             continue;
         }
 
         /* detect chinese */
 
-        if(/[\u4e00-\u9fa5]/.test(line)){
+        if(
+           /[\u4e00-\u9fa5]/.test(line)
+    &&
+    !/[。！？,.!?]/.test(line)
+    &&
+    line.length <= 12
+        ){
 
-            let item={
+            const item = {
 
-                cn:line || "",
+                cn:
+                line || "",
 
-                py:lines[i+1] || "",
+                py:
+                lines[i+1] || "",
 
-                vn:lines[i+2] || "",
+                vn:
+                lines[i+2] || "",
 
-                ex_cn:lines[i+3] || "",
+                ex_cn:
+                lines[i+3] || "",
 
-                ex_py:lines[i+4] || "",
+                ex_py:
+                lines[i+4] || "",
 
-                ex_vn:lines[i+5] || "",
+                ex_vn:
+                lines[i+5] || "",
 
-                topic:topic
-
+                topic:
+                topic
             };
 
             const existed =
-                globalDatabase.some(
-                    d=>d.cn===item.cn
-                );
+            globalDatabase.some(
+                d=>
+d.cn===item.cn
+&&
+d.topic===item.topic
+            );
 
             if(!existed){
 
                 globalDatabase.push(item);
 
-                addedCount++;
+                added++;
             }
 
-            i+=5;
+            i += 5;
         }
     }
 
     localStorage.setItem(
-        'zh_master_db',
-        JSON.stringify(globalDatabase)
+
+        try{
+
+    localStorage.setItem(
+
+        "zh_master_db",
+
+        JSON.stringify(
+            globalDatabase
+        )
     );
 
+}catch(e){
+
+    alert(
+        "⚠️ Dữ liệu quá lớn cho localStorage"
+    );
+}
     safeText(
         "status-msg",
-        `✅ Đã nạp ${addedCount} từ mới`
+        `✅ Đã nạp ${added} từ mới`
     );
 
     renderHomeDashboard();
 }
 
-/* =========================
-   HOME DASHBOARD
-========================= */
+/* =========================================================
+HOME DASHBOARD
+========================================================= */
 
 function renderHomeDashboard(){
 
     safeText(
+
         "count-vocab",
+
         globalDatabase.length
     );
 
     safeText(
+
         "count-topic",
+
         new Set(
             globalDatabase.map(
                 d=>d.topic
@@ -1386,31 +940,36 @@ function renderHomeDashboard(){
 
         document
         .getElementById(
-            'workflow-skill-section'
+            "workflow-skill-section"
         )
-        .classList.remove('hidden');
+        .classList.remove("hidden");
 
         buildTopicSelectionList();
     }
 }
 
-/* =========================
-   BUILD TOPIC
-========================= */
+/* =========================================================
+BUILD TOPIC LIST
+========================================================= */
 
 function buildTopicSelectionList(){
 
     const container =
     document.getElementById(
-        'workflow-topic-container-list'
+        "workflow-topic-container-list"
     );
 
-    container.innerHTML="";
+    container.innerHTML = "";
 
-    const topics =
-    [...new Set(
-        globalDatabase.map(d=>d.topic)
-    )];
+    const topics = [
+
+        ...new Set(
+            globalDatabase.map(
+                d=>d.topic
+            )
+        )
+
+    ];
 
     topics.forEach(topic=>{
 
@@ -1420,12 +979,13 @@ function buildTopicSelectionList(){
         ).length;
 
         const btn =
-        document.createElement('button');
+        document.createElement("button");
 
-        btn.className='topic-card';
+        btn.className =
+        "topic-card";
 
-        btn.innerHTML=
-        `
+        btn.innerHTML = `
+
         <div class="topic-title">
             📂 ${topic}
         </div>
@@ -1433,9 +993,10 @@ function buildTopicSelectionList(){
         <div class="topic-count">
             ${count} từ
         </div>
+
         `;
 
-        btn.onclick=()=>{
+        btn.onclick = ()=>{
 
             currentActiveTopicName =
             topic;
@@ -1445,7 +1006,7 @@ function buildTopicSelectionList(){
                 d=>d.topic===topic
             );
 
-            if(activeSkillMode!==""){
+            if(activeSkillMode){
 
                 initStudyEngineView();
 
@@ -1458,48 +1019,52 @@ function buildTopicSelectionList(){
         };
 
         container.appendChild(btn);
-
     });
-
 }
 
-/* =========================
-   PREVIEW MODE
-========================= */
+/* =========================================================
+PREVIEW MODE
+========================================================= */
 
 function renderTopicPreviewMode(topic){
 
     document
-    .querySelectorAll('.tab-pane-view')
-    .forEach(p=>
-        p.classList.add('hidden')
-    );
+    .querySelectorAll(
+        ".tab-pane-view"
+    )
+    .forEach(el=>{
+
+        el.classList.add("hidden");
+    });
 
     document
-    .getElementById('sec-preview')
-    .classList.remove('hidden');
+    .getElementById("sec-preview")
+    .classList.remove("hidden");
 
     safeText(
+
         "preview-heading-title",
+
         `Khái quát: ${topic}`
     );
 
-    const container =
+    const box =
     document.getElementById(
-        'preview-cards-scroller'
+        "preview-cards-scroller"
     );
 
-    container.innerHTML="";
+    box.innerHTML = "";
 
     currentWords.forEach(word=>{
 
         const div =
-        document.createElement('div');
+        document.createElement("div");
 
-        div.className='preview-card';
+        div.className =
+        "preview-card";
 
-        div.innerHTML=
-        `
+        div.innerHTML = `
+
         <div class="preview-main">
 
             <div>
@@ -1523,7 +1088,7 @@ function renderTopicPreviewMode(topic){
         <div class="preview-divider"></div>
 
         <div class="preview-ex-cn">
-            ${word.ex_cn}
+            ${word.ex_cn || ""}
         </div>
 
         <div class="preview-ex-py">
@@ -1533,72 +1098,76 @@ function renderTopicPreviewMode(topic){
         <div class="preview-ex-vn">
             ${word.ex_vn}
         </div>
+
         `;
 
-        container.appendChild(div);
-
+        box.appendChild(div);
     });
+}
 
+function escapeHTML(str){
+
+    if(!str) return "";
+
+    return str
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;");
 }
 
 function activateLearningWorkflow(){
 
     document
-    .getElementById('sec-preview')
-    .classList.add('hidden');
+    .getElementById("sec-preview")
+    .classList.add("hidden");
 
     document
-    .getElementById('sec-home')
-    .classList.remove('hidden');
-
+    .getElementById("sec-home")
+    .classList.remove("hidden");
 }
-    
-/* =========================
-   SKILL MODE
-========================= */
+
+/* =========================================================
+SKILL MODE
+========================================================= */
 
 function toggleWorkflowSkill(skill){
 
     activeSkillMode = skill;
 
     document
-    .querySelectorAll('.skill-btn')
+    .querySelectorAll(".skill-btn")
     .forEach(btn=>{
 
-        btn.classList.remove('active');
-
+        btn.classList.remove("active");
     });
 
-    const map={
+    const map = {
 
-        write:'sk-tab-write',
-        read:'sk-tab-read',
-        listen:'sk-tab-listen',
-        speak:'sk-tab-speak'
+        write:"sk-tab-write",
 
+        read:"sk-tab-read",
+
+        listen:"sk-tab-listen",
+
+        speak:"sk-tab-speak"
     };
 
-    const activeBtn =
-    document.getElementById(
+    document
+    .getElementById(
         map[skill]
-    );
+    )
+    .classList.add("active");
 
-    if(activeBtn){
-
-        activeBtn.classList.add('active');
-
-    }
-
-    if(currentActiveTopicName!==""){
+    if(currentActiveTopicName){
 
         initStudyEngineView();
-
     }
 }
 
-/* =========================
-   STUDY ENGINE
-========================= */
+/* =========================================================
+STUDY ENGINE
+========================================================= */
 
 function initStudyEngineView(){
 
@@ -1606,96 +1175,174 @@ function initStudyEngineView(){
         return;
     }
 
-    activeIdx=0;
+    activeIdx = 0;
 
     document
-    .querySelectorAll('.tab-pane-view')
-    .forEach(p=>{
+    .querySelectorAll(
+        ".tab-pane-view"
+    )
+    .forEach(el=>{
 
-        p.classList.add('hidden');
-
+        el.classList.add("hidden");
     });
 
     document
-    .getElementById('study-engine-board')
-    .classList.remove('hidden');
+    .getElementById(
+        "study-engine-board"
+    )
+    .classList.remove("hidden");
 
     refreshEngineCardLayoutData();
 }
 
-/* =========================
-   LOAD WORD
-========================= */
-
 function refreshEngineCardLayoutData(){
 
-    const word =
+    const w =
     currentWords[activeIdx];
 
+if(!w) return;
+
     safeText(
-        'engine-header-title',
+
+        "engine-header-title",
+
         `Học ${activeSkillMode.toUpperCase()}`
     );
 
     safeText(
-        'engine-progress-counter',
+
+        "engine-progress-counter",
+
         `${activeIdx+1}/${currentWords.length}`
     );
 
-    /* vocab */
+    safeHTML(
+
+        "v-main-text",
+
+        buildChineseClickable(w.cn)
+    );
+
+    safeText(
+        "v-py-text",
+        w.py || ""
+    );
+
+    safeText(
+        "v-vn-text",
+        w.vn || ""
+    );
 
     safeHTML(
-        'v-main-text',
 
-        (word.cn || "")
-        .split("")
-        .map(c=>`<span>${c}</span>`)
-        .join("")
+        "e-main-text",
 
+        buildChineseClickable(
+            w.ex_cn
+        )
     );
 
     safeText(
-        'v-py-text',
-        word.py || ""
+        "e-py-text",
+        w.ex_py || ""
     );
 
     safeText(
-        'v-vn-text',
-        word.vn || ""
+        "e-vn-text",
+        w.ex_vn || ""
     );
 
-    /* example */
+    hideAllStudyPanels();
 
-    safeHTML(
-        'e-main-text',
+    if(activeSkillMode==="write"){
 
-        (word.ex_cn || "")
-        .split("")
-        .map(c=>`<span>${c}</span>`)
-        .join("")
+        document
+        .getElementById(
+            "panel-write"
+        )
+        .classList.remove("hidden");
+    }
 
+if(activeSkillMode === "read"){
+
+    document
+        .getElementById("panel-read")
+        .classList.remove("hidden");
+
+    const wrapper = document.getElementById("rd-quiz-options-wrapper");
+    if(wrapper) wrapper.replaceChildren();
+
+    buildFourMultipleChoicesOptions(word.vn);
+}
+    if(activeSkillMode==="listen"){
+
+        document
+        .getElementById(
+            "panel-listen"
+        )
+        .classList.remove("hidden");
+
+        currentActiveSentenceTarget =
+        w.ex_cn || "";
+
+     if(currentActiveSentenceTarget){
+
+    buildListenPuzzleLayout(
+        currentActiveSentenceTarget
     );
+}
 
-    safeText(
-        'e-py-text',
-        word.ex_py || ""
-    );
+    if(activeSkillMode==="speak"){
 
-    safeText(
-        'e-vn-text',
-        word.ex_vn || ""
-    );
+        document
+        .getElementById(
+            "panel-speak"
+        )
+        .classList.remove("hidden");
+    }
 
-    /* reset panels */
+    bindChineseCharEvents();
+}
+
+function buildChineseClickable(text){
+
+    if(!text) return "";
+
+    return escapeHTML(text)
+    Array.from(text)
+    .map(ch=>{
+
+        if(
+            /[\u4e00-\u9fa5]/.test(ch)
+        ){
+
+            return `
+            <span class="zh-char">
+                ${ch}
+            </span>
+            `;
+        }
+
+        return ch;
+
+    }).join("");
+}
+
+function hideAllStudyPanels(){
 
     [
 
-        'panel-write',
-        'panel-read',
-        'panel-listen',
-        'panel-speak',
-        'reveal-card-zone',
-        'panel-radical-analysis'
+        "panel-write",
+
+        "panel-read",
+
+        "panel-listen",
+
+        "panel-speak",
+
+        "reveal-card-zone",
+
+        "panel-radical-analysis"
 
     ]
 
@@ -1706,197 +1353,43 @@ function refreshEngineCardLayoutData(){
 
         if(el){
 
-            el.classList.add('hidden');
-
+            el.classList.add("hidden");
         }
-
     });
-
-    /* mode */
-
-    if(activeSkillMode==='write'){
-
-        document
-        .getElementById('panel-write')
-        .classList.remove('hidden');
-
-    }
-
-    if(activeSkillMode==='read'){
-
-        document
-        .getElementById('panel-read')
-        .classList.remove('hidden');
-
-        buildFourMultipleChoicesOptions(
-            word.vn
-        );
-
-    }
-
-    if(activeSkillMode==='listen'){
-
-        currentActiveSentenceTarget =
-        word.ex_cn || "";
-
-        document
-        .getElementById('panel-listen')
-        .classList.remove('hidden');
-
-        buildListenPuzzleLayout(
-            currentActiveSentenceTarget
-        );
-
-    }
-
-    if(activeSkillMode==='speak'){
-
-        document
-        .getElementById('panel-speak')
-        .classList.remove('hidden');
-
-    }
-
-    /* radical click */
-
-    setTimeout(()=>{
-
-        const chars =
-        document.querySelectorAll(
-            '.zh-main span'
-        );
-
-        chars.forEach(char=>{
-
-            char.onclick=()=>{
-
-                executeAIRadicalAnalyzer(
-                    char.innerText
-                );
-
-            };
-
-        });
-
-    },100);
-
 }
 
-/* =========================
-   RADICAL ANALYZER
-========================= */
-
-function executeAIRadicalAnalyzer(char){
-
-    const panel =
-    document.getElementById(
-        'panel-radical-analysis'
-    );
-
-    let html="";
-
-    const parts =
-    AI_Decomposition_Matrix_Map[
-        char
-    ] || [];
-
-    if(parts.length>0){
-
-        parts.forEach(part=>{
-
-            if(
-                TM_Radicals_Dict[part]
-            ){
-
-                html +=
-                `
-                <p>
-
-                    ➔ <b>${part}</b>
-
-                    :
-                    ${TM_Radicals_Dict[part]}
-
-                </p>
-                `;
-
-            }
-
-        });
-
-    }
-
-    else{
-
-        html=
-        `
-        <p>
-            Không có dữ liệu phân tích.
-        </p>
-        `;
-    }
-
-    panel.innerHTML=
-    `
-    <h3>
-        🤖 Phân tích chữ:
-        ${char}
-    </h3>
-
-    ${html}
-    `;
-
-    panel.classList.remove('hidden');
-
-}
-
-
+</script>
 <!-- =========================================================
-PART 4 — STUDY ENGINE + QUIZ + RADICAL SYSTEM
-DÁN TIẾP NGAY SAU PART 3
+PART 3 — RADICAL SYSTEM + QUIZ + LISTEN
++ SPEAK + NEXT WORD
 ========================================================= -->
 
 <script>
 
 /* =========================================================
-GLOBAL VARIABLES
+RADICAL CLICK EVENT
 ========================================================= */
 
-let globalDatabase =
-JSON.parse(localStorage.getItem("zh_master_db")) || [];
+function bindChineseCharEvents(){
 
-let activeSkillMode = "";
-let currentWords = [];
-let activeIdx = 0;
-let currentActiveTopicName = "";
+    const chars =
+    document.querySelectorAll(
+        ".zh-char"
+    );
 
-let puzzleSelectedChips = [];
-let currentActiveSentenceTarget = "";
+    chars.forEach(el=>{
 
-/* =========================================================
-SAFE DOM
-========================================================= */
+        el.onclick = ()=>{
 
-function safeText(id,val){
-
-    const el=document.getElementById(id);
-
-    if(el){
-        el.innerText=val;
-    }
-}
-
-function safeHTML(id,val){
-
-    const el=document.getElementById(id);
-
-    if(el){
-        el.innerHTML=val;
-    }
+            executeAIRadicalAnalyzer(
+                el.innerText
+            );
+        };
+    });
 }
 
 /* =========================================================
-RADICAL DICT
+RADICAL DICTIONARY
 ========================================================= */
 
 const TM_Radicals_Dict = {
@@ -2061,12 +1554,17 @@ const TM_Radicals_Dict = {
 "鼻": "Bộ Tỵ - cái mũi.",
 "鼠": "Bộ Thử - con chuột.",
 "黑": "Bộ Hắc - màu đen.",
-"亀": "Bộ Quy - con rùa."
+"亀": "Bộ Quy - con rùa.",
+"革": "Bộ Cách - da thuộc.",
+"丷": "Bộ Bát mở rộng - hai nhánh.",
+"天": "Trời, thiên.",
+"丁": "Đinh - đơn vị, cái đinh."
+
 };
 
-/* =========================
-   DECOMPOSITION MAP
-========================= */
+/* =========================================================
+DECOMPOSITION MAP
+========================================================= */
 
 const AI_Decomposition_Matrix_Map = {
 
@@ -2157,7 +1655,7 @@ const AI_Decomposition_Matrix_Map = {
 "回": ["囗", "口"],
 "衣": ["衣"],
 "裤": ["衤", "库"],
-"鞋": ["革", "圭"],
+"鞋": ["革", "土"],
 "帽": ["巾", "冒"],
 "开": ["一", "廾"],
 "关": ["丷", "天"],
@@ -2171,166 +1669,8 @@ const AI_Decomposition_Matrix_Map = {
 "在": ["土", "丿"],
 "正": ["止", "一"],
 "是": ["日", "疋"]
+
 };
-
-/* =========================================================
-STUDY ENGINE
-========================================================= */
-
-function initStudyEngineView(){
-
-    if(currentWords.length===0){
-        return;
-    }
-
-    activeIdx=0;
-
-    document
-    .querySelectorAll(".tab-pane-view")
-    .forEach(el=>{
-        el.classList.add("hidden");
-    });
-
-    document
-    .getElementById("study-engine-board")
-    .classList.remove("hidden");
-
-    refreshEngineCardLayoutData();
-}
-
-function refreshEngineCardLayoutData(){
-
-    const w=currentWords[activeIdx];
-
-    safeText(
-        "engine-header-title",
-        `Học ${activeSkillMode.toUpperCase()}`
-    );
-
-    safeText(
-        "engine-progress-counter",
-        `${activeIdx+1}/${currentWords.length}`
-    );
-
-    safeHTML(
-        "v-main-text",
-        buildChineseClickable(w.cn)
-    );
-
-    safeText("v-py-text",w.py || "");
-    safeText("v-vn-text",w.vn || "");
-
-    safeHTML(
-        "e-main-text",
-        buildChineseClickable(w.ex_cn)
-    );
-
-    safeText("e-py-text",w.ex_py || "");
-    safeText("e-vn-text",w.ex_vn || "");
-
-    hideAllStudyPanels();
-
-    if(activeSkillMode==="write"){
-
-        document
-        .getElementById("panel-write")
-        .classList.remove("hidden");
-    }
-
-    if(activeSkillMode==="read"){
-
-        document
-        .getElementById("panel-read")
-        .classList.remove("hidden");
-
-        buildFourMultipleChoicesOptions(w.vn);
-    }
-
-    if(activeSkillMode==="listen"){
-
-        document
-        .getElementById("panel-listen")
-        .classList.remove("hidden");
-
-        currentActiveSentenceTarget =
-        w.ex_cn || "";
-
-        buildListenPuzzleLayout(
-            currentActiveSentenceTarget
-        );
-    }
-
-    if(activeSkillMode==="speak"){
-
-        document
-        .getElementById("panel-speak")
-        .classList.remove("hidden");
-    }
-
-    bindChineseCharEvents();
-}
-
-function buildChineseClickable(text){
-
-    if(!text) return "";
-
-    return text
-    .split("")
-    .map(ch=>{
-
-        if(/[\u4e00-\u9fa5]/.test(ch)){
-
-            return `
-            <span class="zh-char">
-                ${ch}
-            </span>
-            `;
-        }
-
-        return ch;
-
-    }).join("");
-}
-
-function hideAllStudyPanels(){
-
-    [
-        "panel-write",
-        "panel-read",
-        "panel-listen",
-        "panel-speak",
-        "reveal-card-zone",
-        "panel-radical-analysis"
-    ]
-    .forEach(id=>{
-
-        const el=document.getElementById(id);
-
-        if(el){
-            el.classList.add("hidden");
-        }
-    });
-}
-
-/* =========================================================
-CLICK CHARACTER
-========================================================= */
-
-function bindChineseCharEvents(){
-
-    const chars =
-    document.querySelectorAll(".zh-char");
-
-    chars.forEach(el=>{
-
-        el.onclick=()=>{
-
-            executeAIRadicalAnalyzer(
-                el.innerText
-            );
-        };
-    });
-}
 
 /* =========================================================
 RADICAL ANALYZER
@@ -2343,35 +1683,60 @@ function executeAIRadicalAnalyzer(char){
         "panel-radical-analysis"
     );
 
-    let html="";
+    let html = "";
 
-    let parts =
-    AI_Decomposition_Matrix_Map[char] || [];
+    const parts =
+    AI_Decomposition_Matrix_Map[
+        char
+    ] || [];
 
     if(parts.length===0){
 
-        html=`
-        <p>
-        Không có dữ liệu phân tích.
-        </p>
-        `;
+        html = `
+<div style="padding:12px; color:#64748b;">
+    ⚠️ Không tìm thấy phân tích cho chữ này.<br>
+    Gợi ý: thử chữ khác hoặc thêm dữ liệu decomposition.
+</div>
+`;
 
     }else{
 
         parts.forEach(part=>{
 
-            html+=`
-            <div class="radical-row">
+            html += `
 
-                <div class="radical-char">
+            <div
+            style="
+            padding:14px;
+            border:1px solid #dbe5f0;
+            border-radius:14px;
+            margin-bottom:12px;
+            background:white;
+            ">
+
+                <div
+                style="
+                font-size:28px;
+                font-weight:800;
+                margin-bottom:6px;
+                ">
+
                     ${part}
+
                 </div>
 
-                <div class="radical-desc">
+                <div
+                style="
+                font-size:18px;
+                color:#475569;
+                ">
+
                     ${
                         TM_Radicals_Dict[part]
-                        || "Không có mô tả"
+|| AI_Decomposition_Matrix_Map[part]?.join?.(" + ")
+|| "Chưa có dữ liệu"
                     }
+
                 </div>
 
             </div>
@@ -2379,11 +1744,17 @@ function executeAIRadicalAnalyzer(char){
         });
     }
 
-    box.innerHTML=`
+    box.innerHTML = `
 
-    <h3>
-    🤖 Phân tích chữ:
-    ${char}
+    <h3
+    style="
+    margin-top:0;
+    margin-bottom:18px;
+    ">
+
+        🤖 Phân tích chữ:
+        ${String(char)}
+
     </h3>
 
     ${html}
@@ -2393,20 +1764,389 @@ function executeAIRadicalAnalyzer(char){
     box.classList.remove("hidden");
 }
 
+/* =========================================================
+WRITE MODE
+========================================================= */
+
+function verifyWriteAnswer(){
+
+    const input =
+    document.getElementById(
+        "write-answer"
+    );
+
+    const value =
+    input.value.trim();
+
+    const correct =
+currentWords?.[activeIdx]?.cn;
+
+if(!correct){
+    alert("❌ Không có dữ liệu câu hỏi");
+    return;
+}
+
+    if(value===correct){
+
+        alert("✅ Chính xác");
+
+        showNextButton();
+
+    }else{
+
+        alert(`
+❌ Sai rồi
+
+Đáp án:
+${correct}
+        `);
+    }
+}
+
+/* =========================================================
+READ MODE
+========================================================= */
+
+function buildFourMultipleChoicesOptions(correctVN){
+
+    const wrap =
+    document.getElementById(
+        "rd-quiz-options-wrapper"
+    );
+
+    wrap.innerHTML = "";
+
+    const wrongs =
+    globalDatabase
+    .filter(
+        d=>d.vn!==correctVN
+    )
+    .sort(()=>Math.random()-0.5)
+    .slice(0,3)
+    .map(d=>d.vn);
+
+    const options = [
+
+        correctVN,
+        ...wrongs
+
+    ]
+    shuffleArray([...options]);
+
+    options.forEach(op=>{
+
+        const btn =
+        document.createElement("button");
+
+        btn.className =
+        "quiz-option-btn";
+
+        btn.innerText = op;
+
+        btn.onclick = ()=>{
+
+            if(op===correctVN){
+
+                alert("✅ Chính xác");
+
+                showNextButton();
+
+            }else{
+
+                alert(`
+❌ Sai rồi
+
+Đáp án:
+${correctVN}
+                `);
+            }
+        };
+
+        wrap.appendChild(btn);
+    });
+}
 </script>
 <!-- =========================================================
-PART 6 — TEST MODE + NAVIGATION + INIT
-DÁN TIẾP NGAY SAU PART 5
+PART 4 — LISTEN MODE + SPEAK MODE
++ NEXT WORD + TEST MODE + NAVIGATION
 ========================================================= -->
 
 <script>
 
 /* =========================================================
-TEST VARIABLES
+LISTEN MODE
 ========================================================= */
 
-let testIdx = 0;
-let testScore = 0;
+function buildListenPuzzleLayout(sentence){
+
+    puzzleSelectedChips = [];
+
+    const chars =
+    sentence
+    .split("")
+    .filter(c=>c.trim()!=="")
+    .sort(()=>Math.random()-0.5);
+
+    const pool =
+    document.getElementById(
+        "l-puzzle-pool"
+    );
+
+    const drop =
+    document.getElementById(
+        "l-puzzle-drop"
+    );
+
+    pool.innerHTML = "";
+
+    drop.innerHTML = "";
+
+    chars.forEach(ch=>{
+
+        const chip =
+        document.createElement("div");
+
+        chip.className =
+        "puzzle-chip";
+
+        chip.innerText = ch;
+
+        chip.onclick = ()=>{
+
+            if(
+                chip.classList.contains(
+                    "used"
+                )
+            ){
+                return;
+            }
+
+            chip.classList.add("used");
+
+            puzzleSelectedChips.push(ch);
+
+            refreshPuzzleDropArea();
+        };
+
+        pool.appendChild(chip);
+    });
+}
+
+function refreshPuzzleDropArea(){
+
+    const drop =
+    document.getElementById(
+        "l-puzzle-drop"
+    );
+
+    drop.innerHTML = "";
+
+    puzzleSelectedChips.forEach((ch,idx)=>{
+
+        const chip =
+        document.createElement("div");
+
+        chip.className =
+        "puzzle-chip";
+
+        chip.innerText = ch;
+
+        chip.onclick = ()=>{
+
+            puzzleSelectedChips.splice(
+                idx,
+                1
+            );
+
+            rebuildPuzzlePool();
+
+            refreshPuzzleDropArea();
+        };
+
+        drop.appendChild(chip);
+    });
+}
+
+function rebuildPuzzlePool(){
+
+    const pool =
+    document.getElementById(
+        "l-puzzle-pool"
+    );
+
+    const chips =
+    pool.querySelectorAll(
+        ".puzzle-chip"
+    );
+
+    chips.forEach(chip=>{
+
+        chip.classList.remove("used");
+
+        const char =
+        chip.innerText;
+
+        const usedCount =
+puzzleSelectedChips.filter(c => c === char).length;
+
+const poolCount =
+Array.from(pool.querySelectorAll(".puzzle-chip"))
+.filter(c => c.innerText === char && !c.classList.contains("used"))
+.length;
+
+if(poolCount < usedCount){
+    chip.classList.add("used");
+}
+
+        if(usedIndex!==-1){
+
+            chip.classList.add("used");
+        }
+    });
+}
+
+function verifyListenPuzzle(){
+
+    const built =
+puzzleSelectedChips.join("").replace(/\s/g,"");
+
+const target =
+currentActiveSentenceTarget.replace(/\s/g,"");
+
+    if(
+        built===
+        currentActiveSentenceTarget
+    ){
+
+        alert("✅ Chính xác");
+
+        showNextButton();
+
+    }else{
+
+        alert(`
+❌ Sai rồi
+
+Đáp án:
+${currentActiveSentenceTarget}
+        `);
+    }
+}
+
+/* =========================================================
+SPEAK MODE
+========================================================= */
+
+function activateVoiceRecognition(){
+
+    if(!voiceRecognitionEngine){
+
+        alert(
+            "Trình duyệt không hỗ trợ."
+        );
+
+        return;
+    }
+
+    safeText(
+
+        "sp-feedback-msg",
+
+        "🎤 Đang nghe..."
+    );
+
+    const target =
+    currentWords[activeIdx]
+    .cn
+    .replace(/\s/g,"");
+
+    voiceRecognitionEngine.start();
+
+    voiceRecognitionEngine.onresult = null;
+    function(event){
+
+        const result =
+        event.results[0][0]
+        .transcript
+        .replace(/\s/g,"");
+
+        const normalize = str =>
+    str.replace(/\s/g,"")
+       .replace(/[，。！？,.!?]/g,"");
+{
+
+            safeText(
+
+                "sp-feedback-msg",
+
+                "✅ Chính xác"
+            );
+
+            showNextButton();
+
+        }else{
+
+            safeText(
+
+                "sp-feedback-msg",
+
+                `
+❌ Bạn nói:
+${result}
+
+Đáp án:
+${target}
+                `
+            );
+        }
+    };
+
+    voiceRecognitionEngine.onerror = null;
+    function(){
+
+        safeText(
+
+            "sp-feedback-msg",
+
+            "❌ Không nhận diện được"
+        );
+    };
+}
+
+/* =========================================================
+NEXT WORD
+========================================================= */
+
+function showNextButton(){
+
+    document
+    .getElementById(
+        "reveal-card-zone"
+    )
+    .classList.remove("hidden");
+}
+
+function shiftNextWord(){
+
+    if(
+        activeIdx <
+        currentWords.length-1
+    ){
+
+        activeIdx++;
+
+        refreshEngineCardLayoutData();
+
+    }else{
+
+        alert(`
+🎉 Hoàn thành chủ đề
+${currentActiveTopicName}
+        `);
+
+        activateLearningWorkflow();
+    }
+}
 
 /* =========================================================
 TEST DASHBOARD
@@ -2419,12 +2159,16 @@ function renderTestDashboard(){
         "test-topic-container-list"
     );
 
-    container.innerHTML="";
+    container.innerHTML = "";
 
     const topics = [
+
         ...new Set(
-            globalDatabase.map(d=>d.topic)
+            globalDatabase.map(
+                d=>d.topic
+            )
         )
+
     ];
 
     topics.forEach(topic=>{
@@ -2435,7 +2179,7 @@ function renderTestDashboard(){
         btn.className =
         "topic-card";
 
-        btn.innerHTML=`
+        btn.innerHTML = `
 
         <div>
 
@@ -2443,23 +2187,35 @@ function renderTestDashboard(){
                 📝 ${topic}
             </div>
 
-            <div class="topic-sub">
+            <div
+            style="
+            font-size:18px;
+            color:#64748b;
+            margin-top:6px;
+            ">
+
                 ${
                     globalDatabase.filter(
                         d=>d.topic===topic
                     ).length
                 } từ vựng
+
             </div>
 
         </div>
 
-        <div class="topic-arrow">
+        <div
+        style="
+        font-size:28px;
+        ">
+
             ➜
+
         </div>
 
         `;
 
-        btn.onclick=()=>{
+        btn.onclick = ()=>{
 
             buildTestEngine(topic);
         };
@@ -2475,22 +2231,33 @@ BUILD TEST
 function buildTestEngine(topic){
 
     currentWords =
-    globalDatabase
-    .filter(d=>d.topic===topic)
-    .sort(()=>Math.random()-0.5)
+    shuffleArray(globalDatabase.filter(d => d.topic === topic))
+.slice(0,10);
+
+if(currentWords.length === 0){
+    alert("❌ Không có dữ liệu cho topic này");
+    return;
+}
+    shuffleArray(globalDatabase.filter(d => d.topic === topic))
     .slice(0,10);
 
-    testIdx=0;
-    testScore=0;
+    testIdx = 0;
+
+    testScore = 0;
 
     document
-    .querySelectorAll(".tab-pane-view")
+    .querySelectorAll(
+        ".tab-pane-view"
+    )
     .forEach(el=>{
+
         el.classList.add("hidden");
     });
 
     document
-    .getElementById("test-engine-board")
+    .getElementById(
+        "test-engine-board"
+    )
     .classList.remove("hidden");
 
     loadTestQuestion();
@@ -2502,72 +2269,1200 @@ LOAD TEST QUESTION
 
 function loadTestQuestion(){
 
-    const q =
-    currentWords[testIdx];
+    const q = currentWords?.[testIdx];
+
+if(!q){
+    alert("🎉 Hoàn thành bài test");
+    return;
+}
+
+const oldInput = document.getElementById("t-ans");
+if(oldInput){
+    oldInput.value = "";
+}
 
     const box =
     document.getElementById(
         "test-question-content-box"
     );
 
-    box.innerHTML=`
+    box.innerHTML = `
 
-    <div class="test-box">
+    <div
+    style="
+    background:white;
+    border-radius:24px;
+    padding:34px;
+    border:1px solid #d7e0ec;
+    ">
 
-        <div class="test-progress">
+        <div
+        style="
+        font-size:20px;
+        color:#64748b;
+        margin-bottom:18px;
+        ">
 
-            Câu ${testIdx+1}
-            / ${currentWords.length}
+            Câu
+            ${testIdx+1}
+            /
+            ${currentWords.length}
 
         </div>
 
-        <div class="test-question">
+        <div
+        style="
+        font-size:28px;
+        font-weight:700;
+        margin-bottom:20px;
+        ">
 
-            Nghĩa của:
+            Nghĩa của từ:
 
-            <div class="test-cn">
-                ${q.cn}
-            </div>
+        </div>
+
+        <div
+        style="
+        font-size:64px;
+        font-weight:800;
+        margin-bottom:30px;
+        ">
+
+            ${String(q.cn)}
 
         </div>
 
         <input
-            id="t-ans"
-            class="test-input"
-            placeholder="Nhập nghĩa tiếng Việt..."
-        >
 
-        <button
-            class="test-submit-btn"
-            onclick="
-            executeTestAnswerVerification()
+            id="t-ans"
+
+            placeholder="
+            Nhập nghĩa tiếng Việt
+            "
+
+            style="
+            width:100%;
+            padding:18px;
+            border-radius:16px;
+            border:1px solid #cbd5e1;
+            font-size:22px;
+            margin-bottom:20px;
             "
         >
-            Kiểm tra
-        </button>
+
+<button
+    id="test-check-btn"
+    style="
+        border:none;
+        padding:18px 26px;
+        border-radius:18px;
+        background:#3b82f6;
+        color:white;
+        font-size:22px;
+        font-weight:700;
+        cursor:pointer;
+    "
+>
+    Kiểm tra
+</button>
+
+setTimeout(()=>{
+    document
+    .getElementById("test-check-btn")
+    .onclick = executeTestAnswerVerification;
+},0);
 
     </div>
 
     `;
 }
 
+</script>
 /* =========================================================
-VERIFY TEST
+PART 2 — STUDY ENGINE + QUIZ + SPEECH + RADICAL
+========================================================= */
+
+/* =========================================================
+SPEECH
+========================================================= */
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+let voiceRecognitionEngine = null;
+
+if(SpeechRecognition){
+
+    voiceRecognitionEngine =
+    new SpeechRecognition();
+
+    voiceRecognitionEngine.lang = 'zh-CN';
+voiceRecognitionEngine.maxAlternatives = 3;
+
+    voiceRecognitionEngine.continuous=false;
+
+    voiceRecognitionEngine.interimResults=true;
+}
+
+/* =========================================================
+RADICAL DICT
+========================================================= */
+
+const TM_Radicals_Dict={
+
+"一": "Bộ Nhất - số một, khởi đầu.",
+"丨": "Bộ Cổn - nét sổ dọc.",
+"丶": "Bộ Chủ - dấu chấm.",
+"丿": "Bộ Phiệt - nét phẩy.",
+"乙": "Bộ Ất - thiên can thứ hai.",
+"亅": "Bộ Quyết - nét móc.",
+"二": "Bộ Nhị - đại diện cho âm dương.",
+"亠": "Bộ Đầu - nét chấm đầu gạch ngang.",
+"人": "Bộ Nhân - con người.",
+"亻": "Nhân đứng - hành động con người.",
+"儿": "Bộ Nhi - trẻ em.",
+"入": "Bộ Nhập - đi vào.",
+"八": "Bộ Bát - phân chia.",
+"冂": "Bộ Quynh - bao quanh.",
+"冖": "Bộ Mịch - khăn trùm.",
+"冫": "Bộ Băng - nước đá.",
+"几": "Bộ Kỷ - ghế dựa.",
+"凵": "Bộ Khảm - hố lõm.",
+"刀": "Bộ Đao - con dao.",
+"刂": "Đao đứng - cắt gọt.",
+"力": "Bộ Lực - sức mạnh.",
+"勹": "Bộ Bao - bao bọc.",
+"匕": "Bộ Chủy - cái thìa.",
+"匚": "Bộ Phương - hộp chứa.",
+"十": "Bộ Thập - số mười.",
+"卜": "Bộ Bốc - bói toán.",
+"卩": "Bộ Tiết - đốt tre.",
+"厂": "Bộ Hán - vách núi.",
+"厶": "Bộ Tư - riêng tư.",
+"又": "Bộ Hựu - bàn tay phải.",
+"口": "Bộ Khẩu - cái miệng.",
+"囗": "Bộ Vi - bao quanh.",
+"土": "Bộ Thổ - đất.",
+"士": "Bộ Sĩ - học trò.",
+"夂": "Bộ Truy - đi chậm.",
+"夕": "Bộ Tịch - buổi tối.",
+"大": "Bộ Đại - to lớn.",
+"女": "Bộ Nữ - phụ nữ.",
+"子": "Bộ Tử - đứa trẻ.",
+"宀": "Bộ Miên - mái nhà.",
+"寸": "Bộ Thốn - tấc.",
+"小": "Bộ Tiểu - nhỏ.",
+"尸": "Bộ Thi - xác.",
+"山": "Bộ Sơn - núi.",
+"川": "Bộ Xuyên - sông.",
+"工": "Bộ Công - công việc.",
+"己": "Bộ Kỷ - bản thân.",
+"巾": "Bộ Cân - khăn.",
+"干": "Bộ Can - cái khiên.",
+"幺": "Bộ Yêu - nhỏ bé.",
+"广": "Bộ Quảng - mái che.",
+"廴": "Bộ Dẫn - bước dài.",
+"廾": "Bộ Củng - hai tay chắp lại.",
+"弋": "Bộ Dực - cái cọc tre.",
+"弓": "Bộ Cung - cây cung.",
+"彡": "Bộ Sâm - lông tóc dài.",
+"彳": "Bộ Xích - bước chân.",
+"心": "Bộ Tâm - trái tim.",
+"忄": "Tâm đứng - cảm xúc.",
+"戈": "Bộ Qua - binh khí.",
+"户": "Bộ Hộ - cửa gia đình.",
+"手": "Bộ Thủ - bàn tay.",
+"扌": "Thủ đứng - động tác tay.",
+"日": "Bộ Nhật - mặt trời.",
+"曰": "Bộ Viết - nói rằng.",
+"月": "Bộ Nguyệt - mặt trăng.",
+"木": "Bộ Mộc - cây.",
+"欠": "Bộ Khiếm - thiếu.",
+"止": "Bộ Chỉ - dừng lại.",
+"歹": "Bộ Tịch/Đãi - chết chóc.",
+"殳": "Bộ Thù - vũ khí.",
+"毋": "Bộ Vô - chớ có.",
+"比": "Bộ Tỷ - so sánh.",
+"毛": "Bộ Mao - lông.",
+"氏": "Bộ Thị - họ tộc.",
+"气": "Bộ Khí - hơi khí.",
+"水": "Bộ Thủy - nước.",
+"氵": "Thủy đứng - liên quan nước.",
+"火": "Bộ Hỏa - lửa.",
+"灬": "Hỏa dưới - lửa phía dưới.",
+"爪": "Bộ Trảo - móng vuốt.",
+"父": "Bộ Phụ - cha.",
+"爻": "Bộ Hào - các vạch hào kinh dịch.",
+"爿": "Bộ Tường - mảnh gỗ xẻ.",
+"片": "Bộ Phiến - mảnh.",
+"牙": "Bộ Nha - răng.",
+"牛": "Bộ Ngưu - trâu bò.",
+"犬": "Bộ Khuyển - chó.",
+"犭": "Khuyển đứng - động vật.",
+"玄": "Bộ Huyền - màu đen kỳ ảo.",
+"玉": "Bộ Ngọc - ngọc quý.",
+"王": "Bộ Vương - vua.",
+"甘": "Bộ Cam - ngọt.",
+"生": "Bộ Sinh - sinh ra.",
+"用": "Bộ Dụng - sử dụng.",
+"田": "Bộ Điền - ruộng.",
+"疒": "Bộ Tật/Nạch - bệnh.",
+"癶": "Bộ Bát - hai bàn chân rẽ hướng.",
+"白": "Bộ Bạch - màu trắng.",
+"皮": "Bộ Bì - da.",
+"皿": "Bộ Mãnh - đồ đựng.",
+"目": "Bộ Mục - mắt.",
+"矛": "Bộ Mâu - giáo.",
+"矢": "Bộ Thỉ - mũi tên.",
+"石": "Bộ Thạch - đá.",
+"示": "Bộ Thị - thần linh.",
+"禸": "Bộ Nhựu - dấu chân thú.",
+"禾": "Bộ Hòa - lúa.",
+"穴": "Bộ Huyệt - hang.",
+"立": "Bộ Lập - đứng.",
+"竹": "Bộ Trúc - tre.",
+"米": "Bộ Mễ - gạo.",
+"糸": "Bộ Mịch - sợi tơ.",
+"纟": "Mịch giản thể - tơ.",
+"缶": "Bộ Phẫu - bình gốm.",
+"网": "Bộ Võng - lưới.",
+"羊": "Bộ Dương - dê.",
+"羽": "Bộ Vũ - lông cánh.",
+"老": "Bộ Lão - già.",
+"耳": "Bộ Nhĩ - tai.",
+"自": "Bộ Tự - bản thân.",
+"至": "Bộ Chí - đến.",
+"艹": "Bộ Thảo - cỏ.",
+"虫": "Bộ Trùng - sâu bọ.",
+"行": "Bộ Hành - đi lại.",
+"衣": "Bộ Y - quần áo.",
+"衤": "Y đứng - quần áo.",
+"见": "Bộ Kiến - nhìn thấy.",
+"角": "Bộ Giác - sừng.",
+"讠": "Ngôn giản thể - lời nói.",
+"贝": "Bối giản thể - tiền tài.",
+"走": "Bộ Tẩu - chạy.",
+"足": "Bộ Túc - chân.",
+"身": "Bộ Thân - cơ thể.",
+"车": "Bộ Xa - xe.",
+"辶": "Bộ Sước - đi xa.",
+"里": "Bộ Lý - dặm đường.",
+"金": "Bộ Kim - kim loại.",
+"钅": "Kim giản thể - kim loại.",
+"门": "Bộ Môn - cửa.",
+"隹": "Bộ Chuy - chim đuôi ngắn.",
+"雨": "Bộ Vũ - mưa.",
+"饣": "Bộ Thực giản thể - ăn uống.",
+"马": "Bộ Mã - ngựa.",
+"鱼": "Bộ Ngư - cá.",
+"鸟": "Bộ Điểu - chim.",
+"云": "Bộ Vân - đám mây.",
+"鬲": "Bộ Cách - cái vạc/nồi.",
+"鼓": "Bộ Cổ - cái trống.",
+"龠": "Bộ Dược - sáo/ống thổi.",
+"鼎": "Bộ Đỉnh - cái đỉnh.",
+"页": "Bộ Hiệt - cái đầu.",
+"镸": "Bộ Trường - dài.",
+"鬯": "Bộ Sưởng - rượu thơm.",
+"髟": "Bộ Bưu - lông dài trên đầu.",
+"麻": "Bộ Ma - cây gai.",
+"鹿": "Bộ Lộc - con hươu.",
+"鼻": "Bộ Tỵ - cái mũi.",
+"鼠": "Bộ Thử - con chuột.",
+"黑": "Bộ Hắc - màu đen.",
+"亀": "Bộ Quy - con rùa.",
+"革": "Bộ Cách - da thuộc.",
+"丷": "Bộ Bát mở rộng - hai nhánh.",
+"天": "Trời, thiên.",
+"丁": "Đinh - đơn vị, cái đinh."
+
+};
+
+/* =========================================================
+DECOMPOSITION
+========================================================= */
+
+const AI_Decomposition_Matrix_Map={
+
+"你": ["亻", "尔"],
+"好": ["女", "子"],
+"妈": ["女", "马"],
+"她": ["女", "也"],
+"他": ["亻", "也"],
+"们": ["亻", "门"],
+"位": ["亻", "立"],
+
+"我": ["手", "戈"],
+"找": ["扌", "戈"],
+"打": ["扌", "丁"],
+"看": ["手", "目"],
+"想": ["木", "目", "心"],
+"修": ["亻", "夂", "彡"],
+"改": ["己", "攵"],
+"会": ["人", "云"],
+
+"问": ["门", "口"],
+"间": ["门", "日"],
+"听": ["口", "斤"],
+"说": ["讠", "兑"],
+"话": ["讠", "舌"],
+"请": ["讠", "青"],
+"谢": ["讠", "身", "寸"],
+"认": ["讠", "人"],
+"识": ["讠", "只"],
+"语": ["讠", "吾"],
+"计": ["讠", "十"],
+"证": ["讠", "止", "一"],
+
+"吃": ["口", "乞"],
+"喝": ["口", "曷"],
+"唱": ["口", "昌"],
+"叫": ["口", "丩"],
+"吗": ["口", "马"],
+"饭": ["饣", "反"],
+"菜": ["艹", "采"],
+"茶": ["艹", "人", "木"],
+"酒": ["氵", "酉"],
+
+"明": ["日", "月"],
+"晚": ["日", "免"],
+"昨": ["日", "乍"],
+"时": ["日", "寸"],
+"春": ["三", "人", "日"],
+"电": ["日", "乚"],
+"河": ["氵", "可"],
+"海": ["氵", "每"],
+"洗": ["氵", "先"],
+"热": ["灬", "执"],
+"动": ["云", "力"],
+
+"林": ["木", "木"],
+"森": ["木", "木", "木"],
+"杯": ["木", "不"],
+"校": ["木", "交"],
+"桌": ["木", "卓"],
+"材": ["木", "才"],
+"核": ["木", "亥"],
+"家": ["宀", "豕"],
+"房": ["户", "方"],
+"安": ["宀", "女"],
+"学": ["冖", "子"],
+"店": ["广", "占"],
+"门": ["门"],
+"坐": ["土", "人"],
+
+"猫": ["犭", "苗"],
+"狗": ["犭", "句"],
+"猪": ["犭", "者"],
+"鱼": ["鱼"],
+"鸟": ["鸟"],
+"钱": ["钅", "戋"],
+"银": ["钅", "艮"],
+"错": ["钅", "昔"],
+"钢": ["钅", "冈"],
+"跑": ["足", "包"],
+"路": ["足", "各"],
+"跟": ["足", "艮"],
+"跳": ["足", "兆"],
+"车": ["车"],
+"国": ["囗", "玉"],
+"园": ["囗", "元"],
+"图": ["囗", "冬"],
+"回": ["囗", "口"],
+"衣": ["衣"],
+"裤": ["衤", "库"],
+"鞋": ["革", "土"],
+"帽": ["巾", "冒"],
+"开": ["一", "廾"],
+"关": ["丷", "天"],
+"算": ["竹", "目", "廾"],
+"理": ["王", "里"],
+"经": ["纟", "工"],
+"定": ["宀", "疋"],
+"劳": ["宀", "艹", "力"],
+"职": ["耳", "口"],
+"同": ["冂", "口"],
+"在": ["土", "丿"],
+"正": ["止", "一"],
+"是": ["日", "疋"]
+
+};
+
+/* =========================================================
+INIT STUDY ENGINE
+========================================================= */
+
+function initStudyEngineView(){
+
+    if(!currentWords || currentWords.length === 0){
+    alert("❌ Không có dữ liệu học");
+    return;
+}
+
+    resetAllStudyState();
+activeIdx = 0;
+
+document.getElementById("sec-home")?.classList.add("hidden");
+document.getElementById("sec-preview")?.classList.add("hidden");
+document.getElementById("study-engine-board")?.classList.remove("hidden");
+    if(activeIdx >= currentWords.length){
+    alert("🎉 Hoàn thành bài học");
+    return;
+}
+
+function resetAllStudyState(){
+    puzzleSelectedChips = [];
+    testIdx = 0;
+    testScore = 0;
+}
+
+/* =========================================================
+REFRESH WORD
+========================================================= */
+
+function refreshEngineCardLayoutData(){
+
+    const word = currentWords?.[activeIdx];
+
+if(!word){
+    console.warn("No word at index", activeIdx);
+    return;
+}
+
+    safeText(
+        "engine-header-title",
+        `Học ${activeSkillMode.toUpperCase()}`
+    );
+
+    safeText(
+        "engine-progress-counter",
+        `${activeIdx+1}/${currentWords.length}`
+    );
+
+    safeHTML(
+        "v-main-text",
+        buildChineseClickable(word.cn)
+    );
+
+    safeText(
+        "v-py-text",
+        word.py || ""
+    );
+
+    safeText(
+        "v-vn-text",
+        word.vn || ""
+    );
+
+    safeHTML(
+        "e-main-text",
+        buildChineseClickable(word.ex_cn)
+    );
+
+    safeText(
+        "e-py-text",
+        word.ex_py || ""
+    );
+
+    safeText(
+        "e-vn-text",
+        word.ex_vn || ""
+    );
+
+    hideAllStudyPanels();
+
+    /* =====================
+       MODE
+    ===================== */
+
+    if(activeSkillMode==="write"){
+
+        document
+        .getElementById("panel-write")
+        .classList.remove("hidden");
+    }
+
+    if(activeSkillMode==="read"){
+
+        document
+        .getElementById("panel-read")
+        .classList.remove("hidden");
+
+        buildFourMultipleChoicesOptions(
+            word.vn
+        );
+const wrapper = document.getElementById("rd-quiz-options-wrapper");
+wrapper.replaceChildren();
+    }
+
+    if(activeSkillMode==="listen"){
+
+        document
+        .getElementById("panel-listen")
+        .classList.remove("hidden");
+
+        currentActiveSentenceTarget=
+        word.ex_cn || "";
+
+        buildListenPuzzleLayout(
+            currentActiveSentenceTarget
+        );
+    }
+
+    if(activeSkillMode==="speak"){
+
+        document
+        .getElementById("panel-speak")
+        .classList.remove("hidden");
+    }
+}
+
+/* =========================================================
+BUILD CHINESE CLICKABLE
+========================================================= */
+
+function buildChineseClickable(text){
+
+    if(!text) return "";
+
+    return Array.from(text)
+    .map(ch=>{
+
+        if(/[\u4e00-\u9fa5]/.test(ch)){
+
+            return `
+<span class="zh-char" title="Click để xem phân tích">
+    ${ch}
+</span>
+`;
+        }
+
+        return ch;
+
+    })
+    .join("");
+}
+
+/* =========================================================
+HIDE PANELS
+========================================================= */
+
+function hideAllStudyPanels(){
+
+    [
+
+        "panel-write",
+        "panel-read",
+        "panel-listen",
+        "panel-speak",
+        "reveal-card-zone",
+        "panel-radical-analysis"
+
+    ]
+
+    .forEach(id=>{
+
+        const el=document.getElementById(id);
+
+        if(el){
+            el.classList.add("hidden");
+        }
+    });
+}
+
+/* =========================================================
+BIND CHARACTER EVENTS
+========================================================= */
+
+function bindChineseCharEvents(){
+document.addEventListener("click", (e)=>{
+    const el = e.target.closest(".zh-char");
+    if(!el) return;
+
+    executeAIRadicalAnalyzer(el.textContent.trim());
+});
+
+/* =========================================================
+RADICAL ANALYZER
+========================================================= */
+
+function executeAIRadicalAnalyzer(char){
+
+    const panel=
+    document.getElementById(
+        "panel-radical-analysis"
+    );
+
+    const parts=
+    AI_Decomposition_Matrix_Map[char] || [];
+
+    let html="";
+
+    if(parts.length===0){
+
+        html = `
+<div style="padding:12px; color:#64748b;">
+    ⚠️ Không tìm thấy phân tích cho chữ này.<br>
+    Gợi ý: thử chữ khác hoặc thêm dữ liệu decomposition.
+</div>
+`;
+
+    }else{
+
+        parts.forEach(part=>{
+
+            html+=`
+            <div style="
+            padding:12px;
+            border-bottom:1px solid #ddd;
+            ">
+
+                <div style="
+                font-size:30px;
+                font-weight:700;
+                ">
+                    ${part}
+                </div>
+
+                <div>
+                    ${
+                        TM_Radicals_Dict[part]
+                        || "Không có mô tả"
+                    }
+                </div>
+
+            </div>
+            `;
+        });
+    }
+
+    panel.innerHTML = `
+<h3 style="margin-bottom:12px;">
+    🤖 Phân tích chữ: ${String(char)}
+</h3>
+
+${html}
+`;
+
+    panel.classList.remove("hidden");
+}
+
+/* =========================================================
+WRITE MODE
+========================================================= */
+
+function verifyWriteAnswer(){
+
+    const word=currentWords[activeIdx];
+if(!word){
+    alert("❌ Không có dữ liệu");
+    return;
+}
+    const ans=
+    document
+    .getElementById("write-answer")
+    .value
+    .trim();
+
+    if(ans===word.cn){
+
+        alert("✅ Chính xác");
+
+        revealNextButton();
+
+    }else{
+
+        alert(`
+❌ Sai rồi
+
+Đáp án:
+${word.cn}
+        `);
+    }
+}
+
+/* =========================================================
+READ MODE
+========================================================= */
+
+function buildFourMultipleChoicesOptions(correct){
+
+    const wrapper=
+    document.getElementById(
+        "rd-quiz-options-wrapper"
+    );
+
+    wrapper.replaceChildren();
+
+    let wrongs =
+shuffleArray(
+    globalDatabase
+    .filter(d => d.vn && d.vn !== correct)
+)
+.slice(0,3)
+.map(d => d.vn);
+
+    let options=[
+        correct,
+        ...wrongs
+    ]
+    .sort(()=>Math.random()-0.5);
+
+    options.forEach(op=>{
+
+        const btn=
+        document.createElement("button");
+
+        btn.className=
+        "quiz-option-btn";
+
+        btn.innerText=op;
+
+        btn.onclick=()=>{
+
+            if(op===correct){
+
+                alert("✅ Chính xác");
+
+                revealNextButton();
+
+            }else{
+
+                alert("❌ Sai");
+            }
+        };
+
+        wrapper.appendChild(btn);
+    });
+}
+
+/* =========================================================
+LISTEN MODE
+========================================================= */
+
+function buildListenPuzzleLayout(sentence){
+
+    puzzleSelectedChips=[];
+document.getElementById("l-puzzle-pool").innerHTML = "";
+document.getElementById("l-puzzle-drop").innerHTML = "";
+    const chars = shuffleArray(
+    Array.from(sentence).filter(c => c.trim() !== "")
+);
+
+    const pool=
+    document.getElementById(
+        "l-puzzle-pool"
+    );
+
+    pool.innerHTML="";
+
+    chars.forEach(ch=>{
+
+        const chip=
+        document.createElement("span");
+
+        chip.className=
+        "puzzle-chip";
+
+        chip.innerText=ch;
+
+        chip.onclick=()=>{
+
+            if(
+                chip.classList.contains("used")
+            ){
+                return;
+            }
+
+            chip.classList.add("used");
+
+            puzzleSelectedChips.push(ch);
+
+            renderPuzzleDropZone();
+        };
+
+        pool.appendChild(chip);
+    });
+
+    renderPuzzleDropZone();
+}
+
+function shuffleArray(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function renderPuzzleDropZone(){
+
+    document
+    .getElementById(
+        "l-puzzle-drop"
+    )
+    .innerHTML=`
+
+    <div style="
+    min-height:80px;
+    padding:18px;
+    background:#f1f5f9;
+    border-radius:18px;
+    font-size:34px;
+    ">
+        ${puzzleSelectedChips.join("")}
+    </div>
+
+    `;
+}
+
+function verifyListenPuzzle(){
+
+    const normalize = str =>
+        str.replace(/\s/g,"");
+
+    const ans = normalize(puzzleSelectedChips.join(""));
+    const target = normalize(currentActiveSentenceTarget);
+
+    if(ans === target){
+
+        alert("✅ Chính xác");
+        revealNextButton();
+
+    }else{
+
+        alert(`
+❌ Sai rồi
+
+Đáp án:
+${currentActiveSentenceTarget}
+        `);
+    }
+}
+/* =========================================================
+SPEAK MODE
+========================================================= */
+
+function activateVoiceRecognition(){
+
+    if(!voiceRecognitionEngine){
+
+        alert(
+            "Trình duyệt không hỗ trợ voice recognition"
+        );
+
+        return;
+    }
+
+    voiceRecognitionEngine.start();
+
+    safeText(
+        "sp-feedback-msg",
+        "🎤 Đang nghe..."
+    );
+
+voiceRecognitionEngine.onresult = function(event){
+
+    const transcript =
+        event.results[0][0].transcript.trim();
+
+    const target =
+        currentWords?.[activeIdx]?.cn?.trim() || "";
+
+    const normalize = str =>
+        str.toLowerCase()
+            .replace(/\s/g,"")
+            .replace(/[。，！？,.!?]/g,"");
+
+    safeText(
+        "sp-feedback-msg",
+        `Bạn nói: ${transcript}`
+    );
+
+    if(normalize(transcript) === normalize(target)){
+
+        alert("✅ Phát âm đúng");
+        revealNextButton();
+
+    }else{
+
+        alert(`
+❌ Chưa chính xác
+
+Bạn nói:
+${transcript}
+
+Đáp án:
+${target}
+        `);
+    }
+};
+    voiceRecognitionEngine.onerror=
+    function(){
+
+        safeText(
+            "sp-feedback-msg",
+            "❌ Không nhận diện được giọng nói"
+        );
+    };
+}
+
+/* =========================================================
+REVEAL NEXT BUTTON
+========================================================= */
+
+function revealNextButton(){
+
+    document
+    .getElementById(
+        "reveal-card-zone"
+    )
+    .classList.remove("hidden");
+}
+
+/* =========================================================
+NEXT WORD
+========================================================= */
+
+function shiftNextWord(){
+
+    if(
+        activeIdx <
+        currentWords.length-1
+    ){
+
+        activeIdx++;
+
+        refreshEngineCardLayoutData();
+
+    }else{
+
+        alert(
+            "🎉 Đã hoàn thành chủ đề"
+        );
+
+        changeMainTab("home");
+    }
+}
+
+/* =========================================================
+TEST MODE VARIABLES
+========================================================= */
+
+let testIdx=0;
+let testScore=0;
+
+/* =========================================================
+RENDER TEST DASHBOARD
+========================================================= */
+
+function renderTestDashboard(){
+
+    const container=
+    document.getElementById(
+        "test-topic-container-list"
+    );
+
+    container.innerHTML="";
+
+    const topics=[
+        ...new Set(
+            globalDatabase.map(
+                d=>d.topic
+            )
+        )
+    ];
+
+    topics.forEach(topic=>{
+
+        const count=
+        globalDatabase.filter(
+            d=>d.topic===topic
+        ).length;
+
+        const btn=
+        document.createElement("button");
+
+        btn.className=
+        "topic-card";
+
+        btn.innerHTML=`
+
+        <div>
+
+            <div class="topic-title">
+                📝 ${topic}
+            </div>
+
+            <div style="
+            margin-top:8px;
+            font-size:18px;
+            color:#64748b;
+            ">
+                ${count} từ vựng
+            </div>
+
+        </div>
+
+        <div style="
+        font-size:32px;
+        ">
+            ➜
+        </div>
+
+        `;
+
+        btn.onclick=()=>{
+
+            buildTestEngine(topic);
+        };
+
+        container.appendChild(btn);
+    });
+}
+
+/* =========================================================
+BUILD TEST ENGINE
+========================================================= */
+
+function buildTestEngine(topic){
+
+    currentWords=
+    globalDatabase
+    .filter(d=>d.topic===topic)
+    .sort(()=>Math.random()-0.5)
+    .slice(0,10);
+
+    testIdx=0;
+    testScore=0;
+
+    document
+    .getElementById("sec-home")
+    .classList.add("hidden");
+
+    document
+    .getElementById("sec-preview")
+    .classList.add("hidden");
+
+    document
+    .getElementById(
+        "study-engine-board"
+    )
+    .classList.add("hidden");
+
+    document
+    .getElementById(
+        "test-engine-board"
+    )
+    .classList.remove("hidden");
+
+    loadTestQuestion();
+}
+
+/* =========================================================
+LOAD TEST QUESTION
+========================================================= */
+
+function loadTestQuestion(){
+
+    const q=
+    currentWords[testIdx];
+
+    const box=
+    document.getElementById(
+        "test-question-content-box"
+    );
+
+    box.innerHTML=`
+
+    <div style="
+    background:white;
+    padding:30px;
+    border-radius:24px;
+    border:1px solid #d7e0ec;
+    ">
+
+        <div style="
+        font-size:22px;
+        color:#64748b;
+        margin-bottom:24px;
+        ">
+            Câu ${testIdx+1}
+            / ${currentWords.length}
+        </div>
+
+        <div style="
+        font-size:34px;
+        font-weight:700;
+        margin-bottom:24px;
+        ">
+            Nghĩa của từ:
+        </div>
+
+        <div style="
+        font-size:72px;
+        font-weight:800;
+        margin-bottom:30px;
+        ">
+            ${q.cn}
+        </div>
+
+        <input
+            id="t-ans"
+            placeholder="Nhập nghĩa tiếng Việt..."
+            style="
+            width:100%;
+            padding:20px;
+            border-radius:18px;
+            border:1px solid #d7e0ec;
+            font-size:22px;
+            margin-bottom:24px;
+            "
+        >
+
+        <button
+    id="test-check-btn"
+    style="
+        border:none;
+        padding:18px 26px;
+        border-radius:18px;
+        background:#3b82f6;
+        color:white;
+        font-size:22px;
+        font-weight:700;
+        cursor:pointer;
+    "
+>
+    Kiểm tra
+</button>
+
+    </div>
+
+    `;
+setTimeout(()=>{
+    document.getElementById("test-check-btn")
+        ?.addEventListener("click", executeTestAnswerVerification);
+},0);
+}
+
+/* =========================================================
+VERIFY TEST ANSWER
 ========================================================= */
 
 function executeTestAnswerVerification(){
 
-    const q =
+    const q=
     currentWords[testIdx];
 
-    const ans =
+    const ans=
     document
     .getElementById("t-ans")
     .value
     .trim()
     .toLowerCase();
 
-    const correct =
+    const correct=
     q.vn
     .trim()
     .toLowerCase();
@@ -2609,9 +3504,12 @@ FINAL RESULT
 
 function renderFinalTestResult(){
 
-    const percent =
+    const percent=
     Math.round(
-        (testScore/currentWords.length)*100
+        (
+            testScore /
+            currentWords.length
+        )*100
     );
 
     document
@@ -2620,25 +3518,56 @@ function renderFinalTestResult(){
     )
     .innerHTML=`
 
-    <div class="final-score-box">
+    <div style="
+    background:white;
+    border-radius:30px;
+    padding:50px;
+    text-align:center;
+    border:1px solid #d7e0ec;
+    ">
 
-        <div class="final-score-title">
+        <div style="
+        font-size:42px;
+        font-weight:800;
+        margin-bottom:20px;
+        ">
             🎉 Hoàn thành bài kiểm tra
         </div>
 
-        <div class="final-score-number">
+        <div style="
+        font-size:80px;
+        font-weight:800;
+        color:#10b981;
+        margin-bottom:20px;
+        ">
             ${testScore}
             /
             ${currentWords.length}
         </div>
 
-        <div class="final-score-percent">
+        <div style="
+        font-size:42px;
+        font-weight:700;
+        color:#3b82f6;
+        margin-bottom:40px;
+        ">
             ${percent}%
         </div>
 
         <button
-            class="restart-btn"
-            onclick="changeMainTab('home')"
+            onclick="
+            changeMainTab('home')
+            "
+            style="
+            border:none;
+            padding:20px 34px;
+            border-radius:18px;
+            background:#24364b;
+            color:white;
+            font-size:22px;
+            font-weight:700;
+            cursor:pointer;
+            "
         >
             ← Về trang chủ
         </button>
@@ -2648,67 +3577,49 @@ function renderFinalTestResult(){
     `;
 }
 
+function restartTest(){
+    testIdx = 0;
+    testScore = 0;
+    currentWords = [];
+    changeMainTab('test');
+}
+
 /* =========================================================
 NAVIGATION
 ========================================================= */
 
 function changeMainTab(tabName){
 
-    document
-    .querySelectorAll(".nav-btn")
-    .forEach(btn=>{
+    // reset state
+    testIdx = 0;
+    testScore = 0;
+    activeIdx = 0;
 
-        btn.classList.remove("active");
-    });
+    document.querySelectorAll(".nav-btn")
+        .forEach(btn => btn.classList.remove("active"));
 
-    document
-    .querySelectorAll(".tab-pane-view")
-    .forEach(page=>{
+    const nav = document.getElementById(`nav-${tabName}`);
+    if(nav) nav.classList.add("active");
 
-        page.classList.add("hidden");
-    });
+    // hide all sections
+    document.getElementById("sec-home")?.classList.add("hidden");
+    document.getElementById("sec-preview")?.classList.add("hidden");
+    document.getElementById("study-engine-board")?.classList.add("hidden");
+    document.getElementById("test-engine-board")?.classList.add("hidden");
 
-    const studyBoard =
-    document.getElementById(
-        "study-engine-board"
-    );
-
-    if(studyBoard){
-
-        studyBoard.classList.add("hidden");
-    }
-
-    const testBoard =
-    document.getElementById(
-        "test-engine-board"
-    );
-
-    if(testBoard){
-
-        testBoard.classList.add("hidden");
-    }
-
-    document
-    .getElementById(`nav-${tabName}`)
-    .classList.add("active");
-
-    document
-    .getElementById(`sec-${tabName}`)
-    .classList.remove("hidden");
-
-    if(tabName==="home"){
-
+    // show target
+    if(tabName === "home"){
+        document.getElementById("sec-home")?.classList.remove("hidden");
         renderHomeDashboard();
     }
 
-    if(tabName==="test"){
-
+    if(tabName === "test"){
+        document.getElementById("test-engine-board")?.classList.remove("hidden");
         renderTestDashboard();
     }
 }
-
 /* =========================================================
-INIT
+AUTO INIT
 ========================================================= */
 
 renderHomeDashboard();
