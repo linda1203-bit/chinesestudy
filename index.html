@@ -1035,9 +1035,9 @@ function renderTopicPreviewMode(topic){
         el.classList.add("hidden");
     });
 
-    document
-    .getElementById("sec-preview")
-    .classList.remove("hidden");
+    const previewSec=document.getElementById("sec-preview");
+    if(!previewSec){console.error("Missing #sec-preview");return;}
+    previewSec.classList.remove("hidden");
 
     safeText(
 
@@ -2388,7 +2388,7 @@ const SpeechRecognition2 =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
-let voiceRecognitionEngine = null;
+let voiceRecognitionEngine2 = null;
 
 if(SpeechRecognition2){
 
