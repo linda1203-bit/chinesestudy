@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>HánStudy AI</title>
@@ -14,14 +14,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
 
 :root{
-
     --bg:#eef2f7;
     --card:#ffffff;
     --border:#d6dfeb;
 
     --blue:#3b82f6;
-    --blue-dark:#22364d;
-
     --green:#10b981;
     --orange:#ff7a00;
 
@@ -37,24 +34,20 @@
 }
 
 body{
-
     margin:0;
     background:var(--bg);
     font-family:'Be Vietnam Pro',sans-serif;
     color:var(--text);
-
     padding:40px;
 }
 
 .container{
-
-    max-width:1280px;
+    max-width:1300px;
     margin:auto;
 
     background:#f8fafc;
 
     border:1px solid #d9e2ef;
-
     border-radius:34px;
 
     padding:26px;
@@ -71,7 +64,6 @@ body{
 ========================= */
 
 .top-nav{
-
     display:flex;
     gap:14px;
 
@@ -80,7 +72,6 @@ body{
 }
 
 .nav-btn{
-
     border:none;
     border-radius:18px;
 
@@ -100,12 +91,8 @@ body{
 }
 
 .nav-btn.active{
-
     background:#24364b;
     color:white;
-
-    box-shadow:
-    0 8px 20px rgba(36,54,75,.18);
 }
 
 /* =========================
@@ -113,7 +100,6 @@ body{
 ========================= */
 
 .dashboard-grid{
-
     margin-top:34px;
 
     display:grid;
@@ -125,12 +111,11 @@ body{
 }
 
 .upload-card{
-
     border:2px dashed #c8d5e6;
 
     border-radius:26px;
 
-    min-height:190px;
+    min-height:200px;
 
     background:#f8fafc;
 
@@ -150,11 +135,10 @@ body{
 }
 
 .upload-icon{
-    font-size:54px;
+    font-size:58px;
 }
 
 .upload-title{
-
     margin-top:14px;
 
     font-size:32px;
@@ -162,7 +146,6 @@ body{
 }
 
 .upload-sub{
-
     margin-top:8px;
 
     color:#64748b;
@@ -170,14 +153,12 @@ body{
 }
 
 .stat-card{
-
     background:white;
 
     border:1px solid #d6dfeb;
-
     border-radius:26px;
 
-    min-height:190px;
+    min-height:200px;
 
     display:flex;
     flex-direction:column;
@@ -187,15 +168,12 @@ body{
 }
 
 .stat-number{
-
     font-size:72px;
     font-weight:800;
-
     color:#3b82f6;
 }
 
 .stat-label{
-
     margin-top:10px;
 
     font-size:22px;
@@ -205,36 +183,18 @@ body{
 }
 
 /* =========================
-   STATUS
-========================= */
-
-.status-success{
-
-    margin-top:24px;
-
-    font-size:34px;
-    font-weight:700;
-}
-
-/* =========================
-   STEP TITLE
+   SKILL
 ========================= */
 
 .step-title{
-
-    margin-top:28px;
+    margin-top:34px;
     margin-bottom:20px;
 
     font-size:38px;
     font-weight:800;
 }
 
-/* =========================
-   SKILL BUTTONS
-========================= */
-
 .skill-grid{
-
     display:grid;
 
     grid-template-columns:
@@ -244,7 +204,6 @@ body{
 }
 
 .skill-btn{
-
     border:none;
 
     border-radius:20px;
@@ -263,30 +222,21 @@ body{
     transition:.25s;
 }
 
-.skill-btn:hover{
-    transform:translateY(-2px);
-}
-
 .skill-btn.active{
-
     background:#eff6ff;
-
     border:2px solid #60a5fa;
-
     color:#2563eb;
 }
 
 /* =========================
-   TOPIC LIST
+   TOPIC
 ========================= */
 
 .topic-list{
-
-    margin-top:20px;
+    margin-top:24px;
 }
 
 .topic-card{
-
     width:100%;
 
     background:white;
@@ -304,38 +254,23 @@ body{
     align-items:center;
 
     cursor:pointer;
-
-    transition:.25s;
-}
-
-.topic-card:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-    0 10px 25px rgba(15,23,42,.06);
 }
 
 .topic-title{
-
     font-size:30px;
     font-weight:700;
 }
 
 .topic-count{
-
-    font-size:24px;
+    font-size:22px;
     font-weight:700;
-
-    color:#1e293b;
 }
 
 /* =========================
-   PREVIEW PAGE
+   PREVIEW
 ========================= */
 
 .preview-top{
-
     margin-top:24px;
 
     display:flex;
@@ -343,64 +278,45 @@ body{
     align-items:center;
 }
 
-.back-btn{
-
-    border:none;
-
-    background:white;
-
-    border:1px solid #d7e0ec;
-
-    padding:18px 28px;
-
-    border-radius:18px;
-
-    font-size:20px;
-    font-weight:600;
-
-    cursor:pointer;
-}
-
 .preview-title{
-
     font-size:42px;
     font-weight:800;
 }
 
+.back-btn,
 .start-btn{
-
     border:none;
-
-    background:#10b981;
-    color:white;
 
     border-radius:18px;
 
-    padding:20px 34px;
+    padding:18px 28px;
 
-    font-size:24px;
+    font-size:20px;
     font-weight:700;
 
     cursor:pointer;
 }
 
+.back-btn{
+    background:white;
+    border:1px solid #d7e0ec;
+}
+
+.start-btn{
+    background:#10b981;
+    color:white;
+}
+
 .preview-scroll{
+    margin-top:28px;
 
-    margin-top:26px;
-
-    max-height:68vh;
-
+    max-height:70vh;
     overflow:auto;
 
     padding-right:10px;
 }
 
-/* =========================
-   VOCAB CARD
-========================= */
-
 .preview-card{
-
     background:white;
 
     border:1px solid #d9e2ef;
@@ -413,37 +329,30 @@ body{
 }
 
 .preview-main{
-
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
 }
 
 .preview-cn{
-
     font-size:60px;
     font-weight:800;
 }
 
 .preview-py{
-
     margin-top:10px;
 
     font-size:26px;
-
     color:#64748b;
 }
 
 .preview-vn{
-
     font-size:34px;
     font-weight:700;
-
     color:#ff7a00;
 }
 
 .preview-divider{
-
     margin:24px 0;
 
     height:1px;
@@ -451,29 +360,118 @@ body{
 }
 
 .preview-ex-cn{
-
     font-size:34px;
     font-weight:700;
 }
 
 .preview-ex-py{
-
     margin-top:8px;
 
     font-size:24px;
-
     color:#64748b;
 }
 
 .preview-ex-vn{
-
     margin-top:10px;
 
     font-size:28px;
-
     color:#10b981;
+}
 
-    font-weight:600;
+/* =========================
+   STUDY
+========================= */
+
+#study-engine-board{
+    margin-top:30px;
+}
+
+.zh-main{
+    font-size:64px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.zh-main span{
+    cursor:pointer;
+    transition:.2s;
+}
+
+.zh-main span:hover{
+    color:#3b82f6;
+}
+
+#v-py-text,
+#e-py-text{
+    color:#64748b;
+    font-size:24px;
+    margin-bottom:14px;
+}
+
+#v-vn-text,
+#e-vn-text{
+    font-size:30px;
+    font-weight:700;
+    color:#ff7a00;
+    margin-bottom:18px;
+}
+
+.quiz-option-btn{
+    display:block;
+    width:100%;
+
+    margin-bottom:12px;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:16px;
+
+    font-size:22px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    background:white;
+    border:1px solid #d7e0ec;
+}
+
+.puzzle-chip{
+    display:inline-block;
+
+    padding:12px 18px;
+    margin:8px;
+
+    background:white;
+
+    border:1px solid #cfd9e8;
+    border-radius:14px;
+
+    font-size:28px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.puzzle-chip.used{
+    opacity:.35;
+}
+
+.radical-pane{
+    margin-top:30px;
+
+    background:white;
+
+    border:1px solid #d7e0ec;
+
+    border-radius:22px;
+
+    padding:24px;
+}
+
+.radical-pane h3{
+    margin-top:0;
 }
 
 /* =========================
@@ -503,54 +501,77 @@ body{
 
 <div class="container">
 
+    <!-- NAV -->
+
     <div class="top-nav">
-        <button class="nav-btn active" id="nav-home" onclick="changeMainTab('home')">
+
+        <button
+            class="nav-btn active"
+            id="nav-home"
+            onclick="changeMainTab('home')">
             🏠 Trang Chủ
         </button>
 
-        <button class="nav-btn" id="nav-test" onclick="changeMainTab('test')">
+        <button
+            class="nav-btn"
+            id="nav-test"
+            onclick="changeMainTab('test')">
             📝 Kiểm Tra
         </button>
+
     </div>
 
     <!-- HOME -->
+
     <div id="sec-home" class="tab-pane-view">
 
         <div class="dashboard-grid">
 
-            <button class="upload-card"
+            <button
+                class="upload-card"
+                onclick="document.getElementById('file-input').click()">
+
                 <div class="upload-icon">📁</div>
 
-<div class="upload-title">
-    Tải lên tài liệu (.pdf, .docx)
-</div>
+                <div class="upload-title">
+                    Tải lên tài liệu
+                </div>
 
-<div class="upload-sub">
-    AI tự động bóc tách trích xuất
-</div>
+                <div class="upload-sub">
+                    PDF / DOCX / TXT
+                </div>
+
             </button>
 
             <div class="stat-card">
 
-    <div class="stat-number"
-        id="count-vocab">0</div>
+                <div
+                    class="stat-number"
+                    id="count-vocab">
+                    0
+                </div>
 
-    <div class="stat-label">
-        TỪ VỰNG ĐÃ NẠP
-    </div>
+                <div class="stat-label">
+                    TỪ VỰNG
+                </div>
 
-</div>
+            </div>
 
             <div class="stat-card">
 
-    <div class="stat-number"
-        id="count-topic">0</div>
+                <div
+                    class="stat-number"
+                    id="count-topic">
+                    0
+                </div>
 
-    <div class="stat-label">
-        CHỦ ĐỀ TỰ ĐỘNG
-    </div>
+                <div class="stat-label">
+                    CHỦ ĐỀ
+                </div>
 
-</div>
+            </div>
+
+        </div>
 
         <input
             type="file"
@@ -560,156 +581,251 @@ body{
             onchange="triggerUploadParser(this)"
         >
 
-        <div id="status-msg"
-class="status-success" style="margin-top:15px;"></div>
+        <div
+            id="status-msg"
+            style="
+            margin-top:20px;
+            font-size:28px;
+            font-weight:700;
+            ">
+        </div>
 
-        <!-- SKILLS -->
-        <div id="workflow-skill-section" class="hidden">
+        <!-- SKILL -->
+
+        <div
+            id="workflow-skill-section"
+            class="hidden">
 
             <div class="step-title">
-⚡ Bước 1: Chọn Kỹ Năng Muốn Học Chuyên Sâu
-</div>
+                ⚡ Bước 1: Chọn kỹ năng
+            </div>
 
-<div class="skill-grid">
+            <div class="skill-grid">
 
-<button class="skill-btn" id="sk-tab-write"
-onclick="toggleWorkflowSkill('write')">
-✍️ 1. Luyện Viết (Chiết tự)
-</button>
+                <button
+                    class="skill-btn"
+                    id="sk-tab-write"
+                    onclick="toggleWorkflowSkill('write')">
 
-<button class="skill-btn" id="sk-tab-read"
-onclick="toggleWorkflowSkill('read')">
-📖 2. Luyện Đọc (Mặt chữ)
-</button>
+                    ✍️ Luyện Viết
 
-<button class="skill-btn" id="sk-tab-listen"
-onclick="toggleWorkflowSkill('listen')">
-🔊 3. Luyện Nghe (Ghép câu)
-</button>
+                </button>
 
-<button class="skill-btn" id="sk-tab-speak"
-onclick="toggleWorkflowSkill('speak')">
-🎙️ 4. Luyện Nói (Phát âm)
-</button>
+                <button
+                    class="skill-btn"
+                    id="sk-tab-read"
+                    onclick="toggleWorkflowSkill('read')">
 
-</div>
+                    📖 Luyện Đọc
 
-        <!-- TOPIC -->
-        <div class="step-title">
-📂 Bước 2: Chọn Chủ Đề Học Tập
-</div>
+                </button>
 
-<div id="workflow-topic-container-list"
-class="topic-list"></div>
+                <button
+                    class="skill-btn"
+                    id="sk-tab-listen"
+                    onclick="toggleWorkflowSkill('listen')">
+
+                    🔊 Luyện Nghe
+
+                </button>
+
+                <button
+                    class="skill-btn"
+                    id="sk-tab-speak"
+                    onclick="toggleWorkflowSkill('speak')">
+
+                    🎤 Luyện Nói
+
+                </button>
+
+            </div>
+
+            <div class="step-title">
+                📂 Bước 2: Chọn chủ đề
+            </div>
+
+            <div
+                id="workflow-topic-container-list"
+                class="topic-list">
+            </div>
+
+        </div>
 
     </div>
 
     <!-- PREVIEW -->
-    <div id="sec-preview" class="hidden">
 
-<div class="preview-top">
+    <div
+        id="sec-preview"
+        class="hidden">
 
-    <button class="back-btn"
-    onclick="activateLearningWorkflow()">
-        ← Trang chủ
-    </button>
+        <div class="preview-top">
 
-    <div class="preview-title"
-    id="preview-heading-title">
+            <button
+                class="back-btn"
+                onclick="activateLearningWorkflow()">
+
+                ← Trang chủ
+
+            </button>
+
+            <div
+                class="preview-title"
+                id="preview-heading-title">
+            </div>
+
+            <button
+                class="start-btn"
+                onclick="initStudyEngineView()">
+
+                🚀 Học ngay
+
+            </button>
+
+        </div>
+
+        <div
+            class="preview-scroll"
+            id="preview-cards-scroller">
+        </div>
+
     </div>
 
-    <button class="start-btn"
-    onclick="initStudyEngineView()">
-        🚀 Học chủ đề này
-    </button>
-
-</div>
-
-<div class="preview-scroll"
-id="preview-cards-scroller">
-</div>
-
     <!-- STUDY -->
-    <div id="study-engine-board" class="hidden">
+
+    <div
+        id="study-engine-board"
+        class="hidden">
 
         <h2 id="engine-header-title"></h2>
 
         <div id="engine-progress-counter"></div>
 
-        <div id="v-main-text" class="zh-main"></div>
+        <div
+            id="v-main-text"
+            class="zh-main">
+        </div>
 
         <div id="v-py-text"></div>
-
         <div id="v-vn-text"></div>
 
         <hr>
 
-        <div id="e-main-text" class="zh-main"></div>
+        <div
+            id="e-main-text"
+            class="zh-main">
+        </div>
 
         <div id="e-py-text"></div>
-
         <div id="e-vn-text"></div>
 
         <!-- WRITE -->
-        <div id="panel-write" class="hidden">
 
-            <input type="text" id="write-answer">
+        <div
+            id="panel-write"
+            class="hidden">
 
-            <button onclick="verifyWriteAnswer()">
+            <input
+                type="text"
+                id="write-answer">
+
+            <button
+                onclick="verifyWriteAnswer()">
+
                 Kiểm tra
+
             </button>
 
         </div>
 
         <!-- READ -->
-        <div id="panel-read" class="hidden">
-            <div id="rd-quiz-options-wrapper"></div>
+
+        <div
+            id="panel-read"
+            class="hidden">
+
+            <div
+                id="rd-quiz-options-wrapper">
+            </div>
+
         </div>
 
         <!-- LISTEN -->
-        <div id="panel-listen" class="hidden">
+
+        <div
+            id="panel-listen"
+            class="hidden">
 
             <div id="l-puzzle-pool"></div>
 
+            <hr>
+
             <div id="l-puzzle-drop"></div>
 
-            <button onclick="verifyListenPuzzle()">
+            <button
+                onclick="verifyListenPuzzle()">
+
                 Kiểm tra
+
             </button>
 
         </div>
 
         <!-- SPEAK -->
-        <div id="panel-speak" class="hidden">
 
-            <button id="mic-trigger-btn"
+        <div
+            id="panel-speak"
+            class="hidden">
+
+            <button
+                id="mic-trigger-btn"
                 onclick="activateVoiceRecognition()">
+
                 🎤 Bấm nói
+
             </button>
 
             <div id="sp-feedback-msg"></div>
 
         </div>
 
-        <div id="reveal-card-zone" class="hidden">
+        <!-- NEXT -->
 
-            <button onclick="shiftNextWord()">
+        <div
+            id="reveal-card-zone"
+            class="hidden">
+
+            <button
+                onclick="shiftNextWord()">
+
                 ➡ Từ tiếp theo
+
             </button>
 
         </div>
 
-        <div id="panel-radical-analysis"
-            class="radical-pane hidden"></div>
+        <!-- RADICAL -->
+
+        <div
+            id="panel-radical-analysis"
+            class="radical-pane hidden">
+        </div>
 
     </div>
 
     <!-- TEST -->
-    <div id="test-engine-board" class="hidden">
 
-        <div id="test-question-content-box"></div>
+    <div
+        id="test-engine-board"
+        class="hidden">
 
-        <div id="test-topic-container-list"></div>
+        <div
+            id="test-topic-container-list">
+        </div>
+
+        <div
+            id="test-question-content-box">
+        </div>
 
     </div>
 
@@ -722,13 +838,18 @@ id="preview-cards-scroller">
 ========================= */
 
 let globalDatabase =
-    JSON.parse(localStorage.getItem('zh_master_db')) || [];
+JSON.parse(
+    localStorage.getItem('zh_master_db')
+) || [];
 
 let activeSkillMode = "";
 let currentWords = [];
 let activeIdx = 0;
+
 let currentActiveTopicName = "";
+
 let puzzleSelectedChips = [];
+
 let currentActiveSentenceTarget = "";
 
 /* =========================
@@ -736,15 +857,23 @@ let currentActiveSentenceTarget = "";
 ========================= */
 
 function safeText(id,val){
+
     const el=document.getElementById(id);
-    if(el) el.innerText=val;
+
+    if(el){
+        el.innerText=val;
+    }
 }
 
 function safeHTML(id,val){
-    const el=document.getElementById(id);
-    if(el) el.innerHTML=val;
-}
 
+    const el=document.getElementById(id);
+
+    if(el){
+        el.innerHTML=val;
+    }
+}
+    
 /* =========================
    SPEECH
 ========================= */
@@ -756,284 +885,298 @@ const SpeechRecognition =
 let voiceRecognitionEngine = null;
 
 if(SpeechRecognition){
-    voiceRecognitionEngine = new SpeechRecognition();
+
+    voiceRecognitionEngine =
+        new SpeechRecognition();
+
     voiceRecognitionEngine.lang='zh-CN';
+
     voiceRecognitionEngine.continuous=false;
+
     voiceRecognitionEngine.interimResults=false;
 }
 
 /* =========================
-   RADICAL
+   RADICAL DICT
 ========================= */
 
 const TM_Radicals_Dict = {
 
-"一": "Bộ Nhất (Số một) - Khởi đầu của vạn vật.",
-"丨": "Bộ Cổn - Nét sổ dọc thẳng đứng.",
-"丶": "Bộ Chủ - Điểm chấm, biểu thị dấu vết.",
-"丿": "Bộ Phiệt - Nét phẩy quét sang trái.",
-"乙": "Bộ Ất - Vị trí thứ hai trong thiên can.",
-"亅": "Bộ Quyết - Nét móc lên ở cuối nét sổ.",
-"二": "Bộ Nhị (Số hai) - Đại diện cho âm dương.",
-"亠": "Bộ Đầu - Nét chấm đầu gạch ngang phía trên.",
+"一": "Bộ Nhất - số một, khởi đầu.",
+"丨": "Bộ Cổn - nét sổ dọc.",
+"丶": "Bộ Chủ - dấu chấm.",
+"丿": "Bộ Phiệt - nét phẩy.",
+"乙": "Bộ Ất - thiên can thứ hai.",
+"亅": "Bộ Quyết - nét móc.",
+"二": "Bộ Nhị - đại diện cho âm dương.",
+"亠": "Bộ Đầu - nét chấm đầu gạch ngang.",
+"人": "Bộ Nhân - con người.",
+"亻": "Nhân đứng - hành động con người.",
+"儿": "Bộ Nhi - trẻ em.",
+"入": "Bộ Nhập - đi vào.",
+"八": "Bộ Bát - phân chia.",
+"冂": "Bộ Quynh - bao quanh.",
+"冖": "Bộ Mịch - khăn trùm.",
+"冫": "Bộ Băng - nước đá.",
+"几": "Bộ Kỷ - ghế dựa.",
+"凵": "Bộ Khảm - hố lõm.",
+"刀": "Bộ Đao - con dao.",
+"刂": "Đao đứng - cắt gọt.",
+"力": "Bộ Lực - sức mạnh.",
+"勹": "Bộ Bao - bao bọc.",
+"匕": "Bộ Chủy - cái thìa.",
+"匚": "Bộ Phương - hộp chứa.",
+"十": "Bộ Thập - số mười.",
+"卜": "Bộ Bốc - bói toán.",
+"卩": "Bộ Tiết - đốt tre.",
+"厂": "Bộ Hán - vách núi.",
+"厶": "Bộ Tư - riêng tư.",
+"又": "Bộ Hựu - bàn tay phải.",
+"口": "Bộ Khẩu - cái miệng.",
+"囗": "Bộ Vi - bao quanh.",
+"土": "Bộ Thổ - đất.",
+"士": "Bộ Sĩ - học trò.",
+"夂": "Bộ Truy - đi chậm.",
+"夕": "Bộ Tịch - buổi tối.",
+"大": "Bộ Đại - to lớn.",
+"女": "Bộ Nữ - phụ nữ.",
+"子": "Bộ Tử - đứa trẻ.",
+"宀": "Bộ Miên - mái nhà.",
+"寸": "Bộ Thốn - tấc.",
+"小": "Bộ Tiểu - nhỏ.",
+"尸": "Bộ Thi - xác.",
+"山": "Bộ Sơn - núi.",
+"川": "Bộ Xuyên - sông.",
+"工": "Bộ Công - công việc.",
+"己": "Bộ Kỷ - bản thân.",
+"巾": "Bộ Cân - khăn.",
+"干": "Bộ Can - cái khiên.",
+"幺": "Bộ Yêu - nhỏ bé.",
+"广": "Bộ Quảng - mái che.",
+"廴": "Bộ Dẫn - bước dài.",
+"廾": "Bộ Củng - hai tay chắp lại.",
+"弋": "Bộ Dực - cái cọc tre.",
+"弓": "Bộ Cung - cây cung.",
+"彡": "Bộ Sâm - lông tóc dài.",
+"彳": "Bộ Xích - bước chân.",
+"心": "Bộ Tâm - trái tim.",
+"忄": "Tâm đứng - cảm xúc.",
+"戈": "Bộ Qua - binh khí.",
+"户": "Bộ Hộ - cửa gia đình.",
+"手": "Bộ Thủ - bàn tay.",
+"扌": "Thủ đứng - động tác tay.",
+"日": "Bộ Nhật - mặt trời.",
+"曰": "Bộ Viết - nói rằng.",
+"月": "Bộ Nguyệt - mặt trăng.",
+"木": "Bộ Mộc - cây.",
+"欠": "Bộ Khiếm - thiếu.",
+"止": "Bộ Chỉ - dừng lại.",
+"歹": "Bộ Tịch/Đãi - chết chóc.",
+"殳": "Bộ Thù - vũ khí.",
+"毋": "Bộ Vô - chớ có.",
+"比": "Bộ Tỷ - so sánh.",
+"毛": "Bộ Mao - lông.",
+"氏": "Bộ Thị - họ tộc.",
+"气": "Bộ Khí - hơi khí.",
+"水": "Bộ Thủy - nước.",
+"氵": "Thủy đứng - liên quan nước.",
+"火": "Bộ Hỏa - lửa.",
+"灬": "Hỏa dưới - lửa phía dưới.",
+"爪": "Bộ Trảo - móng vuốt.",
+"父": "Bộ Phụ - cha.",
+"爻": "Bộ Hào - các vạch hào kinh dịch.",
+"爿": "Bộ Tường - mảnh gỗ xẻ.",
+"片": "Bộ Phiến - mảnh.",
+"牙": "Bộ Nha - răng.",
+"牛": "Bộ Ngưu - trâu bò.",
+"犬": "Bộ Khuyển - chó.",
+"犭": "Khuyển đứng - động vật.",
+"玄": "Bộ Huyền - màu đen kỳ ảo.",
+"玉": "Bộ Ngọc - ngọc quý.",
+"王": "Bộ Vương - vua.",
+"甘": "Bộ Cam - ngọt.",
+"生": "Bộ Sinh - sinh ra.",
+"用": "Bộ Dụng - sử dụng.",
+"田": "Bộ Điền - ruộng.",
+"疒": "Bộ Tật/Nạch - bệnh.",
+"癶": "Bộ Bát - hai bàn chân rẽ hướng.",
+"白": "Bộ Bạch - màu trắng.",
+"皮": "Bộ Bì - da.",
+"皿": "Bộ Mãnh - đồ đựng.",
+"目": "Bộ Mục - mắt.",
+"矛": "Bộ Mâu - giáo.",
+"矢": "Bộ Thỉ - mũi tên.",
+"石": "Bộ Thạch - đá.",
+"示": "Bộ Thị - thần linh.",
+"禸": "Bộ Nhựu - dấu chân thú.",
+"禾": "Bộ Hòa - lúa.",
+"穴": "Bộ Huyệt - hang.",
+"立": "Bộ Lập - đứng.",
+"竹": "Bộ Trúc - tre.",
+"米": "Bộ Mễ - gạo.",
+"糸": "Bộ Mịch - sợi tơ.",
+"纟": "Mịch giản thể - tơ.",
+"缶": "Bộ Phẫu - bình gốm.",
+"网": "Bộ Võng - lưới.",
+"羊": "Bộ Dương - dê.",
+"羽": "Bộ Vũ - lông cánh.",
+"老": "Bộ Lão - già.",
+"耳": "Bộ Nhĩ - tai.",
+"自": "Bộ Tự - bản thân.",
+"至": "Bộ Chí - đến.",
+"艹": "Bộ Thảo - cỏ.",
+"虫": "Bộ Trùng - sâu bọ.",
+"行": "Bộ Hành - đi lại.",
+"衣": "Bộ Y - quần áo.",
+"衤": "Y đứng - quần áo.",
+"见": "Bộ Kiến - nhìn thấy.",
+"角": "Bộ Giác - sừng.",
+"讠": "Ngôn giản thể - lời nói.",
+"贝": "Bối giản thể - tiền tài.",
+"走": "Bộ Tẩu - chạy.",
+"足": "Bộ Túc - chân.",
+"身": "Bộ Thân - cơ thể.",
+"车": "Bộ Xa - xe.",
+"辶": "Bộ Sước - đi xa.",
+"里": "Bộ Lý - dặm đường.",
+"金": "Bộ Kim - kim loại.",
+"钅": "Kim giản thể - kim loại.",
+"门": "Bộ Môn - cửa.",
+"隹": "Bộ Chuy - chim đuôi ngắn.",
+"雨": "Bộ Vũ - mưa.",
+"饣": "Bộ Thực giản thể - ăn uống.",
+"马": "Bộ Mã - ngựa.",
+"鱼": "Bộ Ngư - cá.",
+"鸟": "Bộ Điểu - chim.",
+"云": "Bộ Vân - đám mây.",
+"鬲": "Bộ Cách - cái vạc/nồi.",
+"鼓": "Bộ Cổ - cái trống.",
+"龠": "Bộ Dược - sáo/ống thổi.",
+"鼎": "Bộ Đỉnh - cái đỉnh.",
+"页": "Bộ Hiệt - cái đầu.",
+"镸": "Bộ Trường - dài.",
+"鬯": "Bộ Sưởng - rượu thơm.",
+"髟": "Bộ Bưu - lông dài trên đầu.",
+"麻": "Bộ Ma - cây gai.",
+"鹿": "Bộ Lộc - con hươu.",
+"鼻": "Bộ Tỵ - cái mũi.",
+"鼠": "Bộ Thử - con chuột.",
+"黑": "Bộ Hắc - màu đen.",
+"亀": "Bộ Quy - con rùa."
 
-"人": "Bộ Nhân (Người) - Con người, tư thế đứng thẳng gánh vác việc lớn.",
-"亻": "Bộ Nhân đứng - Biến thể của con người, liên quan đến hành vi, hoạt động.",
-"儿": "Bộ Nhi - Đứa trẻ sơ sinh, chân em bé đi chập chững.",
-"入": "Bộ Nhập - Đi vào bên trong, tiếp thu vào.",
-"八": "Bộ Bát (Số tám) - Biểu thị sự chia rẽ, phân chia.",
-"冂": "Bộ Quynh - Vùng biên giới xa xôi bao bọc cõi ngoài.",
-"冖": "Bộ Mịch - Khăn trùm che đậy kín lên đồ vật.",
-"冫": "Bộ Băng - Nước đá, hiện tượng lạnh giá, đông kết.",
-"几": "Bộ Kỷ - Ghế tựa tựa lưng, cái bàn nhỏ.",
-"凵": "Bộ Khảm - Há miệng to khảm sâu, hố lõm xuống.",
-
-"刀": "Bộ Đao - Con dao, vũ khí sắc bén cắt gọt.",
-"刂": "Bộ Đao đứng - Biến thể con dao, liên quan chặt, khắc, sửa đổi hành chính.",
-"力": "Bộ Lực - Sức mạnh, hình chiếc cày ruộng cần cơ bắp lao động vất vả.",
-"勹": "Bộ Bao - Bao bọc, gói ghém ôm giữ đồ vật.",
-"匕": "Bộ Chủy - Cái thìa xúc cơm, muỗng ăn.",
-"匚": "Bộ Phương - Tủ đựng, vật chứa đồ vuông vắn.",
-"十": "Bộ Thập (Số mười) - Biểu thị sự hoàn vẹn, thập toàn thập mỹ.",
-"卜": "Bộ Bốc - Quẻ bói toán, xem dự đoán tương lai.",
-"卩": "Bộ Tiết - Đốt tre, quỳ gối phục tùng, mệnh lệnh.",
-"厂": "Bộ Hán - Sườn núi dốc, vách đá dựng đứng.",
-"厶": "Bộ Tư - Riêng tư, ích kỷ cá nhân.",
-
-"口": "Bộ Khẩu - Cái miệng, đại diện cho ăn uống, ngôn ngữ, hợp đồng.",
-"囗": "Bộ Vi - Bao vây xung quanh ranh giới quốc gia, nhà xưởng.",
-"土": "Bộ Thổ - Đất đai, mặt đất xây dựng công trình, sinh trưởng vạn vật.",
-"士": "Bộ Sĩ - Kẻ sĩ, người học thức, nam tử hán.",
-"夂": "Bộ Truy - Bước chân đi theo phía sau trì trệ.",
-"夕": "Bộ Tịch - Đêm tối, mặt trời lặn nửa vầng trăng khuyết.",
-"大": "Bộ Đại - To lớn, hình người dang rộng hai tay hiên ngang.",
-"女": "Bộ Nữ - Người phụ nữ quỳ gối kính cẩn, biểu thị thuộc tính nữ, gia đình.",
-"子": "Bộ Tử - Đứa trẻ sơ sinh vẫy tay, bảo tồn nòi giống, học hành.",
-"宀": "Bộ Miên - Mái che ngôi nhà, tổ ấm gia đình an cư lạc nghiệp.",
-
-"寸": "Bộ Thốn (Tấc) - Đơn vị đo lường chiều dài thời cổ, quy tắc.",
-"小": "Bộ Tiểu - Nhỏ bé, phân tách vật chất ra ít đi.",
-"尸": "Bộ Thi - Thân xác, thây ma, nơi trú ngụ cố định.",
-"山": "Bộ Sơn - Núi non trùng điệp, các ngọn núi cao.",
-"川": "Bộ Xuyên - Sông ngòi, dòng nước chảy dài cuồn cuộn.",
-"工": "Bộ Công - Người thợ, công cụ làm việc gạch nối trời đất, gia công kỹ thuật.",
-"己": "Bộ Kỷ - Bản thân mình, tự mình gánh vác.",
-"巾": "Bộ Cân - Khăn vải, vải vóc may mặc trang trí văn phòng.",
-"干": "Bộ Can - Khiên chắn bảo vệ, can dự, phạm đến.",
-"幺": "Bộ Yêu - Nhỏ nhắn, sợi chỉ tơ mảnh dẻ.",
-
-"广": "Bộ Quảng - Ngôi nhà lớn xây dựa vào sườn núi.",
-"廴": "Bộ Dẫn - Bước chân đi dài, kéo dài khoảng cách.",
-"廾": "Bộ Củng - Hai tay chắp lại cung kính, nâng vật nâng lên.",
-"弋": "Bộ Dực - Cái cọc tre găm xuống đất, bắn tên có dây.",
-"弓": "Bộ Cung - Cái cung bắn tên, hình cánh cung co giãn.",
-"彡": "Bộ Sâm - Lông tóc dài thướt tha, hoa văn trang trí.",
-"彳": "Bộ Xích - Bước chân trái đi lại trên đường, hành động.",
-"心": "Bộ Tâm - Quả tim, liên quan đến tư duy sâu, cảm xúc tình cảm.",
-"忄": "Bộ Tâm đứng - Biến thể quả tim, liên quan đến tâm trạng, suy nghĩ nội tâm.",
-"戈": "Bộ Qua - Cây mác, binh khí tác chiến thời cổ.",
-
-"户": "Bộ Hộ - Một cánh cửa gia đình, hộ gia đình quản lý.",
-"手": "Bộ Thủ - Bàn tay có các ngón nắm giữ, thực hiện thao tác.",
-"扌": "Bộ Thủ đứng - Biến thể bàn tay, biểu thị hành động cầm, nắm, sửa đổi, gia công.",
-"日": "Bộ Nhật - Mặt trời chiếu sáng, quy luật thời gian, ngày tháng.",
-"曰": "Bộ Viết - Nói rằng, lời phán ra từ miệng.",
-"月": "Bộ Nguyệt - Mặt trăng khuyết, đại diện cho ban đêm hoặc cơ thể xác thịt.",
-"木": "Bộ Mộc - Cây cối thân gỗ, vật liệu xây dựng thực vật.",
-"欠": "Bộ Khiếm - Thiếu thốn, há miệng ngáp dài thiếu dưỡng khí.",
-"止": "Bộ Chỉ - Dừng lại, dấu chân đứng im không đi tiếp.",
-"歹": "Bộ Tịch - Xương tàn, cái chết, sự suy tàn hủy hoại.",
-
-"殳": "Bộ Thù - Binh khí dài bằng tre gỗ gõ đập.",
-"毋": "Bộ Vô - Chớ có, đừng làm điều cấm đoán.",
-"比": "Bộ Tỷ - So sánh, hai người đứng liền kề đọ cao thấp.",
-"毛": "Bộ Mao - Lông thú, lông tóc động vật mềm mại.",
-"氏": "Bộ Thị - Họ trong gia tộc, gốc rễ nguồn cội.",
-"气": "Bộ Khí - Hơi nước bốc lên, bầu không khí, năng lượng khí chất.",
-"水": "Bộ Thủy - Nước chảy thành dòng, chất lỏng thanh lọc.",
-"氵": "Bộ Thủy đứng - Biến thể dòng nước, liên quan đến đóng nộp, xử lý hóa chất.",
-"火": "Bộ Hỏa - Ngọn lửa cháy bốc lên ngùn ngụt, năng lượng sưởi ấm.",
-"灬": "Bộ Hỏa dưới - Bốn chấm lửa đuôi, liên quan đến nấu nướng, nhiệt độ cao.",
-
-"爪": "Bộ Trảo - Móng vuốt chim thú, bàn tay bấu chặt lấy.",
-"父": "Bộ Phụ - Người cha gánh vác, cầm roi chỉ bảo dạy dỗ.",
-"爻": "Bộ Hào - Các vạch hào trong kinh dịch, đan xen nhau.",
-"爿": "Bộ Tường - Mảnh gỗ xẻ bên trái, cái giường nằm.",
-"片": "Bộ Phiến - Mảnh gỗ xẻ bên phải, tài liệu mỏng, lát mỏng.",
-"牙": "Bộ Nha - Răng nanh động vật đan cài vào nhau.",
-"牛": "Bộ Ngưu - Con trâu, con bò phục vụ nông nghiệp kéo cày.",
-"犬": "Bộ Khuyển - Con chó trung thành giữ nhà.",
-"犭": "Bộ Khuyển đứng - Liên quan đến các loại động vật hoang dã, tính chất săn bắn.",
-"玄": "Bộ Huyền - Màu đen kỳ ảo, sâu thẳm huyền biến.",
-
-"玉": "Bộ Ngọc - Viên ngọc quý giá có dây xỏ qua bảo vật.",
-"王": "Bộ Vương - Đại diện vua chúa, quyền lực tối cao chỉ huy kiểm lý.",
-"甘": "Bộ Cam - Vị ngọt ngào bùi béo ngậm trong miệng.",
-"生": "Bộ Sinh - Sinh trưởng, mầm cây mọc vươn lên mặt đất sinh sống.",
-"用": "Bộ Dụng - Sử dụng, công cụ có ích để vận hành dùng việc.",
-"田": "Bộ Điền - Ruộng đất phân chia bờ cõi canh tác nông nghiệp.",
-"疒": "Bộ Tật - Giường bệnh, đau ốm bệnh tật suy nhược.",
-"癶": "Bộ Bát - Hai bàn chân bước rẽ sang hai hướng ngược nhau.",
-"白": "Bộ Bạch - Màu trắng, sự minh bạch rành mạch trong sạch.",
-"皮": "Bộ Bì - Da động vật bóc ra tấm da bọc ngoài.",
-
-"皿": "Bộ Mãnh - Bát đĩa, đồ sành sứ chứa thức ăn.",
-"目": "Bộ Mục - Con mắt nhìn nhận, kiểm nghiệm, giám sát hiện trường.",
-"矛": "Bộ Mâu - Cái mâu đâm xuyên kẻ địch vũ khí.",
-"矢": "Bộ Thỉ - Mũi tên bay thẳng cắm vào đích mục tiêu.",
-"石": "Bộ Thạch - Tảng đá dưới sườn núi, vật liệu bền vững cứng rắn.",
-"示": "Bộ Thị - Chúc thư thần linh ban xuống bệ thờ, hiển thị rõ ràng.",
-"禸": "Bộ Nhựu - Dấu chân con thú hoang giẫm trên đất.",
-"禾": "Bộ Hòa - Cây lúa có bông hạt trĩu xuống, nông nghiệp lương thực.",
-"穴": "Bộ Huyệt - Hang ổ, hang động khoét sâu vào lòng núi.",
-"立": "Bộ Lập - Đứng thẳng hiên ngang trên mặt đất, thiết lập vị trí.",
-
-"竹": "Bộ Trúc - Lá tre rủ xuống, làm ống sáo thẻ tre.",
-"米": "Bộ Mễ - Hạt gạo, hạt ngũ cốc bóc vỏ nguồn sống.",
-"糸": "Bộ Mịch - Sợi tơ kéo dài đan cài dệt vải vóc.",
-"纟": "Bộ Mịch giản thể - Liên quan đến dệt may, dây buộc, quy trình liên kết hợp đồng.",
-"缶": "Bộ Phẫu - Bình gốm miệng nhỏ bụng to đựng rượu nước.",
-"网": "Bộ Võng - Lưới đánh cá, lưới bẫy chim, hệ thống mạng lưới.",
-"羊": "Bộ Dương - Con dê, con cừu đại diện cho sự cát tường hiền lành.",
-"羽": "Bộ Vũ - Lông vũ lông chim, đôi cánh bay lượn luyện tập.",
-"老": "Bộ Lão - Người già chống gậy bước đi, tuổi thọ tri thức.",
-"耳": "Bộ Nhĩ - Cái tai để nghe ngóng âm thanh, tiếp thu phận sự vị trí.",
-
-"自": "Bộ Tự - Cái mũi của bản thân, xuất phát từ chính mình.",
-"至": "Bộ Chí - Đến nơi, mũi tên bay cắm trúng hồng tâm mặt đất.",
-"艹": "Bộ Thảo - Cỏ cây hoa lá mọc xanh tươi mặt đất.",
-"虫": "Bộ Trùng - Côn trùng, các loài bò sát nhỏ.",
-"行": "Bộ Hành - Ngã tư đường đi lại giao thông, thực hiện hành động.",
-"衣": "Bộ Y - Quần áo tà áo may mặc che thân bảo vệ.",
-"衤": "Bộ Y đứng - Biến thể quần áo, liên quan đến trang phục, chứng nhận.",
-"见": "Bộ Kiến - Trông thấy, mở to mắt để nhìn nhận thấu suốt.",
-"角": "Bộ Giác - Sừng động vật, góc nhọn kích thước đo lường.",
-"讠": "Bộ Ngôn giản thể - Liên quan đến ngôn ngữ, trả lời, phản hồi, thông báo thông tin.",
-
-"贝": "Bộ Bối giản thể - Vỏ sò cổ tiền tệ của cải vật giá trị báo giá ngân hàng.",
-"走": "Bộ Tẩu - Chạy đi, rảo bước chân nhanh di chuyển hành động.",
-"足": "Bộ Túc - Cái chân đầy đủ, đi lại đứng vững.",
-"身": "Bộ Thân - Thân thể con người mang bụng bầu bảo tồn.",
-"车": "Bộ Xa - Chiếc xe có hai bánh trục quay vận chuyển chi phí.",
-"辶": "Bộ Sai - Bước đi dài dốc sức di chuyển tiến tới giao tiếp gửi đi.",
-"里": "Bộ Lý - Dặm đường đơn vị chiều dài, làng xóm quê hương.",
-"金": "Bộ Kim - Kim loại vàng bạc đúc tiền của cải nguyên vật liệu thép.",
-"钅": "Bộ Kim giản thể - Liên quan trực tiếp đến vật liệu thép tấm, tôn màu gia công kỹ thuật.",
-"门": "Bộ Môn - Cánh cổng nhà hai tà đóng mở ra vào bộ phận phòng ban.",
-
-"隹": "Bộ Chuy - Loài chim đuôi ngắn lông vũ bay lượn tự do.",
-"雨": "Bộ Vũ - Hạt mưa rơi từ trên trời xuống thời tiết khí hậu.",
-"饣": "Bộ Thực giản thể - Liên quan đến ăn uống, phụ cấp cơm trưa nhà ăn.",
-"马": "Bộ Mã - Con ngựa chạy nhanh vận chuyển đường dài lực lượng.",
-"鱼": "Bộ Ngư - Con cá bơi dưới nước có vảy có đuôi nguồn sống.",
-"鸟": "Bộ Điểu - Loài chim có lông vũ dài có mỏ có chân bay lượn.",
-"云": "Bộ Vân - Đám mây bay trên trời di chuyển tác động hoạt động."
 
 };
+
+/* =========================
+   DECOMPOSITION MAP
+========================= */
 
 const AI_Decomposition_Matrix_Map = {
 
-    "我": ["手", "戈"],
-    "同": ["冂", "口"],
-    "好": ["女", "子"],
-    "劳": ["宀", "艹", "力"],
-    "动": ["云", "力"],
+"你": ["亻", "尔"],
+"好": ["女", "子"],
+"妈": ["女", "马"],
+"她": ["女", "也"],
+"他": ["亻", "也"],
+"们": ["亻", "门"],
+"位": ["亻", "立"],
 
-    "职": ["耳", "口"],
-    "位": ["亻", "立"],
-    "会": ["人", "云"],
-    "计": ["讠", "十"],
-    "期": ["月", "二", "八"],
+"我": ["手", "戈"],
+"找": ["扌", "戈"],
+"打": ["扌", "丁"],
+"看": ["手", "目"],
+"想": ["木", "目", "心"],
+"修": ["亻", "夂", "彡"],
+"改": ["己", "攵"],
+"会": ["人", "云"],
 
-    "修": ["亻", "夂", "彡"],
-    "改": ["己", "攵"],
-    "合": ["人", "一", "口"],
-    "在": ["土"],
-    "正": ["止", "一"],
+"问": ["门", "口"],
+"间": ["门", "日"],
+"听": ["口", "斤"],
+"说": ["讠", "兑"],
+"话": ["讠", "舌"],
+"请": ["讠", "青"],
+"谢": ["讠", "身", "寸"],
+"认": ["讠", "人"],
+"识": ["讠", "只"],
+"语": ["讠", "吾"],
+"计": ["讠", "十"],
+"证": ["讠", "止", "一"],
 
-    "是": ["日", "疋"],
-    "钢": ["钅"],
-    "材": ["木", "才"],
-    "核": ["木", "亥"],
-    "算": ["竹", "目", "廾"],
+"吃": ["口", "乞"],
+"喝": ["口", "曷"],
+"唱": ["口", "昌"],
+"叫": ["口", "丩"],
+"吗": ["口", "马"],
+"饭": ["饣", "反"],
+"菜": ["艹", "采"],
+"茶": ["艹", "人", "木"],
+"酒": ["氵", "酉"],
 
-    "证": ["讠", "止", "一"],
-    "理": ["王", "里"],
-    "经": ["纟", "工"],
-    "定": ["宀", "疋"],
+"明": ["日", "月"],
+"晚": ["日", "免"],
+"昨": ["日", "乍"],
+"时": ["日", "寸"],
+"春": ["三", "人", "日"],
+"电": ["日", "乚"],
+"河": ["氵", "可"],
+"海": ["氵", "每"],
+"洗": ["氵", "先"],
+"热": ["灬", "执"],
+"动": ["云", "力"],
 
-    "你": ["亻", "尔"],
-    "他": ["亻", "也"],
-    "她": ["女", "也"],
-    "们": ["亻", "门"],
+"林": ["木", "木"],
+"森": ["木", "木", "木"],
+"杯": ["木", "不"],
+"校": ["木", "交"],
+"桌": ["木", "卓"],
+"材": ["木", "才"],
+"核": ["木", "亥"],
+"家": ["宀", "豕"],
+"房": ["户", "方"],
+"安": ["宀", "女"],
+"学": ["冖", "子"],
+"店": ["广", "占"],
+"门": ["门"],
+"坐": ["土", "人"],
 
-    "喝": ["口", "曷"],
-    "吃": ["口", "乞"],
-    "听": ["口", "斤"],
-    "说": ["讠", "兑"],
-
-    "看": ["手", "目"],
-    "想": ["木", "目", "心"],
-    "问": ["门", "口"],
-    "间": ["门", "日"],
-
-    "国": ["囗", "玉"],
-    "家": ["宀", "豕"],
-    "学": ["冖", "子"],
-    "校": ["木", "交"],
-
-    "电": ["日", "乚"],
-    "话": ["讠", "舌"],
-    "语": ["讠", "吾"],
-    "请": ["讠", "青"],
-
-    "谢": ["讠", "身", "寸"],
-    "钱": ["钅", "戋"],
-    "银": ["钅", "艮"],
-    "错": ["钅", "昔"],
-
-    "猫": ["犭", "苗"],
-    "狗": ["犭", "句"],
-    "鱼": ["鱼"],
-    "鸟": ["鸟"],
-
-    "海": ["氵", "每"],
-    "河": ["氵", "可"],
-    "洗": ["氵", "先"],
-    "热": ["灬", "执"],
-
-    "明": ["日", "月"],
-    "晚": ["日", "免"],
-    "昨": ["日", "乍"],
-    "时": ["日", "寸"],
-
-    "房": ["户", "方"],
-    "门": ["门"],
-    "开": ["一", "廾"],
-    "关": ["丷", "天"],
-
-    "跑": ["足", "包"],
-    "路": ["足", "各"],
-    "车": ["车"],
-    "坐": ["土", "人"],
-
-    "医": ["匚", "矢"],
-    "病": ["疒", "丙"],
-    "药": ["艹", "约"],
-    "店": ["广", "占"],
-
-    "衣": ["衣"],
-    "裤": ["衤", "库"],
-    "鞋": ["革", "圭"],
-    "帽": ["巾", "冒"],
-
-    "饭": ["饣", "反"],
-    "菜": ["艹", "采"],
-    "茶": ["艹", "人", "木"],
-    "酒": ["氵", "酉"]
+"猫": ["犭", "苗"],
+"狗": ["犭", "句"],
+"猪": ["犭", "者"],
+"鱼": ["鱼"],
+"鸟": ["鸟"],
+"钱": ["钅", "戋"],
+"银": ["钅", "艮"],
+"错": ["钅", "昔"],
+"钢": ["钅", "冈"],
+"跑": ["足", "包"],
+"路": ["足", "各"],
+"跟": ["足", "艮"],
+"跳": ["足", "兆"],
+"车": ["车"],
+"国": ["囗", "玉"],
+"园": ["囗", "元"],
+"图": ["囗", "冬"],
+"回": ["囗", "口"],
+"衣": ["衣"],
+"裤": ["衤", "库"],
+"鞋": ["革", "圭"],
+"帽": ["巾", "冒"],
+"开": ["一", "廾"],
+"关": ["丷", "天"],
+"算": ["竹", "目", "廾"],
+"理": ["王", "里"],
+"经": ["纟", "工"],
+"定": ["宀", "疋"],
+"劳": ["宀", "艹", "力"],
+"职": ["耳", "口"],
+"同": ["冂", "口"],
+"在": ["土", "丿"],
+"正": ["止", "一"],
+"是": ["日", "疋"]
 
 };
-
+    
 /* =========================
    FILE UPLOAD
 ========================= */
@@ -1044,7 +1187,10 @@ function triggerUploadParser(input){
 
     if(!file) return;
 
-    safeText("status-msg","🔄 Đang xử lý file...");
+    safeText(
+        "status-msg",
+        "🔄 Đang xử lý file..."
+    );
 
     const reader = new FileReader();
 
@@ -1054,88 +1200,149 @@ function triggerUploadParser(input){
 
             mammoth.extractRawText({
                 arrayBuffer:e.target.result
-            }).then(r=>{
-                executeTextParserEngine(r.value);
+            }).then(result=>{
+
+                executeTextParserEngine(
+                    result.value
+                );
+
             });
 
-        }else if(file.name.endsWith('.pdf')){
+        }
+
+        else if(file.name.endsWith('.pdf')){
 
             pdfjsLib.getDocument({
-                data:new Uint8Array(e.target.result)
+                data:new Uint8Array(
+                    e.target.result
+                )
             }).promise.then(pdf=>{
 
-                let p=[];
+                let pages=[];
 
-                for(let i=1;i<=pdf.numPages;i++){
+                for(
+                    let i=1;
+                    i<=pdf.numPages;
+                    i++
+                ){
 
-                    p.push(
-                        pdf.getPage(i).then(pg=>
-                            pg.getTextContent().then(c=>
-                                c.items.map(m=>m.str).join(' ')
+                    pages.push(
+
+                        pdf.getPage(i)
+                        .then(page=>
+
+                            page.getTextContent()
+                            .then(content=>
+
+                                content.items
+                                .map(x=>x.str)
+                                .join(' ')
+
                             )
+
                         )
+
                     );
                 }
 
-                Promise.all(p).then(t=>{
-                    executeTextParserEngine(t.join('\n'));
+                Promise.all(pages)
+                .then(allText=>{
+
+                    executeTextParserEngine(
+                        allText.join('\n')
+                    );
+
                 });
+
             });
 
-        }else{
+        }
 
-            executeTextParserEngine(e.target.result);
+        else{
+
+            executeTextParserEngine(
+                e.target.result
+            );
 
         }
 
     };
 
     if(file.name.endsWith('.txt')){
+
         reader.readAsText(file);
+
     }else{
+
         reader.readAsArrayBuffer(file);
+
     }
 }
 
 /* =========================
-   PARSER
+   TEXT PARSER
 ========================= */
 
 function executeTextParserEngine(txt){
 
     const lines = txt
-        .split('\n')
-        .map(l=>l.trim())
-        .filter(l=>l.length>0);
+    .split('\n')
+    .map(l=>l.trim())
+    .filter(l=>l.length>0);
 
     let topic="Chung";
-    let count=0;
+
+    let addedCount=0;
 
     for(let i=0;i<lines.length;i++){
 
-        if(lines[i].includes("TỪ VỰNG")){
-            topic=lines[i];
+        const line=lines[i];
+
+        /* detect topic */
+
+        if(
+            line.includes("TỪ VỰNG") ||
+            line.includes("CHỦ ĐỀ") ||
+            line.includes("BÀI")
+        ){
+
+            topic=line;
+
             continue;
         }
 
-        if(/[\u4e00-\u9fa5]/.test(lines[i])){
+        /* detect chinese */
 
-            let w = {
-                cn:lines[i] || "",
+        if(/[\u4e00-\u9fa5]/.test(line)){
+
+            let item={
+
+                cn:line || "",
+
                 py:lines[i+1] || "",
+
                 vn:lines[i+2] || "",
+
                 ex_cn:lines[i+3] || "",
+
                 ex_py:lines[i+4] || "",
+
                 ex_vn:lines[i+5] || "",
+
                 topic:topic
+
             };
 
-            if(
-                w.cn &&
-                !globalDatabase.some(d=>d.cn===w.cn)
-            ){
-                globalDatabase.push(w);
-                count++;
+            const existed =
+                globalDatabase.some(
+                    d=>d.cn===item.cn
+                );
+
+            if(!existed){
+
+                globalDatabase.push(item);
+
+                addedCount++;
             }
 
             i+=5;
@@ -1149,14 +1356,14 @@ function executeTextParserEngine(txt){
 
     safeText(
         "status-msg",
-        `✅ Đã nạp ${count} từ`
+        `✅ Đã nạp ${addedCount} từ mới`
     );
 
     renderHomeDashboard();
 }
 
 /* =========================
-   HOME
+   HOME DASHBOARD
 ========================= */
 
 function renderHomeDashboard(){
@@ -1169,178 +1376,223 @@ function renderHomeDashboard(){
     safeText(
         "count-topic",
         new Set(
-            globalDatabase.map(d=>d.topic)
+            globalDatabase.map(
+                d=>d.topic
+            )
         ).size
     );
 
     if(globalDatabase.length>0){
 
         document
-            .getElementById('workflow-skill-section')
-            .classList.remove('hidden');
-
-        document
-            .getElementById('workflow-topic-section')
-            .classList.remove('hidden');
+        .getElementById(
+            'workflow-skill-section'
+        )
+        .classList.remove('hidden');
 
         buildTopicSelectionList();
     }
 }
 
+/* =========================
+   BUILD TOPIC
+========================= */
+
 function buildTopicSelectionList(){
 
     const container =
-        document.getElementById(
-            'workflow-topic-container-list'
-        );
+    document.getElementById(
+        'workflow-topic-container-list'
+    );
 
     container.innerHTML="";
 
-    [...new Set(globalDatabase.map(d=>d.topic))]
-    .forEach(t=>{
+    const topics =
+    [...new Set(
+        globalDatabase.map(d=>d.topic)
+    )];
 
-        let b=document.createElement('button');
+    topics.forEach(topic=>{
 
-        b.className='topic-card';
+        const count =
+        globalDatabase.filter(
+            d=>d.topic===topic
+        ).length;
 
-        b.innerHTML=
-`
-<div class="topic-title">
-📂 ${t}
-</div>
+        const btn =
+        document.createElement('button');
 
-<div class="topic-count">
-${globalDatabase.filter(d=>d.topic===t).length} từ
-</div>
-`;
+        btn.className='topic-card';
 
-        b.onclick=()=>{
+        btn.innerHTML=
+        `
+        <div class="topic-title">
+            📂 ${topic}
+        </div>
 
-            currentActiveTopicName=t;
+        <div class="topic-count">
+            ${count} từ
+        </div>
+        `;
 
-            currentWords=
-                globalDatabase.filter(d=>d.topic===t);
+        btn.onclick=()=>{
+
+            currentActiveTopicName =
+            topic;
+
+            currentWords =
+            globalDatabase.filter(
+                d=>d.topic===topic
+            );
 
             if(activeSkillMode!==""){
+
                 initStudyEngineView();
+
             }else{
-                renderTopicPreviewMode(t);
+
+                renderTopicPreviewMode(
+                    topic
+                );
             }
         };
 
-        container.appendChild(b);
+        container.appendChild(btn);
+
     });
+
 }
 
 /* =========================
-   PREVIEW
+   PREVIEW MODE
 ========================= */
 
-function renderTopicPreviewMode(t){
+function renderTopicPreviewMode(topic){
 
     document
-        .querySelectorAll('.tab-pane-view')
-        .forEach(p=>p.classList.add('hidden'));
+    .querySelectorAll('.tab-pane-view')
+    .forEach(p=>
+        p.classList.add('hidden')
+    );
 
     document
-        .getElementById('sec-preview')
-        .classList.remove('hidden');
+    .getElementById('sec-preview')
+    .classList.remove('hidden');
 
     safeText(
         "preview-heading-title",
-        `Khái quát: ${t}`
+        `Khái quát: ${topic}`
     );
 
     const container =
-        document.getElementById(
-            'preview-cards-scroller'
-        );
+    document.getElementById(
+        'preview-cards-scroller'
+    );
 
     container.innerHTML="";
 
-    currentWords.forEach(w=>{
+    currentWords.forEach(word=>{
 
-        let div=document.createElement('div');
+        const div =
+        document.createElement('div');
 
         div.className='preview-card';
 
         div.innerHTML=
-`
-<div class="preview-main">
+        `
+        <div class="preview-main">
 
-    <div>
+            <div>
 
-        <div class="preview-cn">
-            ${w.cn}
+                <div class="preview-cn">
+                    ${word.cn}
+                </div>
+
+                <div class="preview-py">
+                    ${word.py}
+                </div>
+
+            </div>
+
+            <div class="preview-vn">
+                ${word.vn}
+            </div>
+
         </div>
 
-        <div class="preview-py">
-            ${w.py}
+        <div class="preview-divider"></div>
+
+        <div class="preview-ex-cn">
+            ${word.ex_cn}
         </div>
 
-    </div>
+        <div class="preview-ex-py">
+            ${word.ex_py}
+        </div>
 
-    <div class="preview-vn">
-        ${w.vn}
-    </div>
-
-</div>
-
-<div class="preview-divider"></div>
-
-<div class="preview-ex-cn">
-    ${w.ex_cn}
-</div>
-
-<div class="preview-ex-py">
-    ${w.ex_py}
-</div>
-
-<div class="preview-ex-vn">
-    ${w.ex_vn}
-</div>
-`;
+        <div class="preview-ex-vn">
+            ${word.ex_vn}
+        </div>
+        `;
 
         container.appendChild(div);
+
     });
+
 }
 
 function activateLearningWorkflow(){
 
     document
-        .getElementById('sec-preview')
-        .classList.add('hidden');
+    .getElementById('sec-preview')
+    .classList.add('hidden');
 
     document
-        .getElementById('sec-home')
-        .classList.remove('hidden');
-}
+    .getElementById('sec-home')
+    .classList.remove('hidden');
 
+}
+    
 /* =========================
-   SKILL
+   SKILL MODE
 ========================= */
 
-function toggleWorkflowSkill(s){
+function toggleWorkflowSkill(skill){
 
-    activeSkillMode=s;
+    activeSkillMode = skill;
 
     document
-        .querySelectorAll('.skill-tab-btn')
-        .forEach(b=>b.classList.remove('active'));
+    .querySelectorAll('.skill-btn')
+    .forEach(btn=>{
 
-    const btnMap={
+        btn.classList.remove('active');
+
+    });
+
+    const map={
+
         write:'sk-tab-write',
         read:'sk-tab-read',
         listen:'sk-tab-listen',
         speak:'sk-tab-speak'
+
     };
 
-    const btn=document.getElementById(btnMap[s]);
+    const activeBtn =
+    document.getElementById(
+        map[skill]
+    );
 
-    if(btn) btn.classList.add('active');
+    if(activeBtn){
+
+        activeBtn.classList.add('active');
+
+    }
 
     if(currentActiveTopicName!==""){
+
         initStudyEngineView();
+
     }
 }
 
@@ -1350,24 +1602,35 @@ function toggleWorkflowSkill(s){
 
 function initStudyEngineView(){
 
-    if(currentWords.length===0) return;
+    if(currentWords.length===0){
+        return;
+    }
 
     activeIdx=0;
 
     document
-        .querySelectorAll('.tab-pane-view')
-        .forEach(p=>p.classList.add('hidden'));
+    .querySelectorAll('.tab-pane-view')
+    .forEach(p=>{
+
+        p.classList.add('hidden');
+
+    });
 
     document
-        .getElementById('study-engine-board')
-        .classList.remove('hidden');
+    .getElementById('study-engine-board')
+    .classList.remove('hidden');
 
     refreshEngineCardLayoutData();
 }
 
+/* =========================
+   LOAD WORD
+========================= */
+
 function refreshEngineCardLayoutData(){
 
-    const w=currentWords[activeIdx];
+    const word =
+    currentWords[activeIdx];
 
     safeText(
         'engine-header-title',
@@ -1379,480 +1642,1074 @@ function refreshEngineCardLayoutData(){
         `${activeIdx+1}/${currentWords.length}`
     );
 
+    /* vocab */
+
     safeHTML(
         'v-main-text',
-        (w.cn || "")
-            .split("")
-            .map(c=>`<span>${c}</span>`)
-            .join("")
+
+        (word.cn || "")
+        .split("")
+        .map(c=>`<span>${c}</span>`)
+        .join("")
+
     );
 
-    safeText('v-py-text',w.py || "");
-    safeText('v-vn-text',w.vn || "");
+    safeText(
+        'v-py-text',
+        word.py || ""
+    );
+
+    safeText(
+        'v-vn-text',
+        word.vn || ""
+    );
+
+    /* example */
 
     safeHTML(
         'e-main-text',
-        (w.ex_cn || "")
-            .split("")
-            .map(c=>`<span>${c}</span>`)
-            .join("")
+
+        (word.ex_cn || "")
+        .split("")
+        .map(c=>`<span>${c}</span>`)
+        .join("")
+
     );
 
-    safeText('e-py-text',w.ex_py || "");
-    safeText('e-vn-text',w.ex_vn || "");
+    safeText(
+        'e-py-text',
+        word.ex_py || ""
+    );
+
+    safeText(
+        'e-vn-text',
+        word.ex_vn || ""
+    );
+
+    /* reset panels */
 
     [
+
         'panel-write',
         'panel-read',
         'panel-listen',
         'panel-speak',
         'reveal-card-zone',
         'panel-radical-analysis'
-    ].forEach(id=>{
-        const el=document.getElementById(id);
-        if(el) el.classList.add('hidden');
+
+    ]
+
+    .forEach(id=>{
+
+        const el =
+        document.getElementById(id);
+
+        if(el){
+
+            el.classList.add('hidden');
+
+        }
+
     });
 
+    /* mode */
+
     if(activeSkillMode==='write'){
+
         document
-            .getElementById('panel-write')
-            .classList.remove('hidden');
+        .getElementById('panel-write')
+        .classList.remove('hidden');
+
     }
 
     if(activeSkillMode==='read'){
-        document
-            .getElementById('panel-read')
-            .classList.remove('hidden');
 
-        buildFourMultipleChoicesOptions(w.vn);
+        document
+        .getElementById('panel-read')
+        .classList.remove('hidden');
+
+        buildFourMultipleChoicesOptions(
+            word.vn
+        );
+
     }
 
     if(activeSkillMode==='listen'){
 
         currentActiveSentenceTarget =
-            w.ex_cn || "";
+        word.ex_cn || "";
 
         document
-            .getElementById('panel-listen')
-            .classList.remove('hidden');
+        .getElementById('panel-listen')
+        .classList.remove('hidden');
+
+        buildListenPuzzleLayout(
+            currentActiveSentenceTarget
+        );
+
+    }
+
+    if(activeSkillMode==='speak'){
+
+        document
+        .getElementById('panel-speak')
+        .classList.remove('hidden');
+
+    }
+
+    /* radical click */
+
+    setTimeout(()=>{
+
+        const chars =
+        document.querySelectorAll(
+            '.zh-main span'
+        );
+
+        chars.forEach(char=>{
+
+            char.onclick=()=>{
+
+                executeAIRadicalAnalyzer(
+                    char.innerText
+                );
+
+            };
+
+        });
+
+    },100);
+
+}
+
+/* =========================
+   RADICAL ANALYZER
+========================= */
+
+function executeAIRadicalAnalyzer(char){
+
+    const panel =
+    document.getElementById(
+        'panel-radical-analysis'
+    );
+
+    let html="";
+
+    const parts =
+    AI_Decomposition_Matrix_Map[
+        char
+    ] || [];
+
+    if(parts.length>0){
+
+        parts.forEach(part=>{
+
+            if(
+                TM_Radicals_Dict[part]
+            ){
+
+                html +=
+                `
+                <p>
+
+                    ➔ <b>${part}</b>
+
+                    :
+                    ${TM_Radicals_Dict[part]}
+
+                </p>
+                `;
+
+            }
+
+        });
+
+    }
+
+    else{
+
+        html=
+        `
+        <p>
+            Không có dữ liệu phân tích.
+        </p>
+        `;
+    }
+
+    panel.innerHTML=
+    `
+    <h3>
+        🤖 Phân tích chữ:
+        ${char}
+    </h3>
+
+    ${html}
+    `;
+
+    panel.classList.remove('hidden');
+
+}
+
+
+<!-- =========================================================
+PART 4 — STUDY ENGINE + QUIZ + RADICAL SYSTEM
+DÁN TIẾP NGAY SAU PART 3
+========================================================= -->
+
+<script>
+
+/* =========================================================
+GLOBAL VARIABLES
+========================================================= */
+
+let globalDatabase =
+JSON.parse(localStorage.getItem("zh_master_db")) || [];
+
+let activeSkillMode = "";
+let currentWords = [];
+let activeIdx = 0;
+let currentActiveTopicName = "";
+
+let puzzleSelectedChips = [];
+let currentActiveSentenceTarget = "";
+
+/* =========================================================
+SAFE DOM
+========================================================= */
+
+function safeText(id,val){
+
+    const el=document.getElementById(id);
+
+    if(el){
+        el.innerText=val;
+    }
+}
+
+function safeHTML(id,val){
+
+    const el=document.getElementById(id);
+
+    if(el){
+        el.innerHTML=val;
+    }
+}
+
+/* =========================================================
+RADICAL DICT
+========================================================= */
+
+const TM_Radicals_Dict = {
+
+"一": "Bộ Nhất - số một, khởi đầu.",
+"丨": "Bộ Cổn - nét sổ dọc.",
+"丶": "Bộ Chủ - dấu chấm.",
+"丿": "Bộ Phiệt - nét phẩy.",
+"乙": "Bộ Ất - thiên can thứ hai.",
+"亅": "Bộ Quyết - nét móc.",
+"二": "Bộ Nhị - đại diện cho âm dương.",
+"亠": "Bộ Đầu - nét chấm đầu gạch ngang.",
+"人": "Bộ Nhân - con người.",
+"亻": "Nhân đứng - hành động con người.",
+"儿": "Bộ Nhi - trẻ em.",
+"入": "Bộ Nhập - đi vào.",
+"八": "Bộ Bát - phân chia.",
+"冂": "Bộ Quynh - bao quanh.",
+"冖": "Bộ Mịch - khăn trùm.",
+"冫": "Bộ Băng - nước đá.",
+"几": "Bộ Kỷ - ghế dựa.",
+"凵": "Bộ Khảm - hố lõm.",
+"刀": "Bộ Đao - con dao.",
+"刂": "Đao đứng - cắt gọt.",
+"力": "Bộ Lực - sức mạnh.",
+"勹": "Bộ Bao - bao bọc.",
+"匕": "Bộ Chủy - cái thìa.",
+"匚": "Bộ Phương - hộp chứa.",
+"十": "Bộ Thập - số mười.",
+"卜": "Bộ Bốc - bói toán.",
+"卩": "Bộ Tiết - đốt tre.",
+"厂": "Bộ Hán - vách núi.",
+"厶": "Bộ Tư - riêng tư.",
+"又": "Bộ Hựu - bàn tay phải.",
+"口": "Bộ Khẩu - cái miệng.",
+"囗": "Bộ Vi - bao quanh.",
+"土": "Bộ Thổ - đất.",
+"士": "Bộ Sĩ - học trò.",
+"夂": "Bộ Truy - đi chậm.",
+"夕": "Bộ Tịch - buổi tối.",
+"大": "Bộ Đại - to lớn.",
+"女": "Bộ Nữ - phụ nữ.",
+"子": "Bộ Tử - đứa trẻ.",
+"宀": "Bộ Miên - mái nhà.",
+"寸": "Bộ Thốn - tấc.",
+"小": "Bộ Tiểu - nhỏ.",
+"尸": "Bộ Thi - xác.",
+"山": "Bộ Sơn - núi.",
+"川": "Bộ Xuyên - sông.",
+"工": "Bộ Công - công việc.",
+"己": "Bộ Kỷ - bản thân.",
+"巾": "Bộ Cân - khăn.",
+"干": "Bộ Can - cái khiên.",
+"幺": "Bộ Yêu - nhỏ bé.",
+"广": "Bộ Quảng - mái che.",
+"廴": "Bộ Dẫn - bước dài.",
+"廾": "Bộ Củng - hai tay chắp lại.",
+"弋": "Bộ Dực - cái cọc tre.",
+"弓": "Bộ Cung - cây cung.",
+"彡": "Bộ Sâm - lông tóc dài.",
+"彳": "Bộ Xích - bước chân.",
+"心": "Bộ Tâm - trái tim.",
+"忄": "Tâm đứng - cảm xúc.",
+"戈": "Bộ Qua - binh khí.",
+"户": "Bộ Hộ - cửa gia đình.",
+"手": "Bộ Thủ - bàn tay.",
+"扌": "Thủ đứng - động tác tay.",
+"日": "Bộ Nhật - mặt trời.",
+"曰": "Bộ Viết - nói rằng.",
+"月": "Bộ Nguyệt - mặt trăng.",
+"木": "Bộ Mộc - cây.",
+"欠": "Bộ Khiếm - thiếu.",
+"止": "Bộ Chỉ - dừng lại.",
+"歹": "Bộ Tịch/Đãi - chết chóc.",
+"殳": "Bộ Thù - vũ khí.",
+"毋": "Bộ Vô - chớ có.",
+"比": "Bộ Tỷ - so sánh.",
+"毛": "Bộ Mao - lông.",
+"氏": "Bộ Thị - họ tộc.",
+"气": "Bộ Khí - hơi khí.",
+"水": "Bộ Thủy - nước.",
+"氵": "Thủy đứng - liên quan nước.",
+"火": "Bộ Hỏa - lửa.",
+"灬": "Hỏa dưới - lửa phía dưới.",
+"爪": "Bộ Trảo - móng vuốt.",
+"父": "Bộ Phụ - cha.",
+"爻": "Bộ Hào - các vạch hào kinh dịch.",
+"爿": "Bộ Tường - mảnh gỗ xẻ.",
+"片": "Bộ Phiến - mảnh.",
+"牙": "Bộ Nha - răng.",
+"牛": "Bộ Ngưu - trâu bò.",
+"犬": "Bộ Khuyển - chó.",
+"犭": "Khuyển đứng - động vật.",
+"玄": "Bộ Huyền - màu đen kỳ ảo.",
+"玉": "Bộ Ngọc - ngọc quý.",
+"王": "Bộ Vương - vua.",
+"甘": "Bộ Cam - ngọt.",
+"生": "Bộ Sinh - sinh ra.",
+"用": "Bộ Dụng - sử dụng.",
+"田": "Bộ Điền - ruộng.",
+"疒": "Bộ Tật/Nạch - bệnh.",
+"癶": "Bộ Bát - hai bàn chân rẽ hướng.",
+"白": "Bộ Bạch - màu trắng.",
+"皮": "Bộ Bì - da.",
+"皿": "Bộ Mãnh - đồ đựng.",
+"目": "Bộ Mục - mắt.",
+"矛": "Bộ Mâu - giáo.",
+"矢": "Bộ Thỉ - mũi tên.",
+"石": "Bộ Thạch - đá.",
+"示": "Bộ Thị - thần linh.",
+"禸": "Bộ Nhựu - dấu chân thú.",
+"禾": "Bộ Hòa - lúa.",
+"穴": "Bộ Huyệt - hang.",
+"立": "Bộ Lập - đứng.",
+"竹": "Bộ Trúc - tre.",
+"米": "Bộ Mễ - gạo.",
+"糸": "Bộ Mịch - sợi tơ.",
+"纟": "Mịch giản thể - tơ.",
+"缶": "Bộ Phẫu - bình gốm.",
+"网": "Bộ Võng - lưới.",
+"羊": "Bộ Dương - dê.",
+"羽": "Bộ Vũ - lông cánh.",
+"老": "Bộ Lão - già.",
+"耳": "Bộ Nhĩ - tai.",
+"自": "Bộ Tự - bản thân.",
+"至": "Bộ Chí - đến.",
+"艹": "Bộ Thảo - cỏ.",
+"虫": "Bộ Trùng - sâu bọ.",
+"行": "Bộ Hành - đi lại.",
+"衣": "Bộ Y - quần áo.",
+"衤": "Y đứng - quần áo.",
+"见": "Bộ Kiến - nhìn thấy.",
+"角": "Bộ Giác - sừng.",
+"讠": "Ngôn giản thể - lời nói.",
+"贝": "Bối giản thể - tiền tài.",
+"走": "Bộ Tẩu - chạy.",
+"足": "Bộ Túc - chân.",
+"身": "Bộ Thân - cơ thể.",
+"车": "Bộ Xa - xe.",
+"辶": "Bộ Sước - đi xa.",
+"里": "Bộ Lý - dặm đường.",
+"金": "Bộ Kim - kim loại.",
+"钅": "Kim giản thể - kim loại.",
+"门": "Bộ Môn - cửa.",
+"隹": "Bộ Chuy - chim đuôi ngắn.",
+"雨": "Bộ Vũ - mưa.",
+"饣": "Bộ Thực giản thể - ăn uống.",
+"马": "Bộ Mã - ngựa.",
+"鱼": "Bộ Ngư - cá.",
+"鸟": "Bộ Điểu - chim.",
+"云": "Bộ Vân - đám mây.",
+"鬲": "Bộ Cách - cái vạc/nồi.",
+"鼓": "Bộ Cổ - cái trống.",
+"龠": "Bộ Dược - sáo/ống thổi.",
+"鼎": "Bộ Đỉnh - cái đỉnh.",
+"页": "Bộ Hiệt - cái đầu.",
+"镸": "Bộ Trường - dài.",
+"鬯": "Bộ Sưởng - rượu thơm.",
+"髟": "Bộ Bưu - lông dài trên đầu.",
+"麻": "Bộ Ma - cây gai.",
+"鹿": "Bộ Lộc - con hươu.",
+"鼻": "Bộ Tỵ - cái mũi.",
+"鼠": "Bộ Thử - con chuột.",
+"黑": "Bộ Hắc - màu đen.",
+"亀": "Bộ Quy - con rùa."
+};
+
+/* =========================
+   DECOMPOSITION MAP
+========================= */
+
+const AI_Decomposition_Matrix_Map = {
+
+"你": ["亻", "尔"],
+"好": ["女", "子"],
+"妈": ["女", "马"],
+"她": ["女", "也"],
+"他": ["亻", "也"],
+"们": ["亻", "门"],
+"位": ["亻", "立"],
+
+"我": ["手", "戈"],
+"找": ["扌", "戈"],
+"打": ["扌", "丁"],
+"看": ["手", "目"],
+"想": ["木", "目", "心"],
+"修": ["亻", "夂", "彡"],
+"改": ["己", "攵"],
+"会": ["人", "云"],
+
+"问": ["门", "口"],
+"间": ["门", "日"],
+"听": ["口", "斤"],
+"说": ["讠", "兑"],
+"话": ["讠", "舌"],
+"请": ["讠", "青"],
+"谢": ["讠", "身", "寸"],
+"认": ["讠", "人"],
+"识": ["讠", "只"],
+"语": ["讠", "吾"],
+"计": ["讠", "十"],
+"证": ["讠", "止", "一"],
+
+"吃": ["口", "乞"],
+"喝": ["口", "曷"],
+"唱": ["口", "昌"],
+"叫": ["口", "丩"],
+"吗": ["口", "马"],
+"饭": ["饣", "反"],
+"菜": ["艹", "采"],
+"茶": ["艹", "人", "木"],
+"酒": ["氵", "酉"],
+
+"明": ["日", "月"],
+"晚": ["日", "免"],
+"昨": ["日", "乍"],
+"时": ["日", "寸"],
+"春": ["三", "人", "日"],
+"电": ["日", "乚"],
+"河": ["氵", "可"],
+"海": ["氵", "每"],
+"洗": ["氵", "先"],
+"热": ["灬", "执"],
+"动": ["云", "力"],
+
+"林": ["木", "木"],
+"森": ["木", "木", "木"],
+"杯": ["木", "不"],
+"校": ["木", "交"],
+"桌": ["木", "卓"],
+"材": ["木", "才"],
+"核": ["木", "亥"],
+"家": ["宀", "豕"],
+"房": ["户", "方"],
+"安": ["宀", "女"],
+"学": ["冖", "子"],
+"店": ["广", "占"],
+"门": ["门"],
+"坐": ["土", "人"],
+
+"猫": ["犭", "苗"],
+"狗": ["犭", "句"],
+"猪": ["犭", "者"],
+"鱼": ["鱼"],
+"鸟": ["鸟"],
+"钱": ["钅", "戋"],
+"银": ["钅", "艮"],
+"错": ["钅", "昔"],
+"钢": ["钅", "冈"],
+"跑": ["足", "包"],
+"路": ["足", "各"],
+"跟": ["足", "艮"],
+"跳": ["足", "兆"],
+"车": ["车"],
+"国": ["囗", "玉"],
+"园": ["囗", "元"],
+"图": ["囗", "冬"],
+"回": ["囗", "口"],
+"衣": ["衣"],
+"裤": ["衤", "库"],
+"鞋": ["革", "圭"],
+"帽": ["巾", "冒"],
+"开": ["一", "廾"],
+"关": ["丷", "天"],
+"算": ["竹", "目", "廾"],
+"理": ["王", "里"],
+"经": ["纟", "工"],
+"定": ["宀", "疋"],
+"劳": ["宀", "艹", "力"],
+"职": ["耳", "口"],
+"同": ["冂", "口"],
+"在": ["土", "丿"],
+"正": ["止", "一"],
+"是": ["日", "疋"]
+};
+
+/* =========================================================
+STUDY ENGINE
+========================================================= */
+
+function initStudyEngineView(){
+
+    if(currentWords.length===0){
+        return;
+    }
+
+    activeIdx=0;
+
+    document
+    .querySelectorAll(".tab-pane-view")
+    .forEach(el=>{
+        el.classList.add("hidden");
+    });
+
+    document
+    .getElementById("study-engine-board")
+    .classList.remove("hidden");
+
+    refreshEngineCardLayoutData();
+}
+
+function refreshEngineCardLayoutData(){
+
+    const w=currentWords[activeIdx];
+
+    safeText(
+        "engine-header-title",
+        `Học ${activeSkillMode.toUpperCase()}`
+    );
+
+    safeText(
+        "engine-progress-counter",
+        `${activeIdx+1}/${currentWords.length}`
+    );
+
+    safeHTML(
+        "v-main-text",
+        buildChineseClickable(w.cn)
+    );
+
+    safeText("v-py-text",w.py || "");
+    safeText("v-vn-text",w.vn || "");
+
+    safeHTML(
+        "e-main-text",
+        buildChineseClickable(w.ex_cn)
+    );
+
+    safeText("e-py-text",w.ex_py || "");
+    safeText("e-vn-text",w.ex_vn || "");
+
+    hideAllStudyPanels();
+
+    if(activeSkillMode==="write"){
+
+        document
+        .getElementById("panel-write")
+        .classList.remove("hidden");
+    }
+
+    if(activeSkillMode==="read"){
+
+        document
+        .getElementById("panel-read")
+        .classList.remove("hidden");
+
+        buildFourMultipleChoicesOptions(w.vn);
+    }
+
+    if(activeSkillMode==="listen"){
+
+        document
+        .getElementById("panel-listen")
+        .classList.remove("hidden");
+
+        currentActiveSentenceTarget =
+        w.ex_cn || "";
 
         buildListenPuzzleLayout(
             currentActiveSentenceTarget
         );
     }
 
-    if(activeSkillMode==='speak'){
+    if(activeSkillMode==="speak"){
+
         document
-            .getElementById('panel-speak')
-            .classList.remove('hidden');
+        .getElementById("panel-speak")
+        .classList.remove("hidden");
     }
 
-    setTimeout(()=>{
-
-        const els =
-            document.querySelectorAll(
-                '.zh-main span'
-            );
-
-        els.forEach(s=>{
-            s.onclick=()=>{
-                executeAIRadicalAnalyzer(
-                    s.innerText
-                );
-            };
-        });
-
-    },100);
+    bindChineseCharEvents();
 }
 
-/* =========================
-   RADICAL AI
-========================= */
+function buildChineseClickable(text){
+
+    if(!text) return "";
+
+    return text
+    .split("")
+    .map(ch=>{
+
+        if(/[\u4e00-\u9fa5]/.test(ch)){
+
+            return `
+            <span class="zh-char">
+                ${ch}
+            </span>
+            `;
+        }
+
+        return ch;
+
+    }).join("");
+}
+
+function hideAllStudyPanels(){
+
+    [
+        "panel-write",
+        "panel-read",
+        "panel-listen",
+        "panel-speak",
+        "reveal-card-zone",
+        "panel-radical-analysis"
+    ]
+    .forEach(id=>{
+
+        const el=document.getElementById(id);
+
+        if(el){
+            el.classList.add("hidden");
+        }
+    });
+}
+
+/* =========================================================
+CLICK CHARACTER
+========================================================= */
+
+function bindChineseCharEvents(){
+
+    const chars =
+    document.querySelectorAll(".zh-char");
+
+    chars.forEach(el=>{
+
+        el.onclick=()=>{
+
+            executeAIRadicalAnalyzer(
+                el.innerText
+            );
+        };
+    });
+}
+
+/* =========================================================
+RADICAL ANALYZER
+========================================================= */
 
 function executeAIRadicalAnalyzer(char){
 
     const box =
-        document.getElementById(
-            'panel-radical-analysis'
-        );
+    document.getElementById(
+        "panel-radical-analysis"
+    );
 
     let html="";
 
     let parts =
-        AI_Decomposition_Matrix_Map[char] || [];
+    AI_Decomposition_Matrix_Map[char] || [];
 
-    if(parts.length>0){
+    if(parts.length===0){
 
-        parts.forEach(p=>{
-
-            if(TM_Radicals_Dict[p]){
-
-                html+=
-                `<p>
-                    ➔ ${p} :
-                    ${TM_Radicals_Dict[p]}
-                 </p>`;
-            }
-        });
+        html=`
+        <p>
+        Không có dữ liệu phân tích.
+        </p>
+        `;
 
     }else{
 
-        html="<p>Không có dữ liệu.</p>";
+        parts.forEach(part=>{
+
+            html+=`
+            <div class="radical-row">
+
+                <div class="radical-char">
+                    ${part}
+                </div>
+
+                <div class="radical-desc">
+                    ${
+                        TM_Radicals_Dict[part]
+                        || "Không có mô tả"
+                    }
+                </div>
+
+            </div>
+            `;
+        });
     }
 
-    box.innerHTML=
-    `
-    <h3>🤖 Phân tích: ${char}</h3>
+    box.innerHTML=`
+
+    <h3>
+    🤖 Phân tích chữ:
+    ${char}
+    </h3>
+
     ${html}
+
     `;
 
-    box.classList.remove('hidden');
+    box.classList.remove("hidden");
 }
 
-/* =========================
-   READ
-========================= */
+</script>
+<!-- =========================================================
+PART 6 — TEST MODE + NAVIGATION + INIT
+DÁN TIẾP NGAY SAU PART 5
+========================================================= -->
 
-function buildFourMultipleChoicesOptions(correct){
+<script>
 
-    const box =
-        document.getElementById(
-            'rd-quiz-options-wrapper'
-        );
+/* =========================================================
+TEST VARIABLES
+========================================================= */
 
-    box.innerHTML="";
+let testIdx = 0;
+let testScore = 0;
 
-    let opts=[correct];
-
-    let pool =
-        globalDatabase.filter(
-            w=>w.vn!==correct
-        );
-
-    while(opts.length<4 && pool.length>0){
-
-        let r =
-            pool[
-                Math.floor(
-                    Math.random()*pool.length
-                )
-            ].vn;
-
-        if(!opts.includes(r)){
-            opts.push(r);
-        }
-    }
-
-    opts.sort(()=>Math.random()-0.5);
-
-    opts.forEach(opt=>{
-
-        let b=document.createElement('button');
-
-        b.className='quiz-option-btn';
-
-        b.innerText=opt;
-
-        b.onclick=()=>{
-            document
-                .getElementById('reveal-card-zone')
-                .classList.remove('hidden');
-        };
-
-        box.appendChild(b);
-    });
-}
-
-/* =========================
-   LISTEN
-========================= */
-
-function buildListenPuzzleLayout(sentence){
-
-    puzzleSelectedChips=[];
-
-    const pool =
-        document.getElementById(
-            'l-puzzle-pool'
-        );
-
-    const drop =
-        document.getElementById(
-            'l-puzzle-drop'
-        );
-
-    pool.innerHTML="";
-    drop.innerHTML="";
-
-    let chips =
-        sentence
-            .split("")
-            .filter(c=>!/[\s]/.test(c));
-
-    chips.sort(()=>Math.random()-0.5);
-
-    chips.forEach(c=>{
-
-        let div=document.createElement('div');
-
-        div.className='puzzle-chip';
-
-        div.innerText=c;
-
-        div.onclick=()=>{
-
-            div.classList.add('used');
-
-            let d=document.createElement('div');
-
-            d.className='puzzle-chip';
-
-            d.innerText=c;
-
-            drop.appendChild(d);
-
-            puzzleSelectedChips.push(c);
-        };
-
-        pool.appendChild(div);
-    });
-}
-
-function verifyListenPuzzle(){
-
-    document
-        .getElementById('reveal-card-zone')
-        .classList.remove('hidden');
-}
-
-/* =========================
-   WRITE
-========================= */
-
-function verifyWriteAnswer(){
-
-    document
-        .getElementById('reveal-card-zone')
-        .classList.remove('hidden');
-}
-
-/* =========================
-   SPEAK
-========================= */
-
-function activateVoiceRecognition(){
-
-    if(!voiceRecognitionEngine){
-        alert("Browser không hỗ trợ voice");
-        return;
-    }
-
-    voiceRecognitionEngine.start();
-
-    safeText(
-        'mic-trigger-btn',
-        '🎙️ Đang nghe...'
-    );
-
-    voiceRecognitionEngine.onresult=(e)=>{
-
-        safeText(
-            'mic-trigger-btn',
-            '🎤 Bấm nói'
-        );
-
-        let speech =
-            e.results[0][0].transcript;
-
-        document
-            .getElementById('sp-feedback-msg')
-            .innerHTML=
-            `
-            Bạn nói:
-            <b>${speech}</b>
-            `;
-
-        document
-            .getElementById('reveal-card-zone')
-            .classList.remove('hidden');
-    };
-}
-
-/* =========================
-   NEXT
-========================= */
-
-function shiftNextWord(){
-
-    if(activeIdx<currentWords.length-1){
-
-        activeIdx++;
-
-        refreshEngineCardLayoutData();
-
-    }else{
-
-        alert("🎉 Hoàn thành!");
-
-        location.reload();
-    }
-}
-
-/* =========================
-   TEST
-========================= */
-
-let testIdx=0;
-let testScore=0;
+/* =========================================================
+TEST DASHBOARD
+========================================================= */
 
 function renderTestDashboard(){
 
-    let container =
-        document.getElementById(
-            'test-topic-container-list'
-        );
+    const container =
+    document.getElementById(
+        "test-topic-container-list"
+    );
 
     container.innerHTML="";
 
-    [...new Set(globalDatabase.map(d=>d.topic))]
-    .forEach(t=>{
+    const topics = [
+        ...new Set(
+            globalDatabase.map(d=>d.topic)
+        )
+    ];
 
-        let r=document.createElement('button');
+    topics.forEach(topic=>{
 
-        r.className='topic-item-row';
+        const btn =
+        document.createElement("button");
 
-        r.innerHTML=
-        `
-        <span>📋 ${t}</span>
-        <span>Bắt đầu →</span>
+        btn.className =
+        "topic-card";
+
+        btn.innerHTML=`
+
+        <div>
+
+            <div class="topic-title">
+                📝 ${topic}
+            </div>
+
+            <div class="topic-sub">
+                ${
+                    globalDatabase.filter(
+                        d=>d.topic===topic
+                    ).length
+                } từ vựng
+            </div>
+
+        </div>
+
+        <div class="topic-arrow">
+            ➜
+        </div>
+
         `;
 
-        r.onclick=()=>buildTestEngine(t);
+        btn.onclick=()=>{
 
-        container.appendChild(r);
+            buildTestEngine(topic);
+        };
+
+        container.appendChild(btn);
     });
 }
 
-function buildTestEngine(scope){
+/* =========================================================
+BUILD TEST
+========================================================= */
 
-    let pool=
-        globalDatabase.filter(
-            d=>d.topic===scope
-        );
+function buildTestEngine(topic){
 
-    currentWords=
-        pool.sort(()=>Math.random()-0.5)
-        .slice(0,10);
+    currentWords =
+    globalDatabase
+    .filter(d=>d.topic===topic)
+    .sort(()=>Math.random()-0.5)
+    .slice(0,10);
 
     testIdx=0;
     testScore=0;
 
     document
-        .querySelectorAll('.tab-pane-view')
-        .forEach(id=>id.classList.add('hidden'));
+    .querySelectorAll(".tab-pane-view")
+    .forEach(el=>{
+        el.classList.add("hidden");
+    });
 
     document
-        .getElementById('test-engine-board')
-        .classList.remove('hidden');
+    .getElementById("test-engine-board")
+    .classList.remove("hidden");
 
-    loadTestQ();
+    loadTestQuestion();
 }
 
-function loadTestQ(){
+/* =========================================================
+LOAD TEST QUESTION
+========================================================= */
 
-    let q=currentWords[testIdx];
+function loadTestQuestion(){
 
-    document
-        .getElementById(
-            'test-question-content-box'
-        ).innerHTML=
-        `
-        <h2>
-            ${testIdx+1}.
-            Nghĩa của ${q.cn} là gì?
-        </h2>
+    const q =
+    currentWords[testIdx];
+
+    const box =
+    document.getElementById(
+        "test-question-content-box"
+    );
+
+    box.innerHTML=`
+
+    <div class="test-box">
+
+        <div class="test-progress">
+
+            Câu ${testIdx+1}
+            / ${currentWords.length}
+
+        </div>
+
+        <div class="test-question">
+
+            Nghĩa của:
+
+            <div class="test-cn">
+                ${q.cn}
+            </div>
+
+        </div>
 
         <input
             id="t-ans"
-            placeholder="Nhập nghĩa..."
+            class="test-input"
+            placeholder="Nhập nghĩa tiếng Việt..."
         >
 
-        <button onclick="executeTestAnswerVerification()">
-            Trả lời
+        <button
+            class="test-submit-btn"
+            onclick="
+            executeTestAnswerVerification()
+            "
+        >
+            Kiểm tra
         </button>
-        `;
+
+    </div>
+
+    `;
 }
+
+/* =========================================================
+VERIFY TEST
+========================================================= */
 
 function executeTestAnswerVerification(){
 
-    let q=currentWords[testIdx];
+    const q =
+    currentWords[testIdx];
 
-    let ans=
-        document
-            .getElementById('t-ans')
-            .value
-            .trim()
-            .toLowerCase();
+    const ans =
+    document
+    .getElementById("t-ans")
+    .value
+    .trim()
+    .toLowerCase();
 
-    if(ans===q.vn.toLowerCase()){
+    const correct =
+    q.vn
+    .trim()
+    .toLowerCase();
+
+    if(ans===correct){
+
         testScore++;
-    }
 
-    if(testIdx<currentWords.length-1){
-
-        testIdx++;
-
-        loadTestQ();
+        alert("✅ Chính xác");
 
     }else{
 
-        alert(
-            `🎉 Kết quả:
-            ${testScore}/${currentWords.length}`
-        );
+        alert(`
+❌ Sai rồi
 
-        location.reload();
+Đáp án:
+${q.vn}
+        `);
+    }
+
+    if(
+        testIdx <
+        currentWords.length-1
+    ){
+
+        testIdx++;
+
+        loadTestQuestion();
+
+    }else{
+
+        renderFinalTestResult();
     }
 }
 
-/* =========================
-   NAV
-========================= */
+/* =========================================================
+FINAL RESULT
+========================================================= */
+
+function renderFinalTestResult(){
+
+    const percent =
+    Math.round(
+        (testScore/currentWords.length)*100
+    );
+
+    document
+    .getElementById(
+        "test-question-content-box"
+    )
+    .innerHTML=`
+
+    <div class="final-score-box">
+
+        <div class="final-score-title">
+            🎉 Hoàn thành bài kiểm tra
+        </div>
+
+        <div class="final-score-number">
+            ${testScore}
+            /
+            ${currentWords.length}
+        </div>
+
+        <div class="final-score-percent">
+            ${percent}%
+        </div>
+
+        <button
+            class="restart-btn"
+            onclick="changeMainTab('home')"
+        >
+            ← Về trang chủ
+        </button>
+
+    </div>
+
+    `;
+}
+
+/* =========================================================
+NAVIGATION
+========================================================= */
 
 function changeMainTab(tabName){
 
     document
-        .querySelectorAll('.nav-btn')
-        .forEach(b=>b.classList.remove('active'));
+    .querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+
+        btn.classList.remove("active");
+    });
 
     document
-        .querySelectorAll('.tab-pane-view')
-        .forEach(p=>p.classList.add('hidden'));
+    .querySelectorAll(".tab-pane-view")
+    .forEach(page=>{
+
+        page.classList.add("hidden");
+    });
+
+    const studyBoard =
+    document.getElementById(
+        "study-engine-board"
+    );
+
+    if(studyBoard){
+
+        studyBoard.classList.add("hidden");
+    }
+
+    const testBoard =
+    document.getElementById(
+        "test-engine-board"
+    );
+
+    if(testBoard){
+
+        testBoard.classList.add("hidden");
+    }
 
     document
-        .getElementById('study-engine-board')
-        .classList.add('hidden');
+    .getElementById(`nav-${tabName}`)
+    .classList.add("active");
 
     document
-        .getElementById('test-engine-board')
-        .classList.add('hidden');
+    .getElementById(`sec-${tabName}`)
+    .classList.remove("hidden");
 
-    document
-        .getElementById(`nav-${tabName}`)
-        .classList.add('active');
+    if(tabName==="home"){
 
-    document
-        .getElementById(`sec-${tabName}`)
-        .classList.remove('hidden');
-
-    if(tabName==='home'){
         renderHomeDashboard();
     }
 
-    if(tabName==='test'){
+    if(tabName==="test"){
+
         renderTestDashboard();
     }
 }
+
+/* =========================================================
+INIT
+========================================================= */
 
 renderHomeDashboard();
 
