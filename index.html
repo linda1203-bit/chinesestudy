@@ -885,9 +885,7 @@ d.topic===item.topic
         }
     }
 
-    localStorage.setItem(
-
-        try{
+    try{
 
     localStorage.setItem(
 
@@ -1302,6 +1300,8 @@ if(activeSkillMode === "read"){
     }
 
     bindChineseCharEvents();
+}
+
 }
 
 function buildChineseClickable(text){
@@ -2062,8 +2062,7 @@ function activateVoiceRecognition(){
 
     voiceRecognitionEngine.start();
 
-    voiceRecognitionEngine.onresult = null;
-    function(event){
+    voiceRecognitionEngine.onresult = function(event){
 
         const result =
         event.results[0][0]
@@ -2073,7 +2072,8 @@ function activateVoiceRecognition(){
         const normalize = str =>
     str.replace(/\s/g,"")
        .replace(/[，。！？,.!?]/g,"");
-{
+
+        if(normalize(result)===normalize(target)){
 
             safeText(
 
@@ -2101,8 +2101,7 @@ ${target}
         }
     };
 
-    voiceRecognitionEngine.onerror = null;
-    function(){
+    voiceRecognitionEngine.onerror = function(){
 
         safeText(
 
@@ -2377,7 +2376,6 @@ setTimeout(()=>{
     `;
 }
 
-</script>
 /* =========================================================
 PART 2 — STUDY ENGINE + QUIZ + SPEECH + RADICAL
 ========================================================= */
@@ -2710,6 +2708,7 @@ document.getElementById("study-engine-board")?.classList.remove("hidden");
     alert("🎉 Hoàn thành bài học");
     return;
 }
+}
 
 function resetAllStudyState(){
     puzzleSelectedChips = [];
@@ -2882,6 +2881,7 @@ document.addEventListener("click", (e)=>{
 
     executeAIRadicalAnalyzer(el.textContent.trim());
 });
+}
 
 /* =========================================================
 RADICAL ANALYZER
