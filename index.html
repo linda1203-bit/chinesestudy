@@ -2384,16 +2384,16 @@ PART 2 — STUDY ENGINE + QUIZ + SPEECH + RADICAL
 SPEECH
 ========================================================= */
 
-const SpeechRecognition =
+const SpeechRecognition2 =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
 let voiceRecognitionEngine = null;
 
-if(SpeechRecognition){
+if(SpeechRecognition2){
 
     voiceRecognitionEngine =
-    new SpeechRecognition();
+    new SpeechRecognition2();
 
     voiceRecognitionEngine.lang = 'zh-CN';
 voiceRecognitionEngine.maxAlternatives = 3;
