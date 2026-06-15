@@ -1252,108 +1252,6 @@ function startCurrentTopicStudy(){
     initStudyEngineView();
 }
 
-function refreshEngineCardLayoutData(){
-
-const board =
-document.getElementById(
-"study-engine-board"
-);
-
-if(!board){
-
-console.warn(
-"Study board chưa tồn tại"
-);
-
-return;
-}
-
-const els={
-
-card:
-document.getElementById(
-"engine-card"
-),
-
-cn:
-document.getElementById(
-"engine-cn"
-),
-
-py:
-document.getElementById(
-"engine-py"
-),
-
-vn:
-document.getElementById(
-"engine-vn"
-),
-
-progress:
-document.getElementById(
-"engine-progress"
-)
-
-};
-
-const missing =
-Object
-.entries(els)
-.filter(
-([k,v])=>!v
-);
-
-if(missing.length){
-
-console.warn(
-"Thiếu Study Engine DOM:",
-missing.map(
-x=>x[0]
-)
-);
-
-board.innerHTML=`
-
-<div
-style="
-padding:40px;
-font-size:34px;
-font-weight:700;
-"
->
-
-Study Engine
-
-</div>
-
-`;
-
-return;
-}
-
-const word =
-currentWords?.[
-activeIdx
-];
-
-if(!word){
-return;
-}
-
-els.cn.textContent=
-word.cn||"";
-
-els.py.textContent=
-word.py||"";
-
-els.vn.textContent=
-word.vn||"";
-
-els.progress.textContent=
-`${activeIdx+1}/${currentWords.length}`;
-
-}
 
 function buildChineseClickable(text){
 
@@ -2754,101 +2652,78 @@ REFRESH WORD
 
 function refreshEngineCardLayoutData(){
 
-    const word = currentWords?.[activeIdx];
+const board=
+document.getElementById(
+"study-engine-board"
+);
+
+if(!board){
+console.error("Missing study-engine-board");
+return;
+}
+
+const card=
+document.getElementById(
+"engine-card"
+);
+
+const cn=
+document.getElementById(
+"engine-cn"
+);
+
+const py=
+document.getElementById(
+"engine-py"
+);
+
+const vn=
+document.getElementById(
+"engine-vn"
+);
+
+const progress=
+document.getElementById(
+"engine-progress"
+);
+
+if(
+!card||
+!cn||
+!py||
+!vn||
+!progress
+){
+
+console.error(
+"Study Engine HTML thiếu"
+);
+
+return;
+}
+
+const word=
+currentWords[
+activeIdx
+];
 
 if(!word){
-    console.warn("No word at index", activeIdx);
-    return;
+return;
 }
 
-    safeText(
-        "engine-header-title",
-        `Học ${activeSkillMode.toUpperCase()}`
-    );
+cn.textContent=
+word.cn||"";
 
-    safeText(
-        "engine-progress-counter",
-        `${activeIdx+1}/${currentWords.length}`
-    );
+py.textContent=
+word.py||"";
 
-    safeHTML(
-        "v-main-text",
-        buildChineseClickable(word.cn)
-    );
+vn.textContent=
+word.vn||"";
 
-    safeText(
-        "v-py-text",
-        word.py || ""
-    );
+progress.textContent=
+`${activeIdx+1}/${currentWords.length}`;
 
-    safeText(
-        "v-vn-text",
-        word.vn || ""
-    );
-
-    safeHTML(
-        "e-main-text",
-        buildChineseClickable(word.ex_cn)
-    );
-
-    safeText(
-        "e-py-text",
-        word.ex_py || ""
-    );
-
-    safeText(
-        "e-vn-text",
-        word.ex_vn || ""
-    );
-
-    hideAllStudyPanels();
-
-    /* =====================
-       MODE
-    ===================== */
-
-    if(activeSkillMode==="write"){
-
-        document
-        .getElementById("panel-write")
-        .classList.remove("hidden");
-    }
-
-    if(activeSkillMode==="read"){
-
-        document
-        .getElementById("panel-read")
-        .classList.remove("hidden");
-
-        buildFourMultipleChoicesOptions(
-            word.vn
-        );
-const wrapper = document.getElementById("rd-quiz-options-wrapper");
-wrapper.replaceChildren();
-    }
-
-    if(activeSkillMode==="listen"){
-
-        document
-        .getElementById("panel-listen")
-        .classList.remove("hidden");
-
-        currentActiveSentenceTarget=
-        word.ex_cn || "";
-
-        buildListenPuzzleLayout(
-            currentActiveSentenceTarget
-        );
-    }
-
-    if(activeSkillMode==="speak"){
-
-        document
-        .getElementById("panel-speak")
-        .classList.remove("hidden");
-    }
 }
-
 /* =========================================================
 BUILD CHINESE CLICKABLE
 ========================================================= */
