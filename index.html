@@ -1219,7 +1219,16 @@ function initStudyEngineView(){
         "hidden"
     );
 
-    refreshEngineCardLayoutData?.();
+   try{
+
+refreshEngineCardLayoutData();
+
+}
+catch(e){
+
+console.error(e);
+
+}
 }
 
 function startCurrentTopicStudy(){
@@ -1241,112 +1250,79 @@ function startCurrentTopicStudy(){
 
 function refreshEngineCardLayoutData(){
 
-    const w =
-    currentWords[activeIdx];
-
-if(!w) return;
-
-    safeText(
-
-        "engine-header-title",
-
-        `Học ${activeSkillMode.toUpperCase()}`
-    );
-
-    safeText(
-
-        "engine-progress-counter",
-
-        `${activeIdx+1}/${currentWords.length}`
-    );
-
-    safeHTML(
-
-        "v-main-text",
-
-        buildChineseClickable(w.cn)
-    );
-
-    safeText(
-        "v-py-text",
-        w.py || ""
-    );
-
-    safeText(
-        "v-vn-text",
-        w.vn || ""
-    );
-
-    safeHTML(
-
-        "e-main-text",
-
-        buildChineseClickable(
-            w.ex_cn
-        )
-    );
-
-    safeText(
-        "e-py-text",
-        w.ex_py || ""
-    );
-
-    safeText(
-        "e-vn-text",
-        w.ex_vn || ""
-    );
-
-    hideAllStudyPanels();
-
-    if(activeSkillMode==="write"){
-
-        document
-        .getElementById(
-            "panel-write"
-        )
-        .classList.remove("hidden");
+    if(
+        !currentWords ||
+        currentWords.length===0
+    ){
+        return;
     }
 
-if(activeSkillMode === "read"){
+    const word =
+    currentWords[
+        activeIdx
+    ];
 
-    document
-        .getElementById("panel-read")
-        .classList.remove("hidden");
-
-    const wrapper = document.getElementById("rd-quiz-options-wrapper");
-    if(wrapper) wrapper.replaceChildren();
-
-    buildFourMultipleChoicesOptions(word.vn);
-}
-    if(activeSkillMode==="listen"){
-
-        document
-        .getElementById(
-            "panel-listen"
-        )
-        .classList.remove("hidden");
-
-        currentActiveSentenceTarget =
-        w.ex_cn || "";
-
-     if(currentActiveSentenceTarget){
-
-    buildListenPuzzleLayout(
-        currentActiveSentenceTarget
-    );
-}
-
-    if(activeSkillMode==="speak"){
-
-        document
-        .getElementById(
-            "panel-speak"
-        )
-        .classList.remove("hidden");
+    if(!word){
+        return;
     }
 
-    bindChineseCharEvents();
-}
+    const safeShow=(id)=>{
+
+        const el=
+        document.getElementById(
+            id
+        );
+
+        if(!el){
+
+            console.warn(
+                "Missing:",
+                id
+            );
+
+            return null;
+        }
+
+        return el;
+    };
+
+    safeText?.(
+        "study-cn",
+        word.cn || ""
+    );
+
+    safeText?.(
+        "study-py",
+        word.py || ""
+    );
+
+    safeText?.(
+        "study-vn",
+        word.vn || ""
+    );
+
+    safeText?.(
+        "study-example-cn",
+        word.ex_cn || ""
+    );
+
+    safeText?.(
+        "study-example-py",
+        word.ex_py || ""
+    );
+
+    safeText?.(
+        "study-example-vn",
+        word.ex_vn || ""
+    );
+
+    safeShow(
+        "study-engine-board"
+    )
+    ?.classList
+    .remove(
+        "hidden"
+    );
 
 }
 
