@@ -420,6 +420,17 @@ transition:.2s;
 
 </style>
 
+
+<style id="rebuilt-preview-style">
+.preview-wrap{padding:20px 40px}
+.preview-top{display:flex;align-items:center;justify-content:space-between;margin:20px 0}
+.preview-card{background:#f8fafc;border:1px solid #d6dfea;border-radius:18px;padding:22px;margin-bottom:16px}
+.preview-cn{font-size:28px;font-weight:700;color:#16345c}
+.preview-py{font-size:16px;color:#64748b}
+.preview-vn{font-size:18px;color:#f97316;font-weight:600;float:right}
+.topic-start-btn{background:#10b981;color:white;border:none;padding:12px 20px;border-radius:12px;cursor:pointer}
+</style>
+
 </head>
 
 <body>
@@ -1184,11 +1195,18 @@ function initStudyEngineView(){
         el.classList.add("hidden");
     });
 
-    document
-    .getElementById(
-        "study-engine-board"
-    )
-    .classList.remove("hidden");
+    const studyBoard =
+document.getElementById(
+"study-engine-board"
+);
+
+if(!studyBoard){
+
+    showHome();
+
+    return;
+}
+    studyBoard.classList.remove("hidden");
 
     refreshEngineCardLayoutData();
 }
@@ -2407,7 +2425,7 @@ voiceRecognitionEngine.maxAlternatives = 3;
 RADICAL DICT
 ========================================================= */
 
-const TM_Radicals_Dict={
+window.TM_Radicals_Dict={
 
 "一": "Bộ Nhất - số một, khởi đầu.",
 "丨": "Bộ Cổn - nét sổ dọc.",
@@ -2581,7 +2599,7 @@ const TM_Radicals_Dict={
 DECOMPOSITION
 ========================================================= */
 
-const AI_Decomposition_Matrix_Map={
+window.AI_Decomposition_Matrix_Map={
 
 "你": ["亻", "尔"],
 "好": ["女", "子"],
@@ -3250,8 +3268,8 @@ function shiftNextWord(){
 TEST MODE VARIABLES
 ========================================================= */
 
-let testIdx=0;
-let testScore=0;
+window.testIdx=window.testIdx||0;
+window.testScore=window.testScore||0;
 
 /* =========================================================
 RENDER TEST DASHBOARD
@@ -3625,6 +3643,92 @@ AUTO INIT
 renderHomeDashboard();
 
 </script>
+
+
+<section id="sec-preview" class="tab-pane-view hidden" style="padding:20px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;">
+    <button onclick="activateLearningWorkflow()">← Trang chủ</button>
+    <h2 id="preview-heading-title">Khái quát</h2>
+    <button id="btn-start-topic-study" onclick="initStudyEngineView()">🚀 Học chủ đề này</button>
+  </div>
+  <div id="preview-cards-scroller" style="max-height:70vh;overflow:auto;"></div>
+</section>
+
+
+<script>
+window.startTopicStudy=function(topicId){
+    sessionStorage.setItem('selectedTopicWords',JSON.stringify(window.currentWords||[]));
+    sessionStorage.setItem('selectedTopicName',window.currentActiveTopicName||'');
+    window.selectedTopicForStudy = topicId || window.currentActiveTopicName || null;
+
+    const preview=document.getElementById('sec-preview');
+    if(preview) preview.classList.add('hidden');
+
+    const workflow=document.getElementById('workflow-skill-section');
+    if(workflow) workflow.classList.remove('hidden');
+
+    const board=document.getElementById('study-engine-board');
+    if(board) board.classList.add('hidden');
+
+    if(typeof changeMainTab==='function'){
+      try{ changeMainTab('home'); }catch(e){}
+    }
+};
+</script>
+
+
+<script>
+document.addEventListener('click',function(e){
+ const btn=e.target.closest('#btn-start-topic-study');
+ if(!btn) return;
+ if(window.currentWords && currentWords.length){
+   sessionStorage.setItem('selectedTopicWords', JSON.stringify(currentWords));
+   sessionStorage.setItem('selectedTopicName', window.currentActiveTopicName||'');
+ }
+});
+(function(){
+ const orig=window.initStudyEngineView;
+ if(orig){
+   window.initStudyEngineView=function(){
+      if((!window.currentWords || currentWords.length===0)){
+        const saved=sessionStorage.getItem('selectedTopicWords');
+        if(saved){
+          try{ window.currentWords=JSON.parse(saved);}catch(e){}
+        }
+      }
+      if(!window.activeSkillMode || activeSkillMode===''){
+         activeSkillMode='read';
+      }
+      return orig.apply(this,arguments);
+   }
+ }
+})();
+</script>
+
+<script>
+(function(){
+ const orig=window.toggleWorkflowSkill;
+ if(orig){
+   window.toggleWorkflowSkill=function(skill){
+      const saved=sessionStorage.getItem('selectedTopicWords');
+      const topic=sessionStorage.getItem('selectedTopicName');
+      if(saved){
+        try{ window.currentWords=JSON.parse(saved);}catch(e){}
+      }
+      if(topic) window.currentActiveTopicName=topic;
+      return orig(skill);
+   }
+ }
+})();
+</script>
+
+
+<section id="study-engine-board" class="tab-pane-view hidden">
+  <div style="padding:20px">
+    <h2>Study Engine</h2>
+    <div id="engine-card-container"></div>
+  </div>
+</section>
 
 </body>
 </html>
