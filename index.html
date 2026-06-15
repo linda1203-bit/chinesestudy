@@ -1182,47 +1182,56 @@ STUDY ENGINE
 
 function initStudyEngineView(){
 
-    if(
-        !currentWords ||
-        currentWords.length===0
-    ){
-        alert("Không có dữ liệu học");
-        return;
-    }
+if(
+!currentWords||
+currentWords.length===0
+){
+alert(
+"Không có dữ liệu học"
+);
+return;
+}
 
-    resetAllStudyState();
+activeIdx=0;
 
-    activeIdx=0;
+document
+.querySelectorAll(
+".tab-pane-view"
+)
+.forEach(
+el=>
+el.classList.add(
+"hidden"
+)
+);
 
-    document
-    .querySelectorAll(
-        ".tab-pane-view"
-    )
-    .forEach(
-        e=>e.classList.add(
-            "hidden"
-        )
-    );
+const board=
+document.getElementById(
+"study-engine-board"
+);
 
-    const board =
-    document.getElementById(
-        "study-engine-board"
-    );
+if(!board){
 
-    if(!board){
+console.error(
+"Missing study-engine-board"
+);
 
-        console.error(
-            "Missing #study-engine-board"
-        );
+showHome();
 
-        return;
-    }
+return;
+}
 
-    board.classList.remove(
-        "hidden"
-    );
+board
+.classList
+.remove(
+"hidden"
+);
 
-    refreshEngineCardLayoutData();
+setTimeout(()=>{
+
+refreshEngineCardLayoutData();
+
+},0);
 
 }
 
@@ -1245,68 +1254,104 @@ function startCurrentTopicStudy(){
 
 function refreshEngineCardLayoutData(){
 
-    const board =
-    document.getElementById(
-        "study-engine-board"
-    );
+const board =
+document.getElementById(
+"study-engine-board"
+);
 
-    if(!board){
+if(!board){
 
-        console.warn(
-            "Missing #study-engine-board"
-        );
+console.warn(
+"Study board chưa tồn tại"
+);
 
-        return;
-    }
+return;
+}
 
-    const card =
-    document.getElementById(
-        "study-card"
-    );
+const els={
 
-    const progress =
-    document.getElementById(
-        "study-progress"
-    );
+card:
+document.getElementById(
+"engine-card"
+),
 
-    const nav =
-    document.getElementById(
-        "study-nav"
-    );
+cn:
+document.getElementById(
+"engine-cn"
+),
 
-    const answer =
-    document.getElementById(
-        "study-answer"
-    );
+py:
+document.getElementById(
+"engine-py"
+),
 
-    const footer =
-    document.getElementById(
-        "study-footer"
-    );
+vn:
+document.getElementById(
+"engine-vn"
+),
 
-    [
-        card,
-        progress,
-        nav,
-        answer,
-        footer
-    ]
-    .forEach(el=>{
+progress:
+document.getElementById(
+"engine-progress"
+)
 
-        if(!el){
+};
 
-            console.warn(
-                "Missing study element"
-            );
+const missing =
+Object
+.entries(els)
+.filter(
+([k,v])=>!v
+);
 
-            return;
-        }
+if(missing.length){
 
-        el.classList.remove(
-            "hidden"
-        );
+console.warn(
+"Thiếu Study Engine DOM:",
+missing.map(
+x=>x[0]
+)
+);
 
-    });
+board.innerHTML=`
+
+<div
+style="
+padding:40px;
+font-size:34px;
+font-weight:700;
+"
+>
+
+Study Engine
+
+</div>
+
+`;
+
+return;
+}
+
+const word =
+currentWords?.[
+activeIdx
+];
+
+if(!word){
+return;
+}
+
+els.cn.textContent=
+word.cn||"";
+
+els.py.textContent=
+word.py||"";
+
+els.vn.textContent=
+word.vn||"";
+
+els.progress.textContent=
+`${activeIdx+1}/${currentWords.length}`;
 
 }
 
@@ -3698,11 +3743,25 @@ document.addEventListener('click',function(e){
 </script>
 
 
-<section id="study-engine-board" class="tab-pane-view hidden">
-  <div style="padding:20px">
-    <h2>Study Engine</h2>
-    <div id="engine-card-container"></div>
-  </div>
+<section
+id="study-engine-board"
+class="
+tab-pane-view
+hidden
+">
+
+<div id="engine-progress"></div>
+
+<div id="engine-card">
+
+<div id="engine-cn"></div>
+
+<div id="engine-py"></div>
+
+<div id="engine-vn"></div>
+
+</div>
+
 </section>
 
 </body>
