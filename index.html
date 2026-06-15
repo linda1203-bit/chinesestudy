@@ -1145,23 +1145,20 @@ SKILL MODE
 function toggleWorkflowSkill(skill){
 
     console.log(
-        "SELECT SKILL:",
+        "START SKILL:",
         skill
     );
 
-    activeSkillMode =
-        skill;
+    activeSkillMode = skill;
 
     if(
         window.selectedTopicWords &&
         window.selectedTopicWords.length
     ){
-
         currentWords =
         [
             ...window.selectedTopicWords
         ];
-
     }
 
     if(
@@ -1176,7 +1173,37 @@ function toggleWorkflowSkill(skill){
         return;
     }
 
-    initStudyEngineView();
+    switch(skill){
+
+        case "write":
+
+            initStudyEngineView?.();
+
+            break;
+
+        case "read":
+
+            initReadingPractice?.();
+
+            break;
+
+        case "listen":
+
+            initListeningPractice?.();
+
+            break;
+
+        case "speak":
+
+            initSpeakingPractice?.();
+
+            break;
+
+        default:
+
+            initStudyEngineView?.();
+
+    }
 
 }
 
@@ -1291,6 +1318,23 @@ alert(
 
 }
 
+function initReadingPractice(){
+
+    initStudyEngineView();
+
+}
+
+function initListeningPractice(){
+
+    initStudyEngineView();
+
+}
+
+function initSpeakingPractice(){
+
+    initStudyEngineView();
+
+}
 
 function buildChineseClickable(text){
 
