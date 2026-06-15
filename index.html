@@ -1144,11 +1144,6 @@ SKILL MODE
 
 function toggleWorkflowSkill(skill){
 
-    console.log(
-        "START SKILL:",
-        skill
-    );
-
     activeSkillMode = skill;
 
     if(
@@ -1165,7 +1160,6 @@ function toggleWorkflowSkill(skill){
         !currentWords ||
         currentWords.length===0
     ){
-
         alert(
             "❌ Chưa chọn chủ đề"
         );
@@ -1173,37 +1167,85 @@ function toggleWorkflowSkill(skill){
         return;
     }
 
-    switch(skill){
+    document
+    .querySelectorAll(
+        ".tab-pane-view"
+    )
+    .forEach(
+        x=>
+        x.classList.add(
+            "hidden"
+        )
+    );
 
-        case "write":
+    const board =
+    document.getElementById(
+        "study-engine-board"
+    );
 
-            initStudyEngineView?.();
+    board.classList.remove(
+        "hidden"
+    );
 
-            break;
+    board.innerHTML="";
 
-        case "read":
+    const modeMap={
 
-            initReadingPractice?.();
+        write:"✍️ Luyện viết",
 
-            break;
+        read:"📖 Luyện đọc",
 
-        case "listen":
+        listen:"🔊 Luyện nghe",
 
-            initListeningPractice?.();
+        speak:"🎤 Luyện nói"
 
-            break;
+    };
 
-        case "speak":
+    board.innerHTML=`
 
-            initSpeakingPractice?.();
+<div
+style="
+padding:40px;
+text-align:center;
+"
+>
 
-            break;
+<h2>
 
-        default:
+${modeMap[skill]}
 
-            initStudyEngineView?.();
+</h2>
 
-    }
+<div
+style="
+font-size:44px;
+margin-top:40px;
+"
+>
+
+${currentWords[0].cn}
+
+</div>
+
+<div>
+
+${currentWords[0].py}
+
+</div>
+
+<div
+style="
+margin-top:20px;
+"
+>
+
+${currentWords[0].vn}
+
+</div>
+
+</div>
+
+`;
 
 }
 
@@ -1318,23 +1360,6 @@ alert(
 
 }
 
-function initReadingPractice(){
-
-    initStudyEngineView();
-
-}
-
-function initListeningPractice(){
-
-    initStudyEngineView();
-
-}
-
-function initSpeakingPractice(){
-
-    initStudyEngineView();
-
-}
 
 function buildChineseClickable(text){
 
