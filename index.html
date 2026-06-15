@@ -1037,6 +1037,15 @@ PREVIEW MODE
 
 function renderTopicPreviewMode(topic){
 
+    selectedTopicForStudy=
+        topic;
+
+    currentWords=
+        [...(
+            topicWordMap[topic]
+            ||[]
+        )];
+
     document
     .querySelectorAll(
         ".tab-pane-view"
@@ -1180,35 +1189,74 @@ STUDY ENGINE
 
 function initStudyEngineView(){
 
-    if(currentWords.length===0){
+    console.log("START STUDY");
+
+    if(
+        selectedTopicForStudy &&
+        topicWordMap &&
+        topicWordMap[selectedTopicForStudy]
+    ){
+
+        currentWords =
+        [...topicWordMap[selectedTopicForStudy]];
+    }
+
+    if(
+        !currentWords ||
+        currentWords.length===0
+    ){
+
+        alert(
+            "❌ Không có dữ liệu học"
+        );
+
         return;
     }
 
-    activeIdx = 0;
+    if(
+        typeof resetAllStudyState==="function"
+    ){
+        resetAllStudyState();
+    }
+
+    activeIdx=0;
 
     document
     .querySelectorAll(
         ".tab-pane-view"
     )
-    .forEach(el=>{
+    .forEach(
+        el=>el.classList.add(
+            "hidden"
+        )
+    );
 
-        el.classList.add("hidden");
-    });
+    const board =
+    document.getElementById(
+        "study-engine-board"
+    );
 
-    const studyBoard =
-document.getElementById(
-"study-engine-board"
-);
+    if(!board){
 
-if(!studyBoard){
+        console.error(
+            "Missing #study-engine-board"
+        );
 
-    showHome();
+        showHome?.();
 
-    return;
-}
-    studyBoard.classList.remove("hidden");
+        return;
+    }
 
-    refreshEngineCardLayoutData();
+    board.classList.remove(
+        "hidden"
+    );
+
+    refreshEngineCardLayoutData?.();
+
+    console.log(
+        "OPEN STUDY:",
+        currentWords.length
+    );
 }
 
 function refreshEngineCardLayoutData(){
@@ -2709,25 +2757,6 @@ window.AI_Decomposition_Matrix_Map={
 INIT STUDY ENGINE
 ========================================================= */
 
-function initStudyEngineView(){
-
-    if(!currentWords || currentWords.length === 0){
-    alert("❌ Không có dữ liệu học");
-    return;
-}
-
-    resetAllStudyState();
-activeIdx = 0;
-
-document.getElementById("sec-home")?.classList.add("hidden");
-document.getElementById("sec-preview")?.classList.add("hidden");
-document.getElementById("study-engine-board")?.classList.remove("hidden");
-    if(activeIdx >= currentWords.length){
-    alert("🎉 Hoàn thành bài học");
-    return;
-}
-}
-
 function resetAllStudyState(){
     puzzleSelectedChips = [];
     testIdx = 0;
@@ -3649,7 +3678,26 @@ renderHomeDashboard();
   <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;">
     <button onclick="activateLearningWorkflow()">← Trang chủ</button>
     <h2 id="preview-heading-title">Khái quát</h2>
-    <button id="btn-start-topic-study" onclick="initStudyEngineView()">🚀 Học chủ đề này</button>
+    <button id="btn-start-topic-study" btnStudy.onclick=()=>{
+
+    if(!selectedTopicForStudy){
+
+        alert(
+            "Chưa chọn chủ đề"
+        );
+
+        return;
+    }
+
+    currentWords=
+        [...(
+            topicWordMap[
+                selectedTopicForStudy
+            ]||[]
+        )];
+
+    initStudyEngineView();
+};>🚀 Học chủ đề này</button>
   </div>
   <div id="preview-cards-scroller" style="max-height:70vh;overflow:auto;"></div>
 </section>
