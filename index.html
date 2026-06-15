@@ -2935,78 +2935,26 @@ REFRESH WORD
 
 function refreshEngineCardLayoutData(){
 
-const board=
-document.getElementById(
-"study-engine-board"
-);
+    if(
+        activeSkillMode ===
+        "write"
+    ){
+        return;
+    }
 
-if(!board){
-console.error("Missing study-engine-board");
-return;
-}
+    const board =
+    document.getElementById(
+        "study-engine-board"
+    );
 
-const card=
-document.getElementById(
-"engine-card"
-);
-
-const cn=
-document.getElementById(
-"engine-cn"
-);
-
-const py=
-document.getElementById(
-"engine-py"
-);
-
-const vn=
-document.getElementById(
-"engine-vn"
-);
-
-const progress=
-document.getElementById(
-"engine-progress"
-);
-
-if(
-!card||
-!cn||
-!py||
-!vn||
-!progress
-){
-
-console.error(
-"Study Engine HTML thiếu"
-);
-
-return;
-}
-
-const word=
-currentWords[
-activeIdx
-];
-
-if(!word){
-return;
-}
-
-cn.textContent=
-word.cn||"";
-
-py.textContent=
-word.py||"";
-
-vn.textContent=
-word.vn||"";
-
-progress.textContent=
-`${activeIdx+1}/${currentWords.length}`;
+    if(
+        !board
+    ){
+        return;
+    }
 
 }
+
 /* =========================================================
 BUILD CHINESE CLICKABLE
 ========================================================= */
