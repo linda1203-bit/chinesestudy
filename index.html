@@ -1151,9 +1151,7 @@ function toggleWorkflowSkill(skill){
         window.selectedTopicWords.length
     ){
         currentWords =
-        [
-            ...window.selectedTopicWords
-        ];
+        [...window.selectedTopicWords];
     }
 
     if(
@@ -1167,85 +1165,21 @@ function toggleWorkflowSkill(skill){
         return;
     }
 
-    document
-    .querySelectorAll(
-        ".tab-pane-view"
-    )
-    .forEach(
-        x=>
-        x.classList.add(
-            "hidden"
-        )
-    );
+    switch(skill){
 
-    const board =
-    document.getElementById(
-        "study-engine-board"
-    );
+        case "write":
 
-    board.classList.remove(
-        "hidden"
-    );
+            openWriteMode();
 
-    board.innerHTML="";
+            break;
 
-    const modeMap={
+        default:
 
-        write:"✍️ Luyện viết",
+            alert(
+                "Kỹ năng này sẽ làm sau"
+            );
 
-        read:"📖 Luyện đọc",
-
-        listen:"🔊 Luyện nghe",
-
-        speak:"🎤 Luyện nói"
-
-    };
-
-    board.innerHTML=`
-
-<div
-style="
-padding:40px;
-text-align:center;
-"
->
-
-<h2>
-
-${modeMap[skill]}
-
-</h2>
-
-<div
-style="
-font-size:44px;
-margin-top:40px;
-"
->
-
-${currentWords[0].cn}
-
-</div>
-
-<div>
-
-${currentWords[0].py}
-
-</div>
-
-<div
-style="
-margin-top:20px;
-"
->
-
-${currentWords[0].vn}
-
-</div>
-
-</div>
-
-`;
+    }
 
 }
 
@@ -1305,6 +1239,247 @@ setTimeout(()=>{
 refreshEngineCardLayoutData();
 
 },0);
+
+}
+
+function openWriteMode(){
+
+document
+.querySelectorAll(
+".tab-pane-view"
+)
+.forEach(
+x=>
+x.classList.add(
+"hidden"
+)
+);
+
+const board=
+document.getElementById(
+"study-engine-board"
+);
+
+if(!board){
+return;
+}
+
+board.classList.remove(
+"hidden"
+);
+
+activeIdx=0;
+
+renderWriteQuestion();
+
+}
+
+function renderWriteQuestion(){
+
+const word=
+currentWords[
+activeIdx
+];
+
+if(!word){
+return;
+}
+
+const board=
+document.getElementById(
+"study-engine-board"
+);
+
+board.innerHTML=`
+
+<div
+style="
+max-width:720px;
+margin:auto;
+padding:40px;
+text-align:center;
+">
+
+<div
+style="
+font-size:18px;
+opacity:.7;
+">
+
+${activeIdx+1}
+/${currentWords.length}
+
+</div>
+
+<div
+style="
+font-size:34px;
+margin-top:20px;
+">
+
+${word.py}
+
+</div>
+
+<div
+style="
+font-size:22px;
+margin-top:10px;
+">
+
+${word.vn}
+
+</div>
+
+<input
+
+id="write-answer"
+
+placeholder="Nhập chữ Hán"
+
+style="
+margin-top:30px;
+width:100%;
+padding:16px;
+font-size:24px;
+"
+
+>
+
+<div
+style="
+display:flex;
+gap:12px;
+margin-top:20px;
+justify-content:center;
+">
+
+<button
+onclick="
+checkWriteAnswer()
+"
+>
+
+Kiểm tra
+
+</button>
+
+<button
+onclick="
+showWriteAnswer()
+"
+>
+
+Hiện đáp án
+
+</button>
+
+<button
+onclick="
+nextWriteQuestion()
+"
+>
+
+Tiếp
+
+</button>
+
+</div>
+
+<div
+id="write-result"
+
+style="
+margin-top:24px;
+"
+
+>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function checkWriteAnswer(){
+
+const input=
+document
+.getElementById(
+"write-answer"
+)
+.value
+.trim();
+
+const answer=
+currentWords[
+activeIdx
+]
+.cn;
+
+document
+.getElementById(
+"write-result"
+)
+.innerHTML=
+
+input===answer
+
+?
+
+"✅ Chính xác"
+
+:
+
+`❌ Đáp án:
+<b>${answer}</b>`;
+
+}
+
+function showWriteAnswer(){
+
+document
+.getElementById(
+"write-result"
+)
+.innerHTML=
+
+`
+
+<div>
+
+${currentWords[
+activeIdx
+].cn}
+
+</div>
+
+`;
+
+}
+
+function nextWriteQuestion(){
+
+activeIdx++;
+
+if(
+activeIdx>=
+currentWords.length
+){
+
+alert(
+"🎉 Hoàn thành"
+);
+
+showHome();
+
+return;
+
+}
+
+renderWriteQuestion();
 
 }
 
