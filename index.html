@@ -1186,8 +1186,11 @@ function initStudyEngineView(){
         !currentWords ||
         currentWords.length===0
     ){
+        alert("Không có dữ liệu học");
         return;
     }
+
+    resetAllStudyState();
 
     activeIdx=0;
 
@@ -1196,12 +1199,12 @@ function initStudyEngineView(){
         ".tab-pane-view"
     )
     .forEach(
-        x=>x.classList.add(
+        e=>e.classList.add(
             "hidden"
         )
     );
 
-    const board=
+    const board =
     document.getElementById(
         "study-engine-board"
     );
@@ -1209,7 +1212,7 @@ function initStudyEngineView(){
     if(!board){
 
         console.error(
-            "Missing study-engine-board"
+            "Missing #study-engine-board"
         );
 
         return;
@@ -1219,16 +1222,8 @@ function initStudyEngineView(){
         "hidden"
     );
 
-   try{
+    refreshEngineCardLayoutData();
 
-refreshEngineCardLayoutData();
-
-}
-catch(e){
-
-console.error(e);
-
-}
 }
 
 function startCurrentTopicStudy(){
@@ -1250,79 +1245,68 @@ function startCurrentTopicStudy(){
 
 function refreshEngineCardLayoutData(){
 
-    if(
-        !currentWords ||
-        currentWords.length===0
-    ){
-        return;
-    }
+    const board =
+    document.getElementById(
+        "study-engine-board"
+    );
 
-    const word =
-    currentWords[
-        activeIdx
-    ];
+    if(!board){
 
-    if(!word){
-        return;
-    }
-
-    const safeShow=(id)=>{
-
-        const el=
-        document.getElementById(
-            id
+        console.warn(
+            "Missing #study-engine-board"
         );
+
+        return;
+    }
+
+    const card =
+    document.getElementById(
+        "study-card"
+    );
+
+    const progress =
+    document.getElementById(
+        "study-progress"
+    );
+
+    const nav =
+    document.getElementById(
+        "study-nav"
+    );
+
+    const answer =
+    document.getElementById(
+        "study-answer"
+    );
+
+    const footer =
+    document.getElementById(
+        "study-footer"
+    );
+
+    [
+        card,
+        progress,
+        nav,
+        answer,
+        footer
+    ]
+    .forEach(el=>{
 
         if(!el){
 
             console.warn(
-                "Missing:",
-                id
+                "Missing study element"
             );
 
-            return null;
+            return;
         }
 
-        return el;
-    };
+        el.classList.remove(
+            "hidden"
+        );
 
-    safeText?.(
-        "study-cn",
-        word.cn || ""
-    );
-
-    safeText?.(
-        "study-py",
-        word.py || ""
-    );
-
-    safeText?.(
-        "study-vn",
-        word.vn || ""
-    );
-
-    safeText?.(
-        "study-example-cn",
-        word.ex_cn || ""
-    );
-
-    safeText?.(
-        "study-example-py",
-        word.ex_py || ""
-    );
-
-    safeText?.(
-        "study-example-vn",
-        word.ex_vn || ""
-    );
-
-    safeShow(
-        "study-engine-board"
-    )
-    ?.classList
-    .remove(
-        "hidden"
-    );
+    });
 
 }
 
