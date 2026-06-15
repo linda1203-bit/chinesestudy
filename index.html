@@ -1294,28 +1294,54 @@ board.innerHTML=`
 
 <div
 style="
-max-width:720px;
+max-width:760px;
 margin:auto;
-padding:40px;
-text-align:center;
-">
+padding:32px;
+"
+>
 
 <div
 style="
 font-size:18px;
 opacity:.7;
-">
+text-align:center;
+"
+>
 
 ${activeIdx+1}
-/${currentWords.length}
+/
+${currentWords.length}
+
+</div>
+
+<div
+style="
+text-align:center;
+margin-top:20px;
+"
+>
+
+<button
+onclick="
+speakChinese(
+'${word.cn}'
+)
+"
+>
+
+🔊 Nghe từ
+
+</button>
 
 </div>
 
 <div
 style="
 font-size:34px;
+text-align:center;
 margin-top:20px;
-">
+"
+>
 
 ${word.py}
 
@@ -1323,9 +1349,11 @@ ${word.py}
 
 <div
 style="
-font-size:22px;
+font-size:24px;
+text-align:center;
 margin-top:10px;
-">
+"
+>
 
 ${word.vn}
 
@@ -1341,7 +1369,7 @@ style="
 margin-top:30px;
 width:100%;
 padding:16px;
-font-size:24px;
+font-size:26px;
 "
 
 >
@@ -1350,9 +1378,11 @@ font-size:24px;
 style="
 display:flex;
 gap:12px;
-margin-top:20px;
 justify-content:center;
-">
+margin-top:20px;
+"
+
+>
 
 <button
 onclick="
@@ -1390,10 +1420,71 @@ Tiếp
 id="write-result"
 
 style="
-margin-top:24px;
+margin-top:30px;
 "
 
 >
+
+</div>
+
+<hr
+style="
+margin-top:40px;
+"
+>
+
+<div>
+
+<h3>
+
+📘 Ví dụ
+
+</h3>
+
+<div
+style="
+margin-top:10px;
+font-size:28px;
+"
+>
+
+${word.ex_cn||""}
+
+<button
+onclick="
+speakChinese(
+\`${word.ex_cn||""}\`
+)
+"
+>
+
+🔊
+
+</button>
+
+</div>
+
+<div
+style="
+margin-top:10px;
+"
+
+>
+
+${word.ex_py||""}
+
+</div>
+
+<div
+style="
+margin-top:10px;
+"
+
+>
+
+${word.ex_vn||""}
+
+</div>
 
 </div>
 
@@ -1402,7 +1493,6 @@ margin-top:24px;
 `;
 
 }
-
 function checkWriteAnswer(){
 
 const input=
@@ -1440,6 +1530,11 @@ input===answer
 
 function showWriteAnswer(){
 
+const w=
+currentWords[
+activeIdx
+];
+
 document
 .getElementById(
 "write-result"
@@ -1448,18 +1543,41 @@ document
 
 `
 
+<div
+style="
+font-size:30px;
+"
+>
+
+${w.cn}
+
+</div>
+
+<div
+style="
+margin-top:10px;
+"
+>
+
+${w.ex_cn||""}
+
+</div>
+
 <div>
 
-${currentWords[
-activeIdx
-].cn}
+${w.ex_py||""}
+
+</div>
+
+<div>
+
+${w.ex_vn||""}
 
 </div>
 
 `;
 
 }
-
 function nextWriteQuestion(){
 
 activeIdx++;
@@ -3846,6 +3964,36 @@ document.addEventListener('click',function(e){
    }
  }
 })();
+
+function speakChinese(text){
+
+if(
+!text
+){
+return;
+}
+
+const utter=
+new SpeechSynthesisUtterance(
+text
+);
+
+utter.lang=
+"zh-CN";
+
+utter.rate=
+0.9;
+
+speechSynthesis
+.cancel();
+
+speechSynthesis
+.speak(
+utter
+);
+
+}
+
 </script>
 
 
