@@ -1182,24 +1182,11 @@ STUDY ENGINE
 
 function initStudyEngineView(){
 
-    console.log("START STUDY");
-
     if(
         !currentWords ||
         currentWords.length===0
     ){
-
-        alert(
-            "❌ Không có dữ liệu học"
-        );
-
         return;
-    }
-
-    if(
-        typeof resetAllStudyState==="function"
-    ){
-        resetAllStudyState();
     }
 
     activeIdx=0;
@@ -1209,12 +1196,12 @@ function initStudyEngineView(){
         ".tab-pane-view"
     )
     .forEach(
-        el=>el.classList.add(
+        x=>x.classList.add(
             "hidden"
         )
     );
 
-    const board =
+    const board=
     document.getElementById(
         "study-engine-board"
     );
@@ -1222,10 +1209,8 @@ function initStudyEngineView(){
     if(!board){
 
         console.error(
-            "Missing #study-engine-board"
+            "Missing study-engine-board"
         );
-
-        showHome?.();
 
         return;
     }
@@ -1235,11 +1220,23 @@ function initStudyEngineView(){
     );
 
     refreshEngineCardLayoutData?.();
+}
 
-    console.log(
-        "OPEN STUDY:",
-        currentWords.length
-    );
+function startCurrentTopicStudy(){
+
+    if(
+        !currentWords ||
+        currentWords.length===0
+    ){
+
+        alert(
+            "Chưa có dữ liệu học"
+        );
+
+        return;
+    }
+
+    initStudyEngineView();
 }
 
 function refreshEngineCardLayoutData(){
@@ -3661,26 +3658,13 @@ renderHomeDashboard();
   <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;">
     <button onclick="activateLearningWorkflow()">← Trang chủ</button>
     <h2 id="preview-heading-title">Khái quát</h2>
-    <button id="btn-start-topic-study" btnStudy.onclick=()=>{
-
-    if(!selectedTopicForStudy){
-
-        alert(
-            "Chưa chọn chủ đề"
-        );
-
-        return;
-    }
-
-    currentWords=
-        [...(
-            topicWordMap[
-                selectedTopicForStudy
-            ]||[]
-        )];
-
-    initStudyEngineView();
-};>🚀 Học chủ đề này</button>
+<button
+id="btn-study-topic"
+onclick="startCurrentTopicStudy()"
+class="btn-study-topic"
+>
+🚀 Học chủ đề này
+</button>
   </div>
   <div id="preview-cards-scroller" style="max-height:70vh;overflow:auto;"></div>
 </section>
