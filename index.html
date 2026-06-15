@@ -1037,14 +1037,7 @@ PREVIEW MODE
 
 function renderTopicPreviewMode(topic){
 
-    selectedTopicForStudy=
-        topic;
-
-    currentWords=
-        [...(
-            topicWordMap[topic]
-            ||[]
-        )];
+    selectedTopicForStudy = topic;
 
     document
     .querySelectorAll(
@@ -1190,16 +1183,6 @@ STUDY ENGINE
 function initStudyEngineView(){
 
     console.log("START STUDY");
-
-    if(
-        selectedTopicForStudy &&
-        topicWordMap &&
-        topicWordMap[selectedTopicForStudy]
-    ){
-
-        currentWords =
-        [...topicWordMap[selectedTopicForStudy]];
-    }
 
     if(
         !currentWords ||
