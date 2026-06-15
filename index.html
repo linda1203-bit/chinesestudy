@@ -1144,36 +1144,40 @@ SKILL MODE
 
 function toggleWorkflowSkill(skill){
 
-    activeSkillMode = skill;
+    console.log(
+        "SELECT SKILL:",
+        skill
+    );
 
-    document
-    .querySelectorAll(".skill-btn")
-    .forEach(btn=>{
+    activeSkillMode =
+        skill;
 
-        btn.classList.remove("active");
-    });
+    if(
+        window.selectedTopicWords &&
+        window.selectedTopicWords.length
+    ){
 
-    const map = {
+        currentWords =
+        [
+            ...window.selectedTopicWords
+        ];
 
-        write:"sk-tab-write",
-
-        read:"sk-tab-read",
-
-        listen:"sk-tab-listen",
-
-        speak:"sk-tab-speak"
-    };
-
-    document
-    .getElementById(
-        map[skill]
-    )
-    .classList.add("active");
-
-    if(currentActiveTopicName){
-
-        initStudyEngineView();
     }
+
+    if(
+        !currentWords ||
+        currentWords.length===0
+    ){
+
+        alert(
+            "❌ Chưa chọn chủ đề"
+        );
+
+        return;
+    }
+
+    initStudyEngineView();
+
 }
 
 /* =========================================================
@@ -1237,19 +1241,54 @@ refreshEngineCardLayoutData();
 
 function startCurrentTopicStudy(){
 
-    if(
-        !currentWords ||
-        currentWords.length===0
-    ){
+if(
+!currentWords||
+currentWords.length===0
+){
 
-        alert(
-            "Chưa có dữ liệu học"
-        );
+alert(
+"Chưa có dữ liệu học"
+);
 
-        return;
-    }
+return;
 
-    initStudyEngineView();
+}
+
+window.selectedTopicWords=
+[
+...currentWords
+];
+
+document
+.querySelectorAll(
+".tab-pane-view"
+)
+.forEach(
+el=>
+el.classList.add(
+"hidden"
+)
+);
+
+const home=
+document.getElementById(
+"sec-home"
+);
+
+if(home){
+
+home
+.classList
+.remove(
+"hidden"
+);
+
+}
+
+alert(
+"Chọn kỹ năng để bắt đầu học"
+);
+
 }
 
 
