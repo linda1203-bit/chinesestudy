@@ -1324,7 +1324,9 @@ margin-top:20px;
 <button
 onclick="
 speakChinese(
-'${word.cn}'
+'${buildChineseClickable(
+word.cn
+)}'
 )
 "
 >
@@ -1448,7 +1450,9 @@ font-size:28px;
 "
 >
 
-${word.ex_cn||""}
+${buildChineseClickable(
+word.ex_cn||""
+)}
 
 <button
 onclick="
@@ -1491,6 +1495,7 @@ ${word.ex_vn||""}
 </div>
 
 `;
+bindChineseCharEvents();
 
 }
 function checkWriteAnswer(){
@@ -1651,31 +1656,6 @@ alert(
 "Chọn kỹ năng để bắt đầu học"
 );
 
-}
-
-
-function buildChineseClickable(text){
-
-    if(!text) return "";
-
-    return escapeHTML(text)
-    Array.from(text)
-    .map(ch=>{
-
-        if(
-            /[\u4e00-\u9fa5]/.test(ch)
-        ){
-
-            return `
-            <span class="zh-char">
-                ${ch}
-            </span>
-            `;
-        }
-
-        return ch;
-
-    }).join("");
 }
 
 function hideAllStudyPanels(){
@@ -3092,7 +3072,7 @@ function buildChineseClickable(text){
 </span>
 `;
         }
-
+F
         return ch;
 
     })
