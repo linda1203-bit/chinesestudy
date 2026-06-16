@@ -1959,6 +1959,51 @@ const AI_Decomposition_Matrix_Map = {
 /* =========================================================
 RADICAL ANALYZER
 ========================================================= */
+function inferChineseDecomposition(char){
+
+if(
+AI_Decomposition_Matrix_Map?.[
+char
+]
+){
+return AI_Decomposition_Matrix_Map[
+char
+];
+}
+
+const fallback={
+
+"合":["人","一","口"],
+"同":["冂","一","口"],
+"问":["门","口"],
+"听":["口","斤"],
+"男":["田","力"],
+"明":["日","月"],
+"休":["亻","木"],
+"好":["女","子"],
+"语":["讠","吾"],
+"国":["囗","玉"],
+"你":["亻","尔"],
+"劳":["艹","冖","力"]
+
+};
+
+if(
+fallback[
+char
+]
+){
+return fallback[
+char
+];
+}
+
+return [
+char
+];
+
+}
+
 function executeAIRadicalAnalyzer(char){
 
 let box =
@@ -1997,28 +2042,16 @@ z-index:99999;
 
 }
 
+box.classList.remove(
+"hidden"
+);
+
 const parts =
-AI_Decomposition_Matrix_Map?.[
+inferChineseDecomposition(
 char
-]
-||
-[];
+);
 
 let html="";
-
-if(parts.length===0){
-
-html=`
-
-<div>
-
-Không có dữ liệu chiết tự
-
-</div>
-
-`;
-
-}else{
 
 parts.forEach(part=>{
 
@@ -2026,9 +2059,9 @@ html+=`
 
 <div
 style="
-padding:12px;
+padding:14px;
 border:1px solid #ddd;
-margin-bottom:10px;
+margin-bottom:12px;
 border-radius:12px;
 "
 >
@@ -2062,22 +2095,20 @@ part
 
 });
 
-}
-box.classList.remove(
-"hidden"
-);
-
 box.innerHTML=`
 
 <div
 style="
 display:flex;
 justify-content:space-between;
-align-items:center;
 "
 >
 
-<h2>${char}</h2>
+<h2>
+
+${char}
+
+</h2>
 
 <button
 onclick="
@@ -2100,6 +2131,7 @@ document
 ${html}
 
 `;
+
 }
 
 /* =========================================================
