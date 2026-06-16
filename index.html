@@ -1700,23 +1700,6 @@ PART 3 — RADICAL SYSTEM + QUIZ + LISTEN
 RADICAL CLICK EVENT
 ========================================================= */
 
-function bindChineseCharEvents(){
-
-    const chars =
-    document.querySelectorAll(
-        ".zh-char"
-    );
-
-    chars.forEach(el=>{
-
-        el.onclick = ()=>{
-
-            executeAIRadicalAnalyzer(
-                el.innerText
-            );
-        };
-    });
-}
 
 /* =========================================================
 RADICAL DICTIONARY
@@ -3059,29 +3042,36 @@ BUILD CHINESE CLICKABLE
 
 function buildChineseClickable(text){
 
-    if(!text) return "";
+    if(!text){
+        return "";
+    }
 
-    return Array.from(text)
+    return Array
+    .from(String(text))
     .map(ch=>{
 
-        if(/[\u4e00-\u9fa5]/.test(ch)){
+        const isChinese =
+        /[\u3400-\u9FFF]/.test(ch);
 
-            return `
+        if(!isChinese){
+            return ch;
+        }
+
+        return `
 <span
 class="zh-char"
-title="Click để xem phân tích"
 data-char="${ch}"
+title="Click để xem chiết tự"
 >
 ${ch}
 </span>
 `;
-        }
-
-        return ch;
 
     })
     .join("");
+
 }
+
 /* =========================================================
 HIDE PANELS
 ========================================================= */
@@ -3114,12 +3104,38 @@ BIND CHARACTER EVENTS
 ========================================================= */
 
 function bindChineseCharEvents(){
-document.addEventListener("click", (e)=>{
-    const el = e.target.closest(".zh-char");
-    if(!el) return;
 
-    executeAIRadicalAnalyzer(el.textContent.trim());
+if(
+window.__zhClickBound
+){
+return;
+}
+
+window.__zhClickBound =
+true;
+
+document.addEventListener(
+"click",
+(e)=>{
+
+const el =
+e.target.closest(
+".zh-char"
+);
+
+if(
+!el
+){
+return;
+}
+
+executeAIRadicalAnalyzer(
+el.dataset.char ||
+el.textContent.trim()
+);
+
 });
+
 }
 
 /* =========================================================
