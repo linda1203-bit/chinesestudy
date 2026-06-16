@@ -1658,35 +1658,6 @@ alert(
 
 }
 
-function hideAllStudyPanels(){
-
-    [
-
-        "panel-write",
-
-        "panel-read",
-
-        "panel-listen",
-
-        "panel-speak",
-
-        "reveal-card-zone",
-
-        "panel-radical-analysis"
-
-    ]
-
-    .forEach(id=>{
-
-        const el =
-        document.getElementById(id);
-
-        if(el){
-
-            el.classList.add("hidden");
-        }
-    });
-}
 
 </script>
 <!-- =========================================================
@@ -1988,86 +1959,83 @@ const AI_Decomposition_Matrix_Map = {
 /* =========================================================
 RADICAL ANALYZER
 ========================================================= */
-
 function executeAIRadicalAnalyzer(char){
 
-    let box =
-    document.getElementById(
-        "panel-radical-analysis"
-    );
+let box =
+document.getElementById(
+"panel-radical-analysis"
+);
 
-    if(!box){
+if(!box){
 
-        box =
-        document.createElement(
-            "div"
-        );
+box =
+document.createElement(
+"div"
+);
 
-        box.id =
-        "panel-radical-analysis";
+box.id =
+"panel-radical-analysis";
 
-        box.style.cssText = `
+document.body.appendChild(
+box
+);
+
+box.style.cssText=`
 position:fixed;
 right:20px;
-top:100px;
+top:80px;
 width:360px;
-max-height:75vh;
+max-height:80vh;
 overflow:auto;
-background:white;
-border-radius:20px;
+background:#fff;
+border-radius:18px;
 padding:20px;
 box-shadow:
-0 20px 60px rgba(0,0,0,.18);
+0 20px 50px rgba(0,0,0,.2);
 z-index:99999;
 `;
 
-        document.body.appendChild(
-            box
-        );
-    }
+}
 
-    const parts =
-    AI_Decomposition_Matrix_Map?.[
-        char
-    ] || [];
+const parts =
+AI_Decomposition_Matrix_Map?.[
+char
+]
+||
+[];
 
-    let html="";
+let html="";
 
-    if(parts.length===0){
+if(parts.length===0){
 
-        html=`
+html=`
 
-<div
-style="
-padding:14px;
-color:#64748b;
-"
->
+<div>
 
-⚠️ Chưa có dữ liệu chiết tự
+Không có dữ liệu chiết tự
 
 </div>
 
 `;
 
-    }else{
+}else{
 
-        parts.forEach(part=>{
+parts.forEach(part=>{
 
-            html += `
+html+=`
 
 <div
 style="
-padding:14px;
-border:1px solid #e2e8f0;
-border-radius:14px;
-margin-bottom:12px;
+padding:12px;
+border:1px solid #ddd;
+margin-bottom:10px;
+border-radius:12px;
 "
 >
 
 <div
 style="
-font-size:32px;
+font-size:34px;
 font-weight:800;
 "
 >
@@ -2079,11 +2047,9 @@ ${part}
 <div>
 
 ${
-TM_Radicals_Dict?.[part]
-||
-AI_Decomposition_Matrix_Map?.[
+TM_Radicals_Dict?.[
 part
-]?.join?.(" + ")
+]
 ||
 "Chưa có mô tả"
 }
@@ -2094,26 +2060,24 @@ part
 
 `;
 
-        });
+});
 
-    }
+}
+box.classList.remove(
+"hidden"
+);
 
-    box.innerHTML = `
+box.innerHTML=`
 
 <div
 style="
 display:flex;
 justify-content:space-between;
-margin-bottom:14px;
+align-items:center;
 "
 >
 
-<h3>
-
-🤖 Chiết tự:
-${char}
-
-</h3>
+<h2>${char}</h2>
 
 <button
 onclick="
@@ -2121,7 +2085,9 @@ document
 .getElementById(
 'panel-radical-analysis'
 )
-.remove()
+.classList.add(
+'hidden'
+)
 "
 >
 
@@ -2134,7 +2100,6 @@ document
 ${html}
 
 `;
-
 }
 
 /* =========================================================
