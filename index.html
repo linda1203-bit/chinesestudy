@@ -1991,25 +1991,63 @@ RADICAL ANALYZER
 
 function executeAIRadicalAnalyzer(char){
 
-    const box =
+    let box =
     document.getElementById(
         "panel-radical-analysis"
     );
 
-    let html = "";
+    if(!box){
+
+        box =
+        document.createElement(
+            "div"
+        );
+
+        box.id =
+        "panel-radical-analysis";
+
+        box.style.cssText = `
+position:fixed;
+right:20px;
+top:100px;
+width:360px;
+max-height:75vh;
+overflow:auto;
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:
+0 20px 60px rgba(0,0,0,.18);
+z-index:99999;
+`;
+
+        document.body.appendChild(
+            box
+        );
+    }
 
     const parts =
-    AI_Decomposition_Matrix_Map[
+    AI_Decomposition_Matrix_Map?.[
         char
     ] || [];
 
+    let html="";
+
     if(parts.length===0){
 
-        html = `
-<div style="padding:12px; color:#64748b;">
-    ⚠️ Không tìm thấy phân tích cho chữ này.<br>
-    Gợi ý: thử chữ khác hoặc thêm dữ liệu decomposition.
+        html=`
+
+<div
+style="
+padding:14px;
+color:#64748b;
+"
+>
+
+⚠️ Chưa có dữ liệu chiết tự
+
 </div>
+
 `;
 
     }else{
@@ -2018,63 +2056,85 @@ function executeAIRadicalAnalyzer(char){
 
             html += `
 
-            <div
-            style="
-            padding:14px;
-            border:1px solid #dbe5f0;
-            border-radius:14px;
-            margin-bottom:12px;
-            background:white;
-            ">
+<div
+style="
+padding:14px;
+border:1px solid #e2e8f0;
+border-radius:14px;
+margin-bottom:12px;
+"
+>
 
-                <div
-                style="
-                font-size:28px;
-                font-weight:800;
-                margin-bottom:6px;
-                ">
+<div
+style="
+font-size:32px;
+font-weight:800;
+"
+>
 
-                    ${part}
+${part}
 
-                </div>
+</div>
 
-                <div
-                style="
-                font-size:18px;
-                color:#475569;
-                ">
+<div>
 
-                    ${
-                        TM_Radicals_Dict[part]
-|| AI_Decomposition_Matrix_Map[part]?.join?.(" + ")
-|| "Chưa có dữ liệu"
-                    }
+${
+TM_Radicals_Dict?.[part]
+||
+AI_Decomposition_Matrix_Map?.[
+part
+]?.join?.(" + ")
+||
+"Chưa có mô tả"
+}
 
-                </div>
+</div>
 
-            </div>
-            `;
+</div>
+
+`;
+
         });
+
     }
 
     box.innerHTML = `
 
-    <h3
-    style="
-    margin-top:0;
-    margin-bottom:18px;
-    ">
+<div
+style="
+display:flex;
+justify-content:space-between;
+margin-bottom:14px;
+"
+>
 
-        🤖 Phân tích chữ:
-        ${String(char)}
+<h3>
 
-    </h3>
+🤖 Chiết tự:
+${char}
 
-    ${html}
+</h3>
 
-    `;
+<button
+onclick="
+document
+.getElementById(
+'panel-radical-analysis'
+)
+.remove()
+"
+>
 
-    box.classList.remove("hidden");
+✕
+
+</button>
+
+</div>
+
+${html}
+
+`;
+
 }
 
 /* =========================================================
@@ -3142,66 +3202,6 @@ el.textContent.trim()
 RADICAL ANALYZER
 ========================================================= */
 
-function executeAIRadicalAnalyzer(char){
-
-    const panel=
-    document.getElementById(
-        "panel-radical-analysis"
-    );
-
-    const parts=
-    AI_Decomposition_Matrix_Map[char] || [];
-
-    let html="";
-
-    if(parts.length===0){
-
-        html = `
-<div style="padding:12px; color:#64748b;">
-    ⚠️ Không tìm thấy phân tích cho chữ này.<br>
-    Gợi ý: thử chữ khác hoặc thêm dữ liệu decomposition.
-</div>
-`;
-
-    }else{
-
-        parts.forEach(part=>{
-
-            html+=`
-            <div style="
-            padding:12px;
-            border-bottom:1px solid #ddd;
-            ">
-
-                <div style="
-                font-size:30px;
-                font-weight:700;
-                ">
-                    ${part}
-                </div>
-
-                <div>
-                    ${
-                        TM_Radicals_Dict[part]
-                        || "Không có mô tả"
-                    }
-                </div>
-
-            </div>
-            `;
-        });
-    }
-
-    panel.innerHTML = `
-<h3 style="margin-bottom:12px;">
-    🤖 Phân tích chữ: ${String(char)}
-</h3>
-
-${html}
-`;
-
-    panel.classList.remove("hidden");
-}
 
 /* =========================================================
 WRITE MODE
