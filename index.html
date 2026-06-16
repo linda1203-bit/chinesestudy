@@ -3067,18 +3067,21 @@ function buildChineseClickable(text){
         if(/[\u4e00-\u9fa5]/.test(ch)){
 
             return `
-<span class="zh-char" title="Click để xem phân tích">
-    ${ch}
+<span
+class="zh-char"
+title="Click để xem phân tích"
+data-char="${ch}"
+>
+${ch}
 </span>
 `;
         }
-F
+
         return ch;
 
     })
     .join("");
 }
-
 /* =========================================================
 HIDE PANELS
 ========================================================= */
